@@ -1,0 +1,9 @@
+torch
+torchvision          # for potential model/loss utilities (commented but commonly needed)
+torchmetrics
+tqdm
+numpy
+matplotlib
+pillow               # PIL
+wandb
+simpleitk
