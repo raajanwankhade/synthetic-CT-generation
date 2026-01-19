@@ -1,3 +1,12 @@
+import os
+import json
+secrets_path = 'secrets.json'
+with open(secrets_path, 'r') as f:
+    secrets = json.load(f)
+os.environ["WANDB_MODE"] = "online"
+os.environ["KAGGLE_USERNAME"] = secrets["KAGGLE_USERNAME"]
+os.environ["KAGGLE_KEY"] = secrets["KAGGLE_KEY"]
+os.environ["WANDB_API_KEY"] = secrets["wandb_API_KEY"]
 # General
 from pathlib import Path
 import torch
@@ -27,12 +36,20 @@ def seed_everything(seed: int = 42):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    # For reproducibility (may reduce speed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
+    # Determinism vs speed (HPC training typically prefers speed)
+    torch.backends.cudnn.deterministic = bool(cfg.get("deterministic", False))
+    torch.backends.cudnn.benchmark = bool(cfg.get("cudnn_benchmark", True))
 
 SEED = 42
 seed_everything(SEED)
+
+# H100-friendly math (TF32 for float32 matmuls/convs)
+if torch.cuda.is_available() and cfg.get("allow_tf32", True):
+    try:
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+    except Exception:
+        pass
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 use_amp = device.type == "cuda"
@@ -387,7 +404,7 @@ def visualize_batch(encoder, decoder, dataloader, device=None, num_samples=4):
         axes[i, 2].set_title("Generated")
 
     plt.tight_layout()
-    plt.savefig(run_dir / cfg["Visualisation_Fig"])
+    return fig
 
 # -------------------------------------------------------------------------
 # Checkpoint Manager
@@ -479,18 +496,58 @@ def train_model(
     device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
     use_amp = device.type == "cuda"
 
+    amp_dtype_name = str(cfg.get("amp_dtype", "bf16")).lower()
+    amp_dtype = torch.bfloat16 if amp_dtype_name == "bf16" else torch.float16
+
     # Move models
     encoder.to(device)
     decoder.to(device)
 
+    # channels_last helps conv throughput on recent GPUs
+    if cfg.get("channels_last", True) and device.type == "cuda":
+        encoder = encoder.to(memory_format=torch.channels_last)
+        decoder = decoder.to(memory_format=torch.channels_last)
+
+    # torch.compile (PyTorch 2.x)
+    if cfg.get("torch_compile", False):
+        try:
+            mode = cfg.get("torch_compile_mode", "max-autotune")
+            encoder = torch.compile(encoder, mode=mode)
+            decoder = torch.compile(decoder, mode=mode)
+            print(f"✅ torch.compile enabled (mode={mode})")
+        except Exception as e:
+            print(f"⚠️ torch.compile not enabled: {e}")
+
     criterion = nn.L1Loss()
-    optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), lr=lr)
+
+    # Prefer fused optimizer on CUDA if available
+    try:
+        optimizer = torch.optim.AdamW(
+            list(encoder.parameters()) + list(decoder.parameters()),
+            lr=lr,
+            fused=(device.type == "cuda"),
+        )
+        if device.type == "cuda":
+            print("✅ Using AdamW(fused=True) on CUDA")
+    except TypeError:
+        optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), lr=lr)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode="min", factor=0.5, patience=scheduler_patience, verbose=True
     )
     ckpt_mgr = CheckpointManager(save_dir, monitor="val_loss", mode="min", filename=cfg["ckpt_filename"])
 
-    scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+    # GradScaler is only needed for FP16; BF16 generally doesn't use scaling
+    scaler = torch.cuda.amp.GradScaler(enabled=(use_amp and amp_dtype == torch.float16))
+
+    ssim_down = int(cfg.get("ssim_downsample", 1))
+
+    def _ssim_loss(preds_hu: torch.Tensor, y_hu: torch.Tensor) -> torch.Tensor:
+        preds_norm = torch.clamp((preds_hu + 1024) / 4095, 0, 1)
+        y_norm = torch.clamp((y_hu + 1024) / 4095, 0, 1)
+        if ssim_down > 1:
+            preds_norm = F.avg_pool2d(preds_norm, kernel_size=ssim_down)
+            y_norm = F.avg_pool2d(y_norm, kernel_size=ssim_down)
+        return 1 - ssim(preds_norm, y_norm, data_range=1.0)
 
     # -------------------------------------------------------------
     # Resume if checkpoint provided
@@ -533,25 +590,33 @@ def train_model(
             x = batch["input"].to(device, non_blocking=True)
             y = batch["label"].to(device, non_blocking=True)
 
+            if cfg.get("channels_last", True) and device.type == "cuda":
+                x = x.contiguous(memory_format=torch.channels_last)
+                y = y.contiguous(memory_format=torch.channels_last)
+
             optimizer.zero_grad(set_to_none=True)
-            with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=use_amp):
+            with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                 feats = encoder(x)
                 preds = decoder(feats)
                 loss_l1 = criterion(preds, y)
-                preds_norm = torch.clamp((preds + 1024) / 4095, 0, 1)
-                y_norm = torch.clamp((y + 1024) / 4095, 0, 1)
-                loss_ssim = 1 - ssim(preds_norm, y_norm, data_range=1.0)
+                loss_ssim = _ssim_loss(preds, y)
                 loss = loss_l1 + lambda_ssim * loss_ssim
 
             if not torch.isfinite(loss):
                 raise RuntimeError("Sanity check failed: non-finite loss")
 
-            scaler.scale(loss).backward()
-            if grad_clip is not None:
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
-            scaler.step(optimizer)
-            scaler.update()
+            if scaler.is_enabled():
+                scaler.scale(loss).backward()
+                if grad_clip is not None:
+                    scaler.unscale_(optimizer)
+                    torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                loss.backward()
+                if grad_clip is not None:
+                    torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
+                optimizer.step()
         print(f"✅ Sanity check passed ({sanity_steps} step(s))")
 
     history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": []}
@@ -567,28 +632,35 @@ def train_model(
             x = batch["input"].to(device, non_blocking=True)
             y = batch["label"].to(device, non_blocking=True)
 
+            if cfg.get("channels_last", True) and device.type == "cuda":
+                x = x.contiguous(memory_format=torch.channels_last)
+                y = y.contiguous(memory_format=torch.channels_last)
+
             optimizer.zero_grad(set_to_none=True)
-            with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=use_amp):
+            with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                 feats = encoder(x)
                 preds = decoder(feats)
                 loss_l1 = criterion(preds, y)
 
-                preds_norm = torch.clamp((preds + 1024) / 4095, 0, 1)
-                y_norm = torch.clamp((y + 1024) / 4095, 0, 1)
-                loss_ssim = 1 - ssim(preds_norm, y_norm, data_range=1.0)
-
+                loss_ssim = _ssim_loss(preds, y)
                 loss = loss_l1 + lambda_ssim * loss_ssim
 
             if not torch.isfinite(loss):
                 print("⚠️ Non-finite loss encountered; skipping step")
                 continue
 
-            scaler.scale(loss).backward()
-            if grad_clip is not None:
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
-            scaler.step(optimizer)
-            scaler.update()
+            if scaler.is_enabled():
+                scaler.scale(loss).backward()
+                if grad_clip is not None:
+                    scaler.unscale_(optimizer)
+                    torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                loss.backward()
+                if grad_clip is not None:
+                    torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
+                optimizer.step()
 
             train_loss += float(loss.item())
             pbar.set_postfix(loss=f"{loss.item():.4f}")
@@ -604,13 +676,16 @@ def train_model(
             for batch in tqdm(val_loader, desc="Validating", leave=False):
                 x = batch["input"].to(device, non_blocking=True)
                 y = batch["label"].to(device, non_blocking=True)
+
+                if cfg.get("channels_last", True) and device.type == "cuda":
+                    x = x.contiguous(memory_format=torch.channels_last)
+                    y = y.contiguous(memory_format=torch.channels_last)
+
                 feats = encoder(x)
                 preds = decoder(feats)
 
                 loss_l1 = criterion(preds, y)
-                preds_norm = torch.clamp((preds + 1024) / 4095, 0, 1)
-                y_norm = torch.clamp((y + 1024) / 4095, 0, 1)
-                loss_ssim = 1 - ssim(preds_norm, y_norm, data_range=1.0)
+                loss_ssim = _ssim_loss(preds, y)
                 loss = loss_l1 + lambda_ssim * loss_ssim
 
                 val_loss += float(loss.item())
@@ -647,13 +722,22 @@ def train_model(
                 "PSNR": psnr_avg,
                 "lr": optimizer.param_groups[0]['lr'],
             })
-            if epoch % 5 == 0:
+
+            log_every = int(cfg.get("log_images_every", 0))
+            save_every = int(cfg.get("save_vis_every", 0))
+
+            if log_every > 0 and (epoch % log_every == 0):
                 fig = visualize_batch(encoder, decoder, val_loader, device=device, num_samples=4)
                 buf = io.BytesIO()
                 fig.savefig(buf, format="png")
                 buf.seek(0)
                 image = Image.open(buf)
                 wandb.log({f"epoch_{epoch}_output": wandb.Image(image, caption=f"Epoch {epoch}")})
+                plt.close(fig)
+
+            if save_every > 0 and (epoch % save_every == 0):
+                fig = visualize_batch(encoder, decoder, val_loader, device=device, num_samples=4)
+                fig.savefig(run_dir / cfg["Visualisation_Fig"])
                 plt.close(fig)
 
     print("\n🏁 Training complete!")
@@ -720,7 +804,7 @@ train_loader = DataLoader(
     shuffle=True,
     num_workers=cfg["num_workers_train"],
     pin_memory=pin,
-    persistent_workers=True,
+    persistent_workers=(cfg["num_workers_train"] > 0),
     worker_init_fn=_seed_worker,
     generator=g,
     prefetch_factor=cfg["prefetch_factor"],
@@ -732,7 +816,7 @@ val_loader = DataLoader(
     shuffle=False,
     num_workers=cfg["num_workers_val"],
     pin_memory=pin,
-    persistent_workers=True,
+    persistent_workers=(cfg["num_workers_val"] > 0),
     worker_init_fn=_seed_worker,
     generator=g,
     prefetch_factor=cfg["prefetch_factor"],

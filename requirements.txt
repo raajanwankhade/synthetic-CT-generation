@@ -1,4 +1,4 @@
-torch
+pytorch-gpu
 torchvision          # for potential model/loss utilities (commented but commonly needed)
 torchmetrics
 tqdm
@@ -7,3 +7,4 @@ matplotlib
 pillow               # PIL
 wandb
 simpleitk
+kagglehub
