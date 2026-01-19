@@ -537,9 +537,10 @@ def train_model(
                 os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", os.path.join(slurm_tmp, "torchinductor"))
 
             # Suppress compile-time failures and fall back to eager when possible
+            # NOTE: avoid `import torch._dynamo` here; it would make `torch` a local in this function.
             try:
-                import torch._dynamo  # type: ignore
-                torch._dynamo.config.suppress_errors = True
+                from torch._dynamo import config as dynamo_config  # type: ignore
+                dynamo_config.suppress_errors = True
             except Exception:
                 pass
 
