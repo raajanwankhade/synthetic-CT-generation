@@ -508,12 +508,45 @@ def train_model(
         encoder = encoder.to(memory_format=torch.channels_last)
         decoder = decoder.to(memory_format=torch.channels_last)
 
+    # Keep eager references for safe fallback if torch.compile fails at runtime
+    encoder_eager = encoder
+    decoder_eager = decoder
+    compile_enabled = False
+
+    def _run_model(x: torch.Tensor):
+        nonlocal encoder, decoder, compile_enabled
+        try:
+            feats = encoder(x)
+            return decoder(feats)
+        except Exception as e:
+            if compile_enabled:
+                print(f"⚠️ torch.compile failed at runtime; falling back to eager: {e}")
+                encoder = encoder_eager
+                decoder = decoder_eager
+                compile_enabled = False
+                feats = encoder(x)
+                return decoder(feats)
+            raise
+
     # torch.compile (PyTorch 2.x)
     if cfg.get("torch_compile", False):
         try:
-            mode = cfg.get("torch_compile_mode", "max-autotune")
+            # Prefer node-local cache when available (HPC)
+            slurm_tmp = os.environ.get("SLURM_TMPDIR")
+            if slurm_tmp:
+                os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", os.path.join(slurm_tmp, "torchinductor"))
+
+            # Suppress compile-time failures and fall back to eager when possible
+            try:
+                import torch._dynamo  # type: ignore
+                torch._dynamo.config.suppress_errors = True
+            except Exception:
+                pass
+
+            mode = cfg.get("torch_compile_mode", "reduce-overhead")
             encoder = torch.compile(encoder, mode=mode)
             decoder = torch.compile(decoder, mode=mode)
+            compile_enabled = True
             print(f"✅ torch.compile enabled (mode={mode})")
         except Exception as e:
             print(f"⚠️ torch.compile not enabled: {e}")
@@ -532,12 +565,16 @@ def train_model(
     except TypeError:
         optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), lr=lr)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode="min", factor=0.5, patience=scheduler_patience, verbose=True
+        optimizer, mode="min", factor=0.5, patience=scheduler_patience
     )
     ckpt_mgr = CheckpointManager(save_dir, monitor="val_loss", mode="min", filename=cfg["ckpt_filename"])
 
     # GradScaler is only needed for FP16; BF16 generally doesn't use scaling
-    scaler = torch.cuda.amp.GradScaler(enabled=(use_amp and amp_dtype == torch.float16))
+    scaler_enabled = (use_amp and amp_dtype == torch.float16)
+    try:
+        scaler = torch.amp.GradScaler("cuda", enabled=scaler_enabled)
+    except Exception:
+        scaler = torch.cuda.amp.GradScaler(enabled=scaler_enabled)
 
     ssim_down = int(cfg.get("ssim_downsample", 1))
 
@@ -596,8 +633,7 @@ def train_model(
 
             optimizer.zero_grad(set_to_none=True)
             with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
-                feats = encoder(x)
-                preds = decoder(feats)
+                preds = _run_model(x)
                 loss_l1 = criterion(preds, y)
                 loss_ssim = _ssim_loss(preds, y)
                 loss = loss_l1 + lambda_ssim * loss_ssim
@@ -638,8 +674,7 @@ def train_model(
 
             optimizer.zero_grad(set_to_none=True)
             with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
-                feats = encoder(x)
-                preds = decoder(feats)
+                preds = _run_model(x)
                 loss_l1 = criterion(preds, y)
 
                 loss_ssim = _ssim_loss(preds, y)
@@ -681,8 +716,7 @@ def train_model(
                     x = x.contiguous(memory_format=torch.channels_last)
                     y = y.contiguous(memory_format=torch.channels_last)
 
-                feats = encoder(x)
-                preds = decoder(feats)
+                preds = _run_model(x)
 
                 loss_l1 = criterion(preds, y)
                 loss_ssim = _ssim_loss(preds, y)

@@ -26,7 +26,7 @@ cfg = {
     "amp_dtype": "bf16",  # "bf16" or "fp16"
     "channels_last": True,
     "torch_compile": True,
-    "torch_compile_mode": "max-autotune",  # or "reduce-overhead"
+    "torch_compile_mode": "reduce-overhead",  # or "max-autotune"
 
     # SSIM cost control
     "ssim_downsample": 2,  # 1 = full-res, 2 = avg_pool2d by 2
