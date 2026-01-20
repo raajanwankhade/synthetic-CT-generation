@@ -30,7 +30,6 @@ from config import cfg
 
 # Reproducibility + device helpers
 import random
-
 def seed_everything(seed: int = 42):
     random.seed(seed)
     np.random.seed(seed)
@@ -43,17 +42,46 @@ def seed_everything(seed: int = 42):
 SEED = 42
 seed_everything(SEED)
 
+# -------------------------------------------------------------------------
+# Device selection (rank-aware) + AMP safety
+# -------------------------------------------------------------------------
+def _select_device():
+    """Select a valid CUDA device (if available) and set it as current.
+
+    Fixes cases where CUDA is available but the current device id is invalid
+    (common in SLURM/MPI launches when the process rank isn't mapped).
+    """
+    if torch.cuda.is_available() and torch.cuda.device_count() > 0:
+        # Prefer per-process local rank if provided by launcher
+        for env_key in ("LOCAL_RANK", "SLURM_LOCALID", "MPI_LOCALRANKID", "OMPI_COMM_WORLD_LOCAL_RANK"):
+            if env_key in os.environ:
+                try:
+                    idx = int(os.environ[env_key])
+                    idx = idx % torch.cuda.device_count()
+                    torch.cuda.set_device(idx)
+                    return torch.device(f"cuda:{idx}")
+                except Exception:
+                    break
+        # Fallback to device 0
+        try:
+            torch.cuda.set_device(0)
+        except Exception:
+            pass
+        return torch.device("cuda:0")
+    return torch.device("cpu")
+
+
+device = _select_device()
+use_amp = (device.type == "cuda")
+print("Device:", device, "| AMP:", use_amp, "| CUDA devices:", torch.cuda.device_count())
+
 # H100-friendly math (TF32 for float32 matmuls/convs)
-if torch.cuda.is_available() and cfg.get("allow_tf32", True):
+if device.type == "cuda" and cfg.get("allow_tf32", True):
     try:
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.allow_tf32 = True
     except Exception:
         pass
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-use_amp = device.type == "cuda"
-print("Device:", device, "| AMP:", use_amp)
 root = cfg["root"]
 MAX_EPOCHS = cfg["epochs"]
 # Faster matmul on newer torch (safe to ignore if unavailable)
@@ -73,6 +101,7 @@ wandb.login()
 #Run dir
 run_dir = Path(cfg["run_dir"])
 # Networks
+
 
 class ResBlock(nn.Module):
     """Simple residual block: conv -> norm -> ReLU -> conv -> norm + skip"""
