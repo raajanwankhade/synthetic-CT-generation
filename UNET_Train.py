@@ -3,7 +3,6 @@ import json
 secrets_path = 'secrets.json'
 with open(secrets_path, 'r') as f:
     secrets = json.load(f)
-os.environ["WANDB_MODE"] = "online"
 os.environ["KAGGLE_USERNAME"] = secrets["KAGGLE_USERNAME"]
 os.environ["KAGGLE_KEY"] = secrets["KAGGLE_KEY"]
 os.environ["WANDB_API_KEY"] = secrets["wandb_API_KEY"]
@@ -100,6 +99,7 @@ from torch.utils.data import DataLoader, Subset
 
 # Login will use WANDB_API_KEY from environment if present.
 # Tip (Kaggle): add it in "Secrets" instead of writing it here.
+os.environ["WANDB_MODE"] = cfg.get("wandb_mode", "online")
 wandb.login()
 
 #Run dir
@@ -761,7 +761,7 @@ trained_enc, trained_dec, history = train_model(
     num_epochs=MAX_EPOCHS,
     lr=cfg["lr"],
     device=device,
-    wandb_log=True,
+    wandb_log=(cfg["wandb_mode"] != "disabled"),
     lambda_ssim=cfg["lambda_ssim"],
     scheduler_patience=cfg["scheduler_patience"],
     grad_clip=cfg["grad_clip"],

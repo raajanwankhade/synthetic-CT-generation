@@ -50,9 +50,9 @@ cfg = {
     "ckpt_filename": "best.pth",
 
     # W&B
+    "wandb_mode": "online",  # "online", "offline", or "disabled"
     "wandb_project": "MR_CT_Translation_ResNet",
     "wandb_run_name": "full_run_HN_UNET2d_run_L1_SSIM",
-    "wandb_mode": os.environ.get("WANDB_MODE", "online"),
     "id_wandb":None,
     "resume_wandb":None,
 
