@@ -181,3 +181,55 @@ class MRCTDataset(Dataset):
         if self.transform:
             sample = self.transform(sample)
         return sample
+if __name__ == "__main__":
+    # Edit these values manually and run:
+    #   python dataset_class.py
+
+    root = r"C:\\path\\to\\train\\Task1\\AB"  # <-- change this
+    modality = "mr"  # "mr" or "cbct"
+    num_adjacent_slices = 0  # 0 for 2D, or odd values (1,3,5,...) for 2.5D
+    patch_sizes = [
+        (256, 256),
+        (192, 192),
+        (128, 128),
+        (128, 256),
+    ]
+
+    n_samples = 3  # how many samples to print per patch size
+    foreground_threshold = 0.5
+    cache_size = 1
+
+    print(f"Root: {root}")
+    print(f"Modality: {modality} | num_adjacent_slices={num_adjacent_slices}")
+
+    for ps in patch_sizes:
+        print("\n" + "=" * 80)
+        print(f"Patch size: {ps}")
+        try:
+            ds = MRCTDataset(
+                root=root,
+                modality=modality,
+                patch_size=ps,
+                num_adjacent_slices=num_adjacent_slices,
+                max_retries=50,
+                foreground_threshold=foreground_threshold,
+                cache_size=cache_size,
+            )
+            print(f"Patients found: {len(ds.patients)}")
+            print(f"Samples found (mask-nonempty slices): {len(ds)}")
+            if len(ds) == 0:
+                print("No samples to draw from.")
+                continue
+
+            for i in range(min(n_samples, len(ds))):
+                sample = ds[i]
+                x = sample["input"]
+                y = sample["label"]
+                m = sample["mask"]
+                print(
+                    f"  idx={i} | patient={sample['patient']} slice={sample['slice_idx']} | "
+                    f"input={tuple(x.shape)} label={tuple(y.shape)} mask={tuple(m.shape)}"
+                )
+            print("OK")
+        except Exception as e:
+            print(f"FAILED for patch size {ps}: {type(e).__name__}: {e}")
