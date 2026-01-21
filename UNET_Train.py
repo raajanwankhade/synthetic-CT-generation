@@ -388,6 +388,8 @@ wandb.init(
         "amp": use_amp,
     },
     mode=cfg["wandb_mode"],
+    resume=cfg["resume_wandb"],
+    id=cfg["id_wandb"]
  )
 
 @torch.no_grad()
@@ -593,7 +595,7 @@ def train_model(
         if device.type == "cuda":
             print("✅ Using AdamW(fused=True) on CUDA")
     except TypeError:
-        optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), lr=lr)
+        optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), weight_decay = 0, lr=lr)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode="min", factor=0.5, patience=scheduler_patience
     )
@@ -801,7 +803,8 @@ def train_model(
 
             if save_every > 0 and (epoch % save_every == 0):
                 fig = visualize_batch(encoder, decoder, val_loader, device=device, num_samples=4)
-                fig.savefig(run_dir / cfg["Visualisation_Fig"])
+                vis_name = cfg["Visualisation_Fig"]
+                fig.savefig(run_dir / f"epoch_{epoch}_{vis_name}")
                 plt.close(fig)
 
     print("\n🏁 Training complete!")
@@ -899,6 +902,7 @@ trained_enc, trained_dec, history = train_model(
     decoder=dec,
     train_loader=train_loader,
     val_loader=val_loader,
+    start_epoch=cfg["start"],
     num_epochs=MAX_EPOCHS,
     lr=cfg["lr"],
     device=device,
@@ -908,6 +912,7 @@ trained_enc, trained_dec, history = train_model(
     grad_clip=cfg["grad_clip"],
     sanity_steps=cfg["sanity_steps"],
     save_dir=run_dir / cfg["ckpt_dir"],
+    resume_path=cfg["resume_path"]
 )
 
 # --- Plot each training metric separately ---
@@ -969,6 +974,4 @@ wandb.finish()
 # Testing
 
 visualize_batch(trained_enc, trained_dec, val_loader)
-
-
 
