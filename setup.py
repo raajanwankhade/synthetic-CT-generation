@@ -14,4 +14,4 @@ download_path = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-gene
 # Set the KAGGLEHUB_CACHE environment variable
 os.environ['KAGGLEHUB_CACHE'] = download_path
 
-kagglehub.dataset_download("bhuvaneshsingla/synthrad2025-ab")
+kagglehub.dataset_download("bhuvaneshsingla/synthrad2025-hn")
