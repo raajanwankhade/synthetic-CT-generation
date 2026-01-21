@@ -15,6 +15,7 @@ import torch.nn.functional as F
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
+from typing import cast, Optional
 
 #For loss
 from torchmetrics.functional import structural_similarity_index_measure as ssim
@@ -27,6 +28,9 @@ import io
 import wandb
 from PIL import Image
 from config import cfg
+
+# Model architecture (moved out of this file)
+from UNET_model import ResEncoder2D, ResDecoder2D
 
 # Reproducibility + device helpers
 import random
@@ -101,150 +105,6 @@ wandb.login()
 #Run dir
 run_dir = Path(cfg["run_dir"])
 # Networks
-
-
-class ResBlock(nn.Module):
-    """Simple residual block: conv -> norm -> ReLU -> conv -> norm + skip"""
-    def __init__(self, channels, norm_layer=nn.BatchNorm2d):
-        super().__init__()
-        self.conv1 = nn.Conv2d(channels, channels, kernel_size=3, padding=1, bias=False)
-        self.bn1 = norm_layer(channels)
-        self.conv2 = nn.Conv2d(channels, channels, kernel_size=3, padding=1, bias=False)
-        self.bn2 = norm_layer(channels)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        identity = x
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
-        out = self.conv2(out)
-        out = self.bn2(out)
-        out += identity
-        out = self.relu(out)
-        return out
-
-class ResEncoder2D(nn.Module):
-    """
-    Fixed version: returns one feature per true downsampling level.
-    """
-    def __init__(self, in_ch=1, base_ch=32, num_stages=4, blocks_per_stage=2, norm_layer=nn.BatchNorm2d):
-        super().__init__()
-        self.stem = nn.Sequential(
-            nn.Conv2d(in_ch, base_ch, kernel_size=7, stride=1, padding=3, bias=False),
-            norm_layer(base_ch),
-            nn.ReLU(inplace=True)
-        )
-
-        stages = []
-        ch = base_ch
-        for s in range(num_stages):
-            blocks = [ResBlock(ch, norm_layer=norm_layer) for _ in range(blocks_per_stage)]
-            stage = nn.Sequential(*blocks)
-            stages.append(stage)
-            if s != num_stages - 1:
-                down = nn.Sequential(
-                    nn.Conv2d(ch, ch * 2, kernel_size=3, stride=2, padding=1, bias=False),
-                    norm_layer(ch * 2),
-                    nn.ReLU(inplace=True)
-                )
-                stages.append(down)
-                ch *= 2
-        self.stages = nn.ModuleList(stages)
-        self.out_ch = ch
-
-    def forward(self, x):
-        feats = []
-        x = self.stem(x)
-        for m in self.stages:
-            x = m(x)
-            # only save feature maps that change spatial resolution (avoid duplicate same-size)
-            if len(feats) == 0 or feats[-1].shape[-1] != x.shape[-1]:
-                feats.append(x)
-        # should produce features roughly [256,128,64,32]
-        return feats
-
-
-def test_encoder(input_size=(4, 1, 256, 256)):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    enc = ResEncoder2D(in_ch=1, base_ch=32, num_stages=4, blocks_per_stage=2).to(device)
-    x = torch.randn(*input_size, device=device)  # batch of input patches
-    feats = enc(x)
-    print("Number of returned feature maps:", len(feats))
-    for i, f in enumerate(feats):
-        print(f"feat[{i}] shape: {tuple(f.shape)}")
-    # expected (approx): feat[0] (4,32,256,256), feat[1] (4,64,128,128), feat[2] (4,128,64,64), feat[3] (4,256,32,32)
-    return feats
-
-# test_encoder()
-
-class UpConvBlock(nn.Module):
-    """Upsample by factor 2 (once) + conv + residual blocks."""
-    def __init__(self, in_ch, out_ch, blocks=1, norm_layer=nn.BatchNorm2d):
-        super().__init__()
-        layers = [
-            nn.Conv2d(in_ch, out_ch, kernel_size=3, padding=1, bias=False),
-            norm_layer(out_ch),
-            nn.ReLU(inplace=True)
-        ]
-        for _ in range(blocks):
-            layers.append(ResBlock(out_ch, norm_layer=norm_layer))
-        self.net = nn.Sequential(*layers)
-
-    def forward(self, x):
-        return self.net(x)
-
-class ResDecoder2D(nn.Module):
-    """
-    Decoder that takes encoder features (list) and reconstructs an image
-    with same spatial resolution as feats[0].
-    """
-    def __init__(self, encoder_feature_channels, out_ch=1, blocks_per_up=1, norm_layer=nn.BatchNorm2d):
-        super().__init__()
-        self.feat_chs = encoder_feature_channels
-        self.up_blocks = nn.ModuleList()
-
-        for i in range(len(encoder_feature_channels) - 1, 0, -1):
-            in_ch = encoder_feature_channels[i]
-            skip_ch = encoder_feature_channels[i - 1]
-            self.up_blocks.append(
-                UpConvBlock(in_ch + skip_ch, skip_ch, blocks=blocks_per_up, norm_layer=norm_layer)
-            )
-
-        final_in_ch = encoder_feature_channels[0]
-        self.final_conv = nn.Sequential(
-            nn.Conv2d(final_in_ch, final_in_ch // 2, kernel_size=3, padding=1, bias=False),
-            norm_layer(final_in_ch // 2),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(final_in_ch // 2, out_ch, kernel_size=1)
-        )
-
-    def forward(self, feats):
-        x = feats[-1]  # start from deepest (lowest res)
-        for i, up in enumerate(self.up_blocks):
-            skip_idx = len(feats) - 2 - i
-            skip = feats[skip_idx]
-            # only one upsample per stage
-            x = F.interpolate(x, scale_factor=2, mode='nearest')
-            x = torch.cat([x, skip], dim=1)
-            x = up(x)
-        out = self.final_conv(x)
-        return out
-
-def test_encoder_decoder(input_size=(4, 1, 256, 256)):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    enc = ResEncoder2D(in_ch=1, base_ch=32, num_stages=4, blocks_per_stage=2).to(device)
-    dummy = torch.randn(*input_size, device=device)
-    feats = enc(dummy)
-    feat_chs = [f.shape[1] for f in feats]
-    print("Encoder feature channels:", feat_chs)
-    for i, f in enumerate(feats):
-        print(f"feat[{i}] shape:", f.shape)
-    dec = ResDecoder2D(encoder_feature_channels=feat_chs, out_ch=1).to(device)
-    out = dec(enc(torch.randn(*input_size, device=device)))
-    print("Output shape:", out.shape)
-
-
 # Loss
 
 # class PerceptualLoss(nn.Module):
@@ -506,8 +366,8 @@ class CheckpointManager:
 # Training function (W&B integrated)
 # -------------------------------------------------------------------------
 def train_model(
-    encoder,
-    decoder,
+    encoder: nn.Module,
+    decoder: nn.Module,
     train_loader,
     val_loader,
     num_epochs=100,
@@ -516,7 +376,7 @@ def train_model(
     val_split=0.2,
     save_dir="checkpoints",
     scheduler_patience=5,
-    device=None,
+    device: Optional[torch.device] = None,
     wandb_log=True,
     lambda_ssim=1000.0,
     resume_path=None,
@@ -524,7 +384,8 @@ def train_model(
     sanity_steps=1,
  ):
 
-    device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if device is None:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     use_amp = device.type == "cuda"
 
     amp_dtype_name = str(cfg.get("amp_dtype", "bf16")).lower()
@@ -534,10 +395,7 @@ def train_model(
     encoder.to(device)
     decoder.to(device)
 
-    # channels_last helps conv throughput on recent GPUs
-    if cfg.get("channels_last", True) and device.type == "cuda":
-        encoder = encoder.to(memory_format=torch.channels_last)
-        decoder = decoder.to(memory_format=torch.channels_last)
+    # channels_last is applied to input tensors below (x.contiguous(memory_format=...)).
 
     # Keep eager references for safe fallback if torch.compile fails at runtime
     encoder_eager = encoder
@@ -576,8 +434,8 @@ def train_model(
                 pass
 
             mode = cfg.get("torch_compile_mode", "reduce-overhead")
-            encoder = torch.compile(encoder, mode=mode)
-            decoder = torch.compile(decoder, mode=mode)
+            encoder = cast(nn.Module, torch.compile(encoder, mode=mode))
+            decoder = cast(nn.Module, torch.compile(decoder, mode=mode))
             compile_enabled = True
             print(f"✅ torch.compile enabled (mode={mode})")
         except Exception as e:
@@ -603,10 +461,7 @@ def train_model(
 
     # GradScaler is only needed for FP16; BF16 generally doesn't use scaling
     scaler_enabled = (use_amp and amp_dtype == torch.float16)
-    try:
-        scaler = torch.amp.GradScaler("cuda", enabled=scaler_enabled)
-    except Exception:
-        scaler = torch.cuda.amp.GradScaler(enabled=scaler_enabled)
+    scaler = torch.cuda.amp.GradScaler(enabled=scaler_enabled)
 
     ssim_down = int(cfg.get("ssim_downsample", 1))
 
@@ -804,7 +659,7 @@ def train_model(
             if save_every > 0 and (epoch % save_every == 0):
                 fig = visualize_batch(encoder, decoder, val_loader, device=device, num_samples=4)
                 vis_name = cfg["Visualisation_Fig"]
-                fig.savefig(run_dir / f"epoch_{epoch}_{vis_name}")
+                fig.savefig(str(run_dir / f"epoch_{epoch}_{vis_name}"))
                 plt.close(fig)
 
     print("\n🏁 Training complete!")
@@ -967,15 +822,11 @@ plt.grid(True, alpha=0.3)
 # plt.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig(run_dir / cfg["Loss_Plot_name"])
+plt.savefig(str(run_dir / cfg["Loss_Plot_name"]))
 
 wandb.finish()
 
 # Testing
 
 visualize_batch(trained_enc, trained_dec, val_loader)
-
-if __name__ == "__main__":
-    test_encoder((4, 1, 256, 256))
-    test_encoder_decoder((4, 1, 256, 256))
     # test_combined_loss(InformativeLoss(device=device), device=device, img_size=(2,1,128,128))
