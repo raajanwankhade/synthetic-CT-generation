@@ -165,10 +165,10 @@ class ResEncoder2D(nn.Module):
         return feats
 
 
-def test_encoder():
+def test_encoder(input_size=(4, 1, 256, 256)):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     enc = ResEncoder2D(in_ch=1, base_ch=32, num_stages=4, blocks_per_stage=2).to(device)
-    x = torch.randn(4, 1, 256, 256, device=device)  # batch of input patches
+    x = torch.randn(*input_size, device=device)  # batch of input patches
     feats = enc(x)
     print("Number of returned feature maps:", len(feats))
     for i, f in enumerate(feats):
@@ -231,17 +231,17 @@ class ResDecoder2D(nn.Module):
         out = self.final_conv(x)
         return out
 
-def test_encoder_decoder():
+def test_encoder_decoder(input_size=(4, 1, 256, 256)):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     enc = ResEncoder2D(in_ch=1, base_ch=32, num_stages=4, blocks_per_stage=2).to(device)
-    dummy = torch.randn(1, 1, 256, 256, device=device)
+    dummy = torch.randn(*input_size, device=device)
     feats = enc(dummy)
     feat_chs = [f.shape[1] for f in feats]
     print("Encoder feature channels:", feat_chs)
     for i, f in enumerate(feats):
         print(f"feat[{i}] shape:", f.shape)
     dec = ResDecoder2D(encoder_feature_channels=feat_chs, out_ch=1).to(device)
-    out = dec(enc(torch.randn(4, 1, 256, 256, device=device)))
+    out = dec(enc(torch.randn(*input_size, device=device)))
     print("Output shape:", out.shape)
 
 
@@ -975,3 +975,7 @@ wandb.finish()
 
 visualize_batch(trained_enc, trained_dec, val_loader)
 
+if __name__ == "__main__":
+    test_encoder((4, 1, 256, 256))
+    test_encoder_decoder((4, 1, 256, 256))
+    # test_combined_loss(InformativeLoss(device=device), device=device, img_size=(2,1,128,128))
