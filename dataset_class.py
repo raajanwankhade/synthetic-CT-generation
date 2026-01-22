@@ -235,14 +235,16 @@ if __name__ == "__main__":
     # You can point this either to:
     # - a single region folder: ...\\train\\Task1\\AB
     # - the task folder:        ...\\train\\Task1   (will scan all regions under it)
-    root = r"C:\\path\\to\\train\\Task1"  # <-- change this
+    from config import cfg
+    root = cfg["root"]  # <-- change this
     modality = "mr"  # "mr" or "cbct"
     num_adjacent_slices = 0  # 0 for 2D, or odd values (1,3,5,...) for 2.5D
     patch_sizes = [
         (256, 256),
         (192, 192),
         (128, 128),
-        (128, 256),
+        (64, 64),
+        (32, 32),
     ]
 
     n_samples = 3  # how many samples to print per patch size
