@@ -20,7 +20,8 @@ class MRCTDataset(Dataset):
     ):
         """
         Args:
-            root: path to folder like 'train/Task1/AB'
+            root: path to a region folder like 'train/Task1/AB' OR a task folder like 'train/Task1'
+                  (when a task folder is provided, all region subfolders are scanned and combined)
             modality: 'mr' or 'cbct' (input modality)
             patch_size: tuple (H, W)
             num_adjacent_slices: e.g., 3 → (i-1, i, i+1)
@@ -50,15 +51,60 @@ class MRCTDataset(Dataset):
         self._patient_cache = OrderedDict()
         assert self.modality in ["mr", "cbct"], "modality must be 'mr' or 'cbct'"
 
-        # Collect valid patient folders (ignore /overviews/)
+        if not self.root.exists():
+            raise FileNotFoundError(f"Dataset root does not exist: {self.root}")
+
+        def _is_patient_dir(d: Path) -> bool:
+            if not d.is_dir():
+                return False
+            return (
+                (d / "ct.mha").exists()
+                and (d / f"{self.modality}.mha").exists()
+                and (d / "mask.mha").exists()
+            )
+
+        # Determine whether 'root' is:
+        # 1) a patient dir  -> contains ct.mha/mr.mha/mask.mha
+        # 2) a region dir   -> contains patient subdirs
+        # 3) a task dir     -> contains region subdirs, each containing patient subdirs
+        self.region_roots = []
+        if _is_patient_dir(self.root):
+            # Treat as a single patient
+            self.region_roots = [self.root.parent]
+        else:
+            child_dirs = [p for p in sorted(self.root.glob("*")) if p.is_dir() and p.name.lower() != "overviews"]
+            if any(_is_patient_dir(p) for p in child_dirs):
+                # Root is a region folder
+                self.region_roots = [self.root]
+            else:
+                # Root is likely a task folder (scan all regions)
+                for region in child_dirs:
+                    region_children = [p for p in sorted(region.glob("*")) if p.is_dir() and p.name.lower() != "overviews"]
+                    if any(_is_patient_dir(p) for p in region_children):
+                        self.region_roots.append(region)
+
+        if not self.region_roots:
+            raise ValueError(
+                "Could not find any valid patient folders under root. "
+                "Expected either a region folder with patient subfolders, or a task folder with region subfolders. "
+                f"Got root={self.root}"
+            )
+
+        # Collect valid patient folders across one or more region roots (ignore /overviews/)
         self.patients = []
-        for p in sorted(self.root.glob("*")):
-            if p.is_dir() and p.name.lower() != "overviews":
-                ct_path = p / "ct.mha"
-                mod_path = p / f"{self.modality}.mha"
-                mask_path = p / "mask.mha"
-                if ct_path.exists() and mod_path.exists() and mask_path.exists():
-                    self.patients.append(p)
+        self.patient_region = {}
+        if _is_patient_dir(self.root):
+            # root is itself a patient directory
+            self.patients = [self.root]
+            self.patient_region[str(self.root)] = self.root.parent.name
+        else:
+            for region_root in self.region_roots:
+                for p in sorted(region_root.glob("*")):
+                    if p.is_dir() and p.name.lower() != "overviews" and _is_patient_dir(p):
+                        self.patients.append(p)
+                        self.patient_region[str(p)] = region_root.name
+
+        self.regions = sorted(set(self.patient_region.values()))
 
         # --- MODIFIED SECTION START ---
         # Collect all (patient, slice_idx) pairs *that have a non-empty mask*
@@ -175,6 +221,7 @@ class MRCTDataset(Dataset):
             "label": torch.from_numpy(np.ascontiguousarray(ct_crop)).float(),
             "mask": torch.from_numpy(np.ascontiguousarray(mask_crop)).float(),
             "patient": patient_path.name,
+            "region": self.patient_region.get(str(patient_path), ""),
             "slice_idx": slice_idx
         }
 
@@ -185,7 +232,10 @@ if __name__ == "__main__":
     # Edit these values manually and run:
     #   python dataset_class.py
 
-    root = r"C:\\path\\to\\train\\Task1\\AB"  # <-- change this
+    # You can point this either to:
+    # - a single region folder: ...\\train\\Task1\\AB
+    # - the task folder:        ...\\train\\Task1   (will scan all regions under it)
+    root = r"C:\\path\\to\\train\\Task1"  # <-- change this
     modality = "mr"  # "mr" or "cbct"
     num_adjacent_slices = 0  # 0 for 2D, or odd values (1,3,5,...) for 2.5D
     patch_sizes = [
@@ -216,6 +266,7 @@ if __name__ == "__main__":
                 cache_size=cache_size,
             )
             print(f"Patients found: {len(ds.patients)}")
+            print(f"Regions found: {len(ds.regions)} -> {ds.regions}")
             print(f"Samples found (mask-nonempty slices): {len(ds)}")
             if len(ds) == 0:
                 print("No samples to draw from.")
@@ -228,6 +279,7 @@ if __name__ == "__main__":
                 m = sample["mask"]
                 print(
                     f"  idx={i} | patient={sample['patient']} slice={sample['slice_idx']} | "
+                    f"region={sample.get('region','')} | "
                     f"input={tuple(x.shape)} label={tuple(y.shape)} mask={tuple(m.shape)}"
                 )
             print("OK")

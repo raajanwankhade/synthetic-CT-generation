@@ -691,7 +691,9 @@ print(device)
 val_split = cfg["val_split"]
 
 # Patient-level split to avoid leakage (train/val should not share patients)
-patient_ids = np.array([p.name for (p, _) in dataset_2d.samples])
+# NOTE: When root points at a Task folder (multi-region), patient folder names may repeat
+# across regions. Use a stable, unique key per patient directory.
+patient_ids = np.array([str(p) for (p, _) in dataset_2d.samples])
 uniq_patients = np.unique(patient_ids)
 rng = np.random.default_rng(SEED)
 rng.shuffle(uniq_patients)
