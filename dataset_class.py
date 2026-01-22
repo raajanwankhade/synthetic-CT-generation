@@ -274,16 +274,47 @@ if __name__ == "__main__":
                 print("No samples to draw from.")
                 continue
 
-            for i in range(min(n_samples, len(ds))):
-                sample = ds[i]
-                x = sample["input"]
-                y = sample["label"]
-                m = sample["mask"]
-                print(
-                    f"  idx={i} | patient={sample['patient']} slice={sample['slice_idx']} | "
-                    f"region={sample.get('region','')} | "
-                    f"input={tuple(x.shape)} label={tuple(y.shape)} mask={tuple(m.shape)}"
-                )
+            # Build region -> dataset indices without loading any images
+            region_to_indices = {r: [] for r in ds.regions}
+            for idx, (patient_path, _slice_idx) in enumerate(ds.samples):
+                region = ds.patient_region.get(str(patient_path), "")
+                if region in region_to_indices:
+                    region_to_indices[region].append(idx)
+                else:
+                    region_to_indices.setdefault(region, []).append(idx)
+
+            # Test n_samples per region; if any region fails for this patch size, skip to next size
+            patch_failed = False
+            rng = np.random.default_rng(0)
+            for region in sorted(region_to_indices.keys()):
+                indices = region_to_indices[region]
+                if len(indices) == 0:
+                    print(f"  Region {region}: 0 samples (skipping)")
+                    continue
+
+                k = min(n_samples, len(indices))
+                pick = rng.choice(indices, size=k, replace=False)
+                print(f"  Region {region}: testing {k}/{len(indices)} samples")
+
+                try:
+                    for ds_idx in pick:
+                        sample = ds[int(ds_idx)]
+                        x = sample["input"]
+                        y = sample["label"]
+                        m = sample["mask"]
+                        print(
+                            f"    idx={int(ds_idx)} | patient={sample['patient']} slice={sample['slice_idx']} | "
+                            f"region={sample.get('region','')} | "
+                            f"input={tuple(x.shape)} label={tuple(y.shape)} mask={tuple(m.shape)}"
+                        )
+                except Exception as e:
+                    print(f"  FAILED in region {region} for patch size {ps}: {type(e).__name__}: {e}")
+                    patch_failed = True
+                    break
+
+            if patch_failed:
+                print("Skipping to next patch size.")
+                continue
             print("OK")
         except Exception as e:
             print(f"FAILED for patch size {ps}: {type(e).__name__}: {e}")
