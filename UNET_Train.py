@@ -389,6 +389,7 @@ def train_model(
     grad_clip=None,
     sanity_steps=1,
  ):
+    global SHUTDOWN_REQUESTED
 
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -593,7 +594,6 @@ def train_model(
             train_loss += float(loss.item())
             if not SHUTDOWN_REQUESTED and os.path.exists(SHUTDOWN_FLAG_PATH):
                 print("⏹️ Shutdown flag detected. Stopping training after current epoch.")
-                global SHUTDOWN_REQUESTED
                 SHUTDOWN_REQUESTED = True
             pbar.set_postfix(loss=f"{loss.item():.4f}")
         
