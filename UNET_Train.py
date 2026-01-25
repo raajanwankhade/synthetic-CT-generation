@@ -549,9 +549,9 @@ def train_model(
         print(f"✅ Sanity check passed ({sanity_steps} step(s))")
 
     history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": []}
-
-    for epoch in tqdm(range(start_epoch, num_epochs + 1), desc="Progress"):
-        print(f"\n🧾 Epoch {epoch}/{num_epochs}")
+    end_epoch = start_epoch + num_epochs -1
+    for epoch in tqdm(range(start_epoch, end_epoch + 1), desc="Progress"):
+        print(f"\n🧾 Epoch {epoch}/{end_epoch}")
         encoder.train()
         decoder.train()
         train_loss = 0.0
