@@ -4,7 +4,7 @@ from typing import List, Tuple
 import numpy as np
 import SimpleITK as sitk
 import torch
-
+from tqdm.auto import tqdm
 from inference import config
 from inference.test_dataset_class import (
     extract_patches_sequentially,
@@ -110,7 +110,7 @@ def main() -> None:
         raise ValueError("No valid patient folders found")
 
     per_patient = []
-    for patient_dir in patients:
+    for patient_dir in tqdm(patients):
         out_path = run_patient(
             model=model,
             patient_dir=patient_dir,
