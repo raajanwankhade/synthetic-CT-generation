@@ -591,11 +591,11 @@ def train_model(
                 optimizer.step()
 
             train_loss += float(loss.item())
-            pbar.set_postfix(loss=f"{loss.item():.4f}")
-            if os.path.exists(SHUTDOWN_FLAG_PATH):
+            if not SHUTDOWN_REQUESTED and os.path.exists(SHUTDOWN_FLAG_PATH):
                 print("⏹️ Shutdown flag detected. Stopping training after current epoch.")
                 global SHUTDOWN_REQUESTED
                 SHUTDOWN_REQUESTED = True
+            pbar.set_postfix(loss=f"{loss.item():.4f}")
         
 
         train_loss /= max(1, len(train_loader))
