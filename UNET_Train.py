@@ -31,6 +31,9 @@ from config import cfg
 # Model architecture (moved out of this file)
 from UNET_model import ResEncoder2D, ResDecoder2D
 
+# Shutdown flag
+SHUTDOWN_REQUESTED = False
+SHUTDOWN_FLAG_PATH = os.path.join(cfg["run_dir"], "stop.flag")
 # Reproducibility + device helpers
 import random
 def seed_everything(seed: int = 42):
@@ -322,17 +325,20 @@ class CheckpointManager:
             self.best_epoch = int(epoch)
             self.best_metrics = dict(val_metrics)
             ckpt_path = os.path.join(self.save_dir, self.filename)
-            torch.save({
-                "epoch": epoch,
-                "encoder": encoder.state_dict(),
-                "decoder": decoder.state_dict(),
-                "optimizer": optimizer.state_dict(),
-                "scheduler": scheduler.state_dict(),
-                "scaler": scaler.state_dict(),
-                "val_metrics": val_metrics,
-            }, ckpt_path)
+            self.save_epoch(ckpt_path, epoch, encoder, decoder, optimizer, scheduler, scaler)
             self.best_path = ckpt_path
             print(f"✅ Saved BEST checkpoint: epoch={epoch} {self.monitor}={score:.5f} -> {ckpt_path}")
+    
+    def save_epoch(self, ckpt_path, epoch, encoder, decoder, optimizer, scheduler, scaler):
+        torch.save({
+            "epoch": epoch,
+            "encoder": encoder.state_dict(),
+            "decoder": decoder.state_dict(),
+            "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict(),
+            "scaler": scaler.state_dict(),
+        }, ckpt_path)
+        
 
     def load_best(self, encoder, decoder, optimizer=None, device=None):
         if not self.best_path:
@@ -586,6 +592,11 @@ def train_model(
 
             train_loss += float(loss.item())
             pbar.set_postfix(loss=f"{loss.item():.4f}")
+            if os.path.exists(SHUTDOWN_FLAG_PATH):
+                print("⏹️ Shutdown flag detected. Stopping training after current epoch.")
+                global SHUTDOWN_REQUESTED
+                SHUTDOWN_REQUESTED = True
+        
 
         train_loss /= max(1, len(train_loader))
 
@@ -661,6 +672,11 @@ def train_model(
                 vis_name = cfg["Visualisation_Fig"]
                 fig.savefig(str(run_dir / f"epoch_{epoch}_{vis_name}"))
                 plt.close(fig)
+        if SHUTDOWN_REQUESTED:
+            print(f"[shutdown] Stopping at epoch {epoch} as requested.")
+            ckpt_mgr.save_epoch(run_dir / f"epoch_{epoch}.pt", epoch, encoder, decoder, optimizer, scheduler, scaler)
+            print(f"Last checkpoint saved at epoch {epoch}.")
+            break
 
     print("\n🏁 Training complete!")
     ckpt_mgr.load_best(encoder, decoder, optimizer, device)
@@ -832,3 +848,7 @@ wandb.finish()
 
 visualize_batch(trained_enc, trained_dec, val_loader)
     # test_combined_loss(InformativeLoss(device=device), device=device, img_size=(2,1,128,128))
+
+if SHUTDOWN_REQUESTED:
+    print("[shutdown] Shutdown complete. Removing flag file.")
+    os.remove(SHUTDOWN_FLAG_PATH)
