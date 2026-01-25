@@ -17,6 +17,10 @@ def is_patient_dir(path: Path, modality: str) -> bool:
     )
 
 
+def read_image_to_array(path: Union[str, Path]) -> np.ndarray:
+    return sitk.GetArrayFromImage(sitk.ReadImage(str(path)))
+
+
 def extract_patches_sequentially(
     image: ArrayLike,
     patch_size: Tuple[int, int],
