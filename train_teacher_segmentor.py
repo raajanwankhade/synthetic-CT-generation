@@ -81,6 +81,8 @@ def main():
 
     print("Starting Training...")
     best_val_loss = float("inf")
+    patience = int(cfg.get("scheduler_patience", 10))
+    no_improve = 0
 
     epoch_pbar = tqdm(range(cfg["epochs"]), desc="Epochs", unit="epoch")
     for epoch in epoch_pbar:
@@ -154,8 +156,14 @@ def main():
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            no_improve = 0
             torch.save(model.state_dict(), model_save_path)
             tqdm.write(f"Checkpoint saved: {model_save_path}")
+        else:
+            no_improve += 1
+            if no_improve >= patience:
+                tqdm.write(f"Early stopping triggered (patience={patience}).")
+                break
 
 if __name__ == "__main__":
     main()
