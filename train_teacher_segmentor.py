@@ -1,6 +1,7 @@
 import contextlib
 from pathlib import Path
 import torch
+from tqdm.auto import tqdm
 from monai.networks.nets import UNet
 from monai.losses import DiceLoss
 
@@ -22,7 +23,7 @@ def main():
     run_dir = Path(cfg["run_dir"])
     ckpt_dir = run_dir / cfg["ckpt_dir"]
     ckpt_dir.mkdir(parents=True, exist_ok=True)
-    model_save_path = run_dir / MODEL_SAVE_NAME
+    model_save_path = ckpt_dir / MODEL_SAVE_NAME
 
     def teacher_transform(sample):
         image = sample["label"]  # CT
@@ -81,12 +82,20 @@ def main():
     print("Starting Training...")
     best_val_loss = float("inf")
 
-    for epoch in range(cfg["epochs"]):
+    epoch_pbar = tqdm(range(cfg["epochs"]), desc="Epochs", unit="epoch")
+    for epoch in epoch_pbar:
         model.train()
         epoch_loss = 0.0
         step = 0
 
-        for batch in train_loader:
+        train_pbar = tqdm(
+            train_loader,
+            desc=f"Train {epoch + 1}/{cfg['epochs']}",
+            unit="batch",
+            leave=False,
+        )
+
+        for batch in train_pbar:
             step += 1
             inputs, labels = batch["image"].to(device), batch["label"].to(device)
 
@@ -110,16 +119,22 @@ def main():
                 optimizer.step()
 
             epoch_loss += float(loss.item())
-            print(f"Step {step}/{len(train_loader)} Loss: {loss.item():.4f}", end="\r")
+            train_pbar.set_postfix(loss=f"{loss.item():.4f}")
 
         train_loss = epoch_loss / max(step, 1)
-        print(f"\nEpoch {epoch + 1} Train Loss: {train_loss:.4f}")
+        epoch_pbar.set_postfix(train_loss=f"{train_loss:.4f}")
 
         model.eval()
         val_loss = 0.0
         val_steps = 0
         with torch.no_grad():
-            for batch in val_loader:
+            val_pbar = tqdm(
+                val_loader,
+                desc=f"Val {epoch + 1}/{cfg['epochs']}",
+                unit="batch",
+                leave=False,
+            )
+            for batch in val_pbar:
                 val_steps += 1
                 inputs, labels = batch["image"].to(device), batch["label"].to(device)
                 if cfg.get("channels_last", False):
@@ -132,14 +147,15 @@ def main():
                     outputs = model(inputs)
                     loss = loss_function(outputs, labels)
                 val_loss += float(loss.item())
+                val_pbar.set_postfix(loss=f"{loss.item():.4f}")
 
         val_loss = val_loss / max(val_steps, 1)
-        print(f"Epoch {epoch + 1} Val Loss: {val_loss:.4f}")
+        epoch_pbar.set_postfix(train_loss=f"{train_loss:.4f}", val_loss=f"{val_loss:.4f}")
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             torch.save(model.state_dict(), model_save_path)
-            print(f"Checkpoint saved: {model_save_path}")
+            tqdm.write(f"Checkpoint saved: {model_save_path}")
 
 if __name__ == "__main__":
     main()
