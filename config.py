@@ -1,18 +1,19 @@
 import os
 
 cfg = {
-    "run_dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/Unet2dHN/full_run",
+    "run_dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/Unet3dHN/full_run",
     # Data
     "root": '/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/datasets/bhuvaneshsingla/synthrad2025-hn/versions/1/Task1',
     "modality": "mr",
-    "patch_size": (256, 256),
-    "num_adjacent_slices": 0,  # pure 2D
+    "patch_size": None,
+    "anatomy": "HN",  # "AB", "HN", or "TH" for 3D
+    "num_adjacent_slices": "3d",  # 3D patches
     "cache_size": 1,
     "foreground_threshold": 0.5,
     "val_split": 0.2,
 
     # Dataloaders
-    "batch_size": 32,
+    "batch_size": 2,
     "num_workers_train": 4,
     "num_workers_val": 4,
     "prefetch_factor": 4,
@@ -52,11 +53,22 @@ cfg = {
     # W&B
     "wandb_mode": "online",  # "online", "offline", or "disabled"
     "wandb_project": "MR_CT_Translation_ResNet",
-    "wandb_run_name": "full_run_HN_UNET2d_run_L1_SSIM",
+    "wandb_run_name": "full_run_HN_UNET3d_run_L1_SSIM",
     "id_wandb":None,
     "resume_wandb":None,
 
     #Figure save locations
     "Loss_Plot_name": "Loss Plot.png",
-    "Visualisation_Fig": "Batch_Output.png"
+    "Visualisation_Fig": "Batch_Output.png",
+
+    # Model (3D)
+    "model3d_cfg": {
+        "in_ch": 1,
+        "out_ch": 1,
+        "base_ch": 32,
+        "stage_channels": [32, 64, 128, 256],
+        "blocks_per_stage": [2, 2, 2, 2],
+        "convs_per_block": 2,
+        "negative_slope": 0.01,
+    },
 }

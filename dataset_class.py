@@ -1,10 +1,18 @@
 import numpy as np
 import torch
 import SimpleITK as sitk
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader, Subset
 from pathlib import Path
 from tqdm.auto import tqdm
 from collections import OrderedDict
+import random
+
+# 3D patch sizes by anatomy
+PATCH_SIZE_3D_BY_ANATOMY = {
+    "AB": (40, 192, 224),
+    "HN": (56, 192, 160),
+    "TH": (64, 192, 192),
+}
 
 class MRCTDataset(Dataset):
     def __init__(
@@ -12,6 +20,7 @@ class MRCTDataset(Dataset):
         root,
         modality="mr",
         patch_size=(256, 256),
+        anatomy=None,
         num_adjacent_slices=0,
         transform=None,
         max_retries=50,
@@ -28,21 +37,40 @@ class MRCTDataset(Dataset):
             transform: optional callable
         """
         self.root = Path(root)
-        self.patch_size = patch_size
-        if num_adjacent_slices < 0:
-            raise ValueError("num_adjacent_slices must be >= 0")
+        self.anatomy = anatomy
+        self.is_3d = False
+
+        if isinstance(num_adjacent_slices, str):
+            if num_adjacent_slices.lower() != "3d":
+                raise ValueError("num_adjacent_slices must be >= 0, odd, or '3d'")
+            self.is_3d = True
+            if patch_size is None:
+                patch_size = PATCH_SIZE_3D_BY_ANATOMY.get(str(anatomy).upper())
+        else:
+            if num_adjacent_slices < 0:
+                raise ValueError("num_adjacent_slices must be >= 0")
+
+        if patch_size is None:
+            raise ValueError("patch_size must be provided (or set anatomy=AB/HN/TH for 3D)")
+
+        self.patch_size = tuple(patch_size)
+        if len(self.patch_size) == 3:
+            self.is_3d = True
 
         # Convention:
         # - 0 => pure 2D (single slice, 1 channel)
         # - odd numbers (1,3,5,...) => 2.5D context (stacked slices)
-        if num_adjacent_slices == 0:
+        if self.is_3d:
+            # For 3D patches, we ignore 2.5D context slicing
+            self.num_adjacent = 1
+        elif num_adjacent_slices == 0:
             self.num_adjacent = 1
         else:
             if num_adjacent_slices % 2 == 0:
                 raise ValueError("num_adjacent_slices must be 0 or odd (e.g., 0, 1, 3, 5)")
             self.num_adjacent = num_adjacent_slices
 
-        self.num_adjacent_slices = int(num_adjacent_slices)
+        self.num_adjacent_slices = num_adjacent_slices
         self.transform = transform
         self.modality = modality.lower()
         self.max_retries = max_retries
@@ -155,66 +183,103 @@ class MRCTDataset(Dataset):
 
         ct, mod, mask = self._load_patient_arrays(patient_path)
 
-        # Handle 2.5D context
-        half = self.num_adjacent // 2
-        idxs = [max(0, min(ct.shape[0] - 1, slice_idx + i)) for i in range(-half, half + 1)]
-        mod_stack = np.stack([mod[i] for i in idxs], axis=0)  # (num_adjacent, H, W)
+        if self.is_3d:
+            # 3D patching
+            d, h, w = ct.shape
+            pd, ph, pw = self.patch_size
+            if d < pd or h < ph or w < pw:
+                raise ValueError(
+                    f"3D patch size {self.patch_size} exceeds volume size {(d, h, w)} for {patient_path}"
+                )
 
-        ct_slice = ct[slice_idx][None, ...]  # (1, H, W)
-        mask_slice = mask[slice_idx][None, ...]
+            # Use the current slice_idx as center depth, and pick center (y,x) from mask on that slice
+            mask_slice = mask[slice_idx]
+            y_indices, x_indices = np.nonzero(mask_slice > 0)
 
-        # --- MODIFIED SECTION START ---
+            # Fallback random patch
+            z0 = int(np.random.randint(0, d - pd + 1)) if d > pd else 0
+            y0 = int(np.random.randint(0, h - ph + 1)) if h > ph else 0
+            x0 = int(np.random.randint(0, w - pw + 1)) if w > pw else 0
 
-        h, w = ct_slice.shape[1:]
-        ph, pw = self.patch_size
-        if h < ph or w < pw:
-            raise ValueError(f"Patch size {self.patch_size} exceeds slice size {(h, w)} for {patient_path}")
+            best_z0, best_y0, best_x0 = z0, y0, x0
+            best_ratio = -1.0
+            for _ in range(int(self.max_retries)):
+                if len(y_indices) > 0:
+                    rand_idx = int(np.random.randint(0, len(y_indices)))
+                    center_y = int(y_indices[rand_idx])
+                    center_x = int(x_indices[rand_idx])
+                    center_z = int(slice_idx)
 
-        # Find all valid foreground pixels (where mask > 0)
-        # We know this is non-empty because of our check in __init__
-        y_indices, x_indices = np.nonzero(mask_slice[0] > 0)
+                    z0 = int(np.clip(center_z - pd // 2, 0, d - pd))
+                    y0 = int(np.clip(center_y - ph // 2, 0, h - ph))
+                    x0 = int(np.clip(center_x - pw // 2, 0, w - pw))
 
-        # Always initialize to a valid random patch (acts as a fallback)
-        if h == ph and w == pw:
-            y0, x0 = 0, 0
+                mask_crop = mask[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw]
+                foreground_ratio = float((mask_crop > 0).mean())
+                if foreground_ratio > best_ratio:
+                    best_ratio = foreground_ratio
+                    best_z0, best_y0, best_x0 = z0, y0, x0
+                if foreground_ratio >= self.foreground_threshold:
+                    best_z0, best_y0, best_x0 = z0, y0, x0
+                    break
+
+            z0, y0, x0 = best_z0, best_y0, best_x0
+
+            mod_crop = mod[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw][None, ...]
+            ct_crop = ct[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw][None, ...]
+            mask_crop = mask[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw][None, ...]
         else:
-            y0 = int(np.random.randint(0, h - ph + 1))
-            x0 = int(np.random.randint(0, w - pw + 1))
+            # Handle 2.5D context
+            half = self.num_adjacent // 2
+            idxs = [max(0, min(ct.shape[0] - 1, slice_idx + i)) for i in range(-half, half + 1)]
+            mod_stack = np.stack([mod[i] for i in idxs], axis=0)  # (num_adjacent, H, W)
 
-        best_y0, best_x0 = y0, x0
-        best_ratio = -1.0
-        for _ in range(int(self.max_retries)):
-            # --- Strategy: pick a center from the mask (if available) ---
-            if len(y_indices) > 0:
-                rand_idx = int(np.random.randint(0, len(y_indices)))
-                center_y = int(y_indices[rand_idx])
-                center_x = int(x_indices[rand_idx])
+            ct_slice = ct[slice_idx][None, ...]  # (1, H, W)
+            mask_slice = mask[slice_idx][None, ...]
 
-                y0 = int(np.clip(center_y - ph // 2, 0, h - ph))
-                x0 = int(np.clip(center_x - pw // 2, 0, w - pw))
+            h, w = ct_slice.shape[1:]
+            ph, pw = self.patch_size
+            if h < ph or w < pw:
+                raise ValueError(
+                    f"Patch size {self.patch_size} exceeds slice size {(h, w)} for {patient_path}"
+                )
 
+            # Find all valid foreground pixels (where mask > 0)
+            y_indices, x_indices = np.nonzero(mask_slice[0] > 0)
+
+            # Always initialize to a valid random patch (acts as a fallback)
+            if h == ph and w == pw:
+                y0, x0 = 0, 0
+            else:
+                y0 = int(np.random.randint(0, h - ph + 1))
+                x0 = int(np.random.randint(0, w - pw + 1))
+
+            best_y0, best_x0 = y0, x0
+            best_ratio = -1.0
+            for _ in range(int(self.max_retries)):
+                # --- Strategy: pick a center from the mask (if available) ---
+                if len(y_indices) > 0:
+                    rand_idx = int(np.random.randint(0, len(y_indices)))
+                    center_y = int(y_indices[rand_idx])
+                    center_x = int(x_indices[rand_idx])
+
+                    y0 = int(np.clip(center_y - ph // 2, 0, h - ph))
+                    x0 = int(np.clip(center_x - pw // 2, 0, w - pw))
+
+                mask_crop = mask_slice[:, y0:y0 + ph, x0:x0 + pw]
+                foreground_ratio = float((mask_crop > 0).mean())
+                if foreground_ratio > best_ratio:
+                    best_ratio = foreground_ratio
+                    best_y0, best_x0 = y0, x0
+                if foreground_ratio >= self.foreground_threshold:
+                    best_y0, best_x0 = y0, x0
+                    break
+
+            y0, x0 = best_y0, best_x0
+
+            mod_crop = mod_stack[:, y0:y0 + ph, x0:x0 + pw]
+            ct_crop = ct_slice[:, y0:y0 + ph, x0:x0 + pw]
             mask_crop = mask_slice[:, y0:y0 + ph, x0:x0 + pw]
-            foreground_ratio = float((mask_crop > 0).mean())
-            if foreground_ratio > best_ratio:
-                best_ratio = foreground_ratio
-                best_y0, best_x0 = y0, x0
-            if foreground_ratio >= self.foreground_threshold:
-                best_y0, best_x0 = y0, x0
-                break
-
-        y0, x0 = best_y0, best_x0
-        
-        # If loop finishes, we use the last patch
-        # Now we create the other crops using the final y0, x0
-        mod_crop = mod_stack[:, y0:y0 + ph, x0:x0 + pw]
-        ct_crop = ct_slice[:, y0:y0 + ph, x0:x0 + pw]
-        
-        # Need to re-assign mask_crop if the loop exited early
-        # (or just crop it once down here)
-        # Let's ensure mask_crop is defined based on the final y0, x0
-        mask_crop = mask_slice[:, y0:y0 + ph, x0:x0 + pw]
-
-        # --- MODIFIED SECTION END ---
 
         sample = {
             "input": torch.from_numpy(np.ascontiguousarray(mod_crop)).float(),
@@ -228,6 +293,61 @@ class MRCTDataset(Dataset):
         if self.transform:
             sample = self.transform(sample)
         return sample
+
+
+def _seed_worker(worker_id: int, seed: int):
+    worker_seed = (seed + worker_id) % 2**32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
+
+
+def build_dataloaders(dataset: Dataset, cfg: dict, seed: int, device: torch.device):
+    val_split = cfg["val_split"]
+
+    patient_ids = np.array([str(p) for (p, _) in dataset.samples])
+    uniq_patients = np.unique(patient_ids)
+    rng = np.random.default_rng(seed)
+    rng.shuffle(uniq_patients)
+
+    n_val_patients = int(len(uniq_patients) * val_split)
+    val_patients = set(uniq_patients[:n_val_patients])
+    train_patients = set(uniq_patients[n_val_patients:])
+
+    train_idx = np.where(np.isin(patient_ids, list(train_patients)))[0].tolist()
+    val_idx = np.where(np.isin(patient_ids, list(val_patients)))[0].tolist()
+
+    train_ds = Subset(dataset, train_idx)
+    val_ds = Subset(dataset, val_idx)
+
+    g = torch.Generator()
+    g.manual_seed(seed)
+
+    pin = (device.type == "cuda")
+    train_loader = DataLoader(
+        train_ds,
+        batch_size=cfg["batch_size"],
+        shuffle=True,
+        num_workers=cfg["num_workers_train"],
+        pin_memory=pin,
+        persistent_workers=(cfg["num_workers_train"] > 0),
+        worker_init_fn=lambda wid: _seed_worker(wid, seed),
+        generator=g,
+        prefetch_factor=cfg["prefetch_factor"],
+    )
+
+    val_loader = DataLoader(
+        val_ds,
+        batch_size=cfg["batch_size"],
+        shuffle=False,
+        num_workers=cfg["num_workers_val"],
+        pin_memory=pin,
+        persistent_workers=(cfg["num_workers_val"] > 0),
+        worker_init_fn=lambda wid: _seed_worker(wid, seed),
+        generator=g,
+        prefetch_factor=cfg["prefetch_factor"],
+    )
+
+    return train_loader, val_loader, train_ds, val_ds, train_patients, val_patients
 if __name__ == "__main__":
     # Edit these values manually and run:
     #   python dataset_class.py
@@ -238,83 +358,53 @@ if __name__ == "__main__":
     from config import cfg
     root = cfg["root"]  # <-- change this
     modality = "mr"  # "mr" or "cbct"
-    num_adjacent_slices = 0  # 0 for 2D, or odd values (1,3,5,...) for 2.5D
-    patch_sizes = [
-        (256, 256),
-        (192, 192),
-        (128, 128),
-        (64, 64),
-        (32, 32),
-    ]
+    # num_adjacent_slices = 0  # 0 for 2D, or odd values (1,3,5,...) for 2.5D
+    # patch_sizes = [
+    #     (256, 256),
+    #     (192, 192),
+    #     (128, 128),
+    #     (64, 64),
+    #     (32, 32),
+    # ]
 
     n_samples = 3  # how many samples to print per patch size
     foreground_threshold = 0.5
     cache_size = 1
 
     print(f"Root: {root}")
-    print(f"Modality: {modality} | num_adjacent_slices={num_adjacent_slices}")
+    print(f"Modality: {modality} | num_adjacent_slices=3d")
 
-    for ps in patch_sizes:
-        print("\n" + "=" * 80)
-        print(f"Patch size: {ps}")
-        try:
-            ds = MRCTDataset(
-                root=root,
-                modality=modality,
-                patch_size=ps,
-                num_adjacent_slices=num_adjacent_slices,
-                max_retries=50,
-                foreground_threshold=foreground_threshold,
-                cache_size=cache_size,
-            )
-            print(f"Patients found: {len(ds.patients)}")
-            print(f"Regions found: {len(ds.regions)} -> {ds.regions}")
-            print(f"Samples found (mask-nonempty slices): {len(ds)}")
-            if len(ds) == 0:
-                print("No samples to draw from.")
-                continue
-
-            # Build region -> dataset indices without loading any images
-            region_to_indices = {r: [] for r in ds.regions}
-            for idx, (patient_path, _slice_idx) in enumerate(ds.samples):
-                region = ds.patient_region.get(str(patient_path), "")
-                if region in region_to_indices:
-                    region_to_indices[region].append(idx)
-                else:
-                    region_to_indices.setdefault(region, []).append(idx)
-
-            # Test n_samples per region; if any region fails for this patch size, skip to next size
-            patch_failed = False
+    # 3D test using anatomy-based patch sizes
+    anatomy = "AB"  # "AB", "HN", or "TH"
+    try:
+        ds = MRCTDataset(
+            root=root,
+            modality=modality,
+            patch_size=None,
+            anatomy=anatomy,
+            num_adjacent_slices="3d",
+            max_retries=50,
+            foreground_threshold=foreground_threshold,
+            cache_size=cache_size,
+        )
+        print(f"Patients found: {len(ds.patients)}")
+        print(f"Regions found: {len(ds.regions)} -> {ds.regions}")
+        print(f"Samples found (mask-nonempty slices): {len(ds)}")
+        if len(ds) == 0:
+            print("No samples to draw from.")
+        else:
             rng = np.random.default_rng(0)
-            for region in sorted(region_to_indices.keys()):
-                indices = region_to_indices[region]
-                if len(indices) == 0:
-                    print(f"  Region {region}: 0 samples (skipping)")
-                    continue
-
-                k = min(n_samples, len(indices))
-                pick = rng.choice(indices, size=k, replace=False)
-                print(f"  Region {region}: testing {k}/{len(indices)} samples")
-
-                try:
-                    for ds_idx in pick:
-                        sample = ds[int(ds_idx)]
-                        x = sample["input"]
-                        y = sample["label"]
-                        m = sample["mask"]
-                        print(
-                            f"    idx={int(ds_idx)} | patient={sample['patient']} slice={sample['slice_idx']} | "
-                            f"region={sample.get('region','')} | "
-                            f"input={tuple(x.shape)} label={tuple(y.shape)} mask={tuple(m.shape)}"
-                        )
-                except Exception as e:
-                    print(f"  FAILED in region {region} for patch size {ps}: {type(e).__name__}: {e}")
-                    patch_failed = True
-                    break
-
-            if patch_failed:
-                print("Skipping to next patch size.")
-                continue
-            print("OK")
-        except Exception as e:
-            print(f"FAILED for patch size {ps}: {type(e).__name__}: {e}")
+            pick = rng.choice(len(ds), size=min(n_samples, len(ds)), replace=False)
+            for ds_idx in pick:
+                sample = ds[int(ds_idx)]
+                x = sample["input"]
+                y = sample["label"]
+                m = sample["mask"]
+                print(
+                    f"idx={int(ds_idx)} | patient={sample['patient']} slice={sample['slice_idx']} | "
+                    f"region={sample.get('region','')} | "
+                    f"input={tuple(x.shape)} label={tuple(y.shape)} mask={tuple(m.shape)}"
+                )
+        print("OK")
+    except Exception as e:
+        print(f"FAILED for 3D test: {type(e).__name__}: {e}")
