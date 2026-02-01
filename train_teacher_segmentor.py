@@ -29,8 +29,6 @@ def main():
         image = sample["label"]  # CT
         label = sample["mask"]   # mask
 
-        image = torch.clamp(image, min=-1000.0, max=1000.0)
-        image = (image + 1000.0) / 2000.0
         label = (label > 0.5).float()
 
         return {"image": image, "label": label}
@@ -65,6 +63,12 @@ def main():
         num_res_units=2,
         norm="instance",
     ).to(device)
+
+    if cfg.get("channels_last", False):
+        if dataset.is_3d and hasattr(torch, "channels_last_3d"):
+            model = model.to(memory_format=torch.channels_last_3d)
+        else:
+            model = model.to(memory_format=torch.channels_last)
 
     if cfg.get("torch_compile", False) and hasattr(torch, "compile"):
         model = torch.compile(model, mode=cfg.get("torch_compile_mode", "reduce-overhead"))
@@ -104,8 +108,10 @@ def main():
             if cfg.get("channels_last", False):
                 if dataset.is_3d and hasattr(torch, "channels_last_3d"):
                     inputs = inputs.to(memory_format=torch.channels_last_3d)
+                    labels = labels.to(memory_format=torch.channels_last_3d)
                 else:
                     inputs = inputs.to(memory_format=torch.channels_last)
+                    labels = labels.to(memory_format=torch.channels_last)
 
             optimizer.zero_grad(set_to_none=True)
             with autocast_context():
@@ -142,8 +148,10 @@ def main():
                 if cfg.get("channels_last", False):
                     if dataset.is_3d and hasattr(torch, "channels_last_3d"):
                         inputs = inputs.to(memory_format=torch.channels_last_3d)
+                        labels = labels.to(memory_format=torch.channels_last_3d)
                     else:
                         inputs = inputs.to(memory_format=torch.channels_last)
+                        labels = labels.to(memory_format=torch.channels_last)
 
                 with autocast_context():
                     outputs = model(inputs)

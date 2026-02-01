@@ -49,6 +49,7 @@ cfg = {
     # Checkpoint
     "ckpt_dir": "checkpoints",
     "ckpt_filename": "best.pth",
+    "teacher_filename" : "frozen_teacher.pth",
 
     # W&B
     "wandb_mode": "disabled",  # "online", "offline", or "disabled"

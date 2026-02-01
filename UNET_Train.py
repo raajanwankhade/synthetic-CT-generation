@@ -23,6 +23,7 @@ from config import cfg
 # Model architecture (moved out of this file)
 from UNET_model import build_resunet2d, build_resunet3d
 import train_utils as tu
+from segmentor import SemanticConsistencyModule
 
 # Shutdown flag
 SHUTDOWN_FLAG_PATH = os.path.join(cfg["run_dir"], "stop.flag")
@@ -159,7 +160,8 @@ def perform_sanity_check(
         batch = next(it)
         x = batch["input"].to(device, non_blocking=True)
         y = batch["label"].to(device, non_blocking=True)
-        x, y = tu.enforce_channels_last(x, y, device)
+        m = batch["mask"].to(device, non_blocking=True)
+        x, y, m = tu.enforce_channels_last(x, y,m,  device)
 
         optimizer.zero_grad(set_to_none=True)
         with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
@@ -216,6 +218,13 @@ def train_model(
 
     encoder.to(device)
     decoder.to(device)
+    if cfg.get("channels_last", False):
+        if IS_3D and hasattr(torch, "channels_last_3d"):
+            encoder = encoder.to(memory_format=torch.channels_last_3d)
+            decoder = decoder.to(memory_format=torch.channels_last_3d)
+        else:
+            encoder = encoder.to(memory_format=torch.channels_last)
+            decoder = decoder.to(memory_format=torch.channels_last)
 
     encoder_eager = encoder
     decoder_eager = decoder
@@ -237,6 +246,8 @@ def train_model(
             raise
 
     criterion = nn.L1Loss()
+    semantic_criterion = SemanticConsistencyModule(device)
+    lambda_sem = 0.1 # Weight for semantic loss
     optimizer = tu.build_optimizer(encoder, decoder, device, lr)
     scheduler = tu.build_scheduler(optimizer, scheduler_patience)
     ckpt_mgr = tu.CheckpointManager(run_dir / cfg["ckpt_dir"], monitor="val_loss", mode="min", filename=cfg["ckpt_filename"])
@@ -279,7 +290,7 @@ def train_model(
         run_model=_run_model,
     )
 
-    history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": []}
+    history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": [], "Dice_Score": []}
     end_epoch = start_epoch + num_epochs - 1
     for epoch in tqdm(range(start_epoch, end_epoch + 1), desc="Progress"):
         print(f"\n🧾 Epoch {epoch}/{end_epoch}")
@@ -291,14 +302,20 @@ def train_model(
         for batch in pbar:
             x = batch["input"].to(device, non_blocking=True)
             y = batch["label"].to(device, non_blocking=True)
-            x, y = tu.enforce_channels_last(x, y, device)
+            m = batch["mask"].to(device, non_blocking=True)
+            x, y, m = tu.enforce_channels_last(x, y, m, device)
 
             optimizer.zero_grad(set_to_none=True)
             with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                 preds = _run_model(x)
                 loss_l1 = criterion(preds, y)
                 loss_ssim = tu.ssim_loss(preds, y, ssim_down)
-                loss = loss_l1 + lambda_ssim * loss_ssim
+
+                # --- NEW: Semantic Loss ---
+                # Pass the generated sCT (preds) and the Ground Truth Mask (m)
+                loss_sem = semantic_criterion(preds, m)
+
+                loss = loss_l1 + lambda_ssim * loss_ssim + lambda_sem * loss_sem
 
             if not torch.isfinite(loss):
                 print("⚠️ Non-finite loss encountered; skipping step")
@@ -327,30 +344,36 @@ def train_model(
 
         encoder.eval()
         decoder.eval()
-        val_loss, ssim_sum, psnr_sum = 0.0, 0.0, 0.0
+        val_loss, val_loss_sem, ssim_sum, psnr_sum = 0.0, 0.0, 0.0, 0.0
 
         with torch.no_grad():
             for batch in tqdm(val_loader, desc="Validating", leave=False):
                 x = batch["input"].to(device, non_blocking=True)
                 y = batch["label"].to(device, non_blocking=True)
-                x, y = tu.enforce_channels_last(x, y, device)
+                m = batch["mask"].to(device, non_blocking=True)
+                x, y, m = tu.enforce_channels_last(x, y, m, device)
 
                 preds = _run_model(x)
+
+                sem = semantic_criterion(preds, m)
 
                 loss_l1 = criterion(preds, y)
                 loss_ssim = tu.ssim_loss(preds, y, ssim_down)
                 loss = loss_l1 + lambda_ssim * loss_ssim
 
                 val_loss += float(loss.item())
+                val_loss_sem += float(sem.item())
                 s, p = tu.compute_metrics(preds, y)
                 ssim_sum += s
                 psnr_sum += p
 
         val_loss /= max(1, len(val_loader))
+        sem_loss_avg = val_loss_sem / max(1, len(val_loader))
+        dice_score_avg = 1- sem_loss_avg  
         ssim_avg = ssim_sum / max(1, len(val_loader))
         psnr_avg = psnr_sum / max(1, len(val_loader))
 
-        val_metrics = {"val_loss": val_loss, "SSIM": ssim_avg, "PSNR": psnr_avg}
+        val_metrics = {"val_loss": val_loss, "dice_score": dice_score_avg, "SSIM": ssim_avg, "PSNR": psnr_avg}
         scheduler.step(val_loss)
         ckpt_mgr.update(epoch, encoder, decoder, optimizer, scheduler, scaler, val_metrics)
 
@@ -358,13 +381,14 @@ def train_model(
             f"Epoch {epoch:03d} | "
             f"Train Loss: {train_loss:.4f} | "
             f"Val Loss: {val_loss:.4f} | "
-            f"SSIM: {ssim_avg:.4f} | PSNR: {psnr_avg:.2f} | "
+            f"SSIM: {ssim_avg:.4f} | PSNR: {psnr_avg:.2f} | Dice Score: {dice_score_avg:.4f} | "
             f"LR: {optimizer.param_groups[0]['lr']:.1e}"
         )
         history["train_loss"].append(train_loss)
         history["val_loss"].append(val_loss)
         history["SSIM"].append(ssim_avg)
         history["PSNR"].append(psnr_avg)
+        history["Dice_Score"].append(dice_score_avg)
 
         if wandb_log:
             wandb.log({
@@ -373,6 +397,7 @@ def train_model(
                 "val_loss": val_loss,
                 "SSIM": ssim_avg,
                 "PSNR": psnr_avg,
+                "Dice_Score": dice_score_avg,
                 "lr": optimizer.param_groups[0]["lr"],
             })
 
@@ -470,7 +495,7 @@ epochs = range(1, len(history["train_loss"]) + 1)
 plt.figure(figsize=(14, 18))
 
 # 1. Training & Validation Loss
-plt.subplot(3, 1, 1)
+plt.subplot(4, 1, 1)
 plt.plot(epochs, history["train_loss"], label="Train Loss", linewidth=2)
 plt.plot(epochs, history["val_loss"], label="Val Loss", linewidth=2)
 plt.title("Training & Validation Loss")
@@ -480,7 +505,7 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 
 # 2. SSIM
-plt.subplot(3, 1, 2)
+plt.subplot(4, 1, 2)
 plt.plot(epochs, history["SSIM"], label="SSIM", color='tab:blue', linewidth=2)
 plt.title("SSIM over Epochs")
 plt.xlabel("Epoch")
@@ -489,11 +514,20 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 
 # 3. PSNR
-plt.subplot(3, 1, 3)
+plt.subplot(4, 1, 3)
 plt.plot(epochs, history["PSNR"], label="PSNR", color='tab:orange', linewidth=2)
 plt.title("PSNR over Epochs")
 plt.xlabel("Epoch")
 plt.ylabel("PSNR (dB)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 4. Dice Score
+plt.subplot(4, 1, 4)
+plt.plot(epochs, history["Dice_Score"], label="Dice Score", color='tab:green', linewidth=2)
+plt.title("Dice Score over Epochs")
+plt.xlabel("Epoch")
+plt.ylabel("Dice Score")
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
