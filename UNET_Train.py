@@ -1,3 +1,23 @@
+# === BEGIN: remap single-MIG-index to local 0 ===
+import os
+
+def remap_single_mig_to_local_zero():
+    cvd = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
+    if not cvd:
+        return
+    # If it's a single numeric token (e.g. "2") — likely a MIG index exported by SLURM —
+    # remap it to "0" so the runtime will expose that single device as cuda:0.
+    if "," not in cvd:
+        try:
+            int(cvd)
+            os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+            # Optional: ensure consistent ordering
+            os.environ.setdefault("CUDA_DEVICE_ORDER", "PCI_BUS_ID")
+        except ValueError:
+            pass
+
+remap_single_mig_to_local_zero()
+# === END: remap ===
 import os
 import json
 secrets_path = 'secrets.json'
@@ -253,7 +273,7 @@ def train_model(
     ckpt_mgr = tu.CheckpointManager(run_dir / cfg["ckpt_dir"], monitor="val_loss", mode="min", filename=cfg["ckpt_filename"])
 
     scaler_enabled = (use_amp and amp_dtype == torch.float16)
-    scaler = torch.cuda.amp.GradScaler(enabled=scaler_enabled)
+    scaler = torch.amp.GradScaler(enabled=scaler_enabled)
 
     ssim_down = int(cfg.get("ssim_downsample", 1))
     
@@ -359,13 +379,17 @@ def train_model(
 
                 loss_l1 = criterion(preds, y)
                 loss_ssim = tu.ssim_loss(preds, y, ssim_down)
-                loss = loss_l1 + lambda_ssim * loss_ssim
+                loss = loss_l1 + lambda_ssim * loss_ssim + lambda_sem * sem
 
                 val_loss += float(loss.item())
                 val_loss_sem += float(sem.item())
                 s, p = tu.compute_metrics(preds, y)
                 ssim_sum += s
                 psnr_sum += p
+                
+                if not tu.SHUTDOWN_REQUESTED and shutdown_flag_path and os.path.exists(shutdown_flag_path):
+                    print("⏹️ Shutdown flag detected. Stopping training after current epoch.")
+                    tu.SHUTDOWN_REQUESTED = True
 
         val_loss /= max(1, len(val_loader))
         sem_loss_avg = val_loss_sem / max(1, len(val_loader))

@@ -25,7 +25,7 @@ class SemanticConsistencyModule(nn.Module):
         ).to(device)
 
         # 2. Load Weights
-        weights_path = Path(cfg["run_dir"]) / cfg["ckpt_dir"] / cfg["teacher_filename"]
+        weights_path = Path(cfg["run_dir"]).parent / cfg["ckpt_dir"] / cfg["teacher_filename"]
         print(f"Loading Teacher weights from {weights_path}...")
         state_dict = torch.load(weights_path, map_location=device)
         self.teacher.load_state_dict(state_dict)

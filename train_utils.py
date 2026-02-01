@@ -31,7 +31,7 @@ def init_wandb(cfg: dict, seed: int, use_amp: bool, is_3d: bool):
             "num_adjacent_slices": cfg["num_adjacent_slices"],
             "model": "ResNet3D_EncoderDecoder" if is_3d else "ResNet2D_EncoderDecoder",
             "scheduler": "ReduceLROnPlateau",
-            "loss": "L1 + SSIM",
+            "loss": "L1 + SSIM + Seg Loss",
             "amp": use_amp,
         },
         mode=cfg["wandb_mode"],
@@ -234,4 +234,7 @@ def ssim_loss(preds_hu: torch.Tensor, y_hu: torch.Tensor, ssim_down: int) -> tor
         else:
             preds_norm = F.avg_pool2d(preds_norm, kernel_size=ssim_down)
             y_norm = F.avg_pool2d(y_norm, kernel_size=ssim_down)
-    return 1 - ssim(preds_norm, y_norm, data_range=1.0)
+    # torchmetrics SSIM can return values in [-1, 1] or exceed bounds due to numerical issues
+    # Clamp to [0, 1] to ensure loss is in valid [0, 1] range
+    ssim_val = torch.clamp(ssim(preds_norm, y_norm, data_range=1.0), 0.0, 1.0)
+    return 1 - ssim_val
