@@ -1,19 +1,19 @@
 import os
 
 cfg = {
-    "run_dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/Unet3dHN/full_run",
+    "run_dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/runs/Unet3dHN",
     # Data
-    "root": '/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/datasets/bhuvaneshsingla/synthrad2025-hn/versions/1/Task1',
+    "root": '/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-hn/versions/1/Task1',
     "modality": "mr",
     "patch_size": None,
     "anatomy": "HN",  # "AB", "HN", or "TH" for 3D
     "num_adjacent_slices": "3d",  # 3D patches
     "cache_size": 1,
-    "foreground_threshold": 0.5,
+    "foreground_threshold": 0.3,
     "val_split": 0.2,
 
     # Dataloaders
-    "batch_size": 2,
+    "batch_size": 64,
     "num_workers_train": 4,
     "num_workers_val": 4,
     "prefetch_factor": 4,
@@ -37,8 +37,8 @@ cfg = {
     "save_vis_every": 5,    # epochs; set 0 to disable PNG writes
 
     # Training
-    "start":26,
-    "epochs": 40,
+    "start":1,
+    "epochs": 60,
     "lr": 1e-3,
     "lambda_ssim": 1000.0,
     "scheduler_patience": 10,
@@ -51,9 +51,9 @@ cfg = {
     "ckpt_filename": "best.pth",
 
     # W&B
-    "wandb_mode": "online",  # "online", "offline", or "disabled"
+    "wandb_mode": "disabled",  # "online", "offline", or "disabled"
     "wandb_project": "MR_CT_Translation_ResNet",
-    "wandb_run_name": "full_run_HN_UNET3d_run_L1_SSIM",
+    "wandb_run_name": "test_run_HN_UNET3d_run_L1_SSIM",
     "id_wandb":None,
     "resume_wandb":None,
 

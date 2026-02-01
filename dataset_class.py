@@ -9,9 +9,9 @@ import random
 
 # 3D patch sizes by anatomy
 PATCH_SIZE_3D_BY_ANATOMY = {
-    "AB": (40, 192, 224),
-    "HN": (56, 192, 160),
-    "TH": (64, 192, 192),
+    "AB": (32, 192, 224),
+    "HN": (32, 192, 160),
+    "TH": (32, 192, 192),
 }
 
 class MRCTDataset(Dataset):
@@ -163,7 +163,7 @@ class MRCTDataset(Dataset):
                 self._patient_cache.move_to_end(key)
                 return cached
 
-        ct = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "ct.mha")))
+        ct = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "ct_preproc.mha")))
         mod = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / f"{self.modality}.mha")))
         mask = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "mask.mha")))
 
@@ -375,7 +375,7 @@ if __name__ == "__main__":
     print(f"Modality: {modality} | num_adjacent_slices=3d")
 
     # 3D test using anatomy-based patch sizes
-    anatomy = "AB"  # "AB", "HN", or "TH"
+    anatomy = "HN"  # "AB", "HN", or "TH"
     try:
         ds = MRCTDataset(
             root=root,
