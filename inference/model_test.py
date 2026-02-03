@@ -11,12 +11,9 @@ from inference.test_dataset_class import (
     extract_patches_sequentially_3d,
     is_patient_dir,
     make_adjacent_stack,
-    read_image_to_array,
     stitch_patches_array,
     stitch_patches_array_3d,
 )
-from image_metrics import ImageMetrics
-img_metrics = ImageMetrics()
 
 
 def _predict_patch(
@@ -196,7 +193,6 @@ def main() -> None:
     if not patients:
         raise ValueError("No valid patient folders found")
 
-    per_patient = []
     channels_last = getattr(config, "CHANNELS_LAST", False)
     for patient_dir in tqdm(patients):
         out_path = run_patient(
@@ -211,33 +207,6 @@ def main() -> None:
             channels_last=channels_last,
         )
         print(f"Saved: {out_path}")
-
-        gt_ct_path = patient_dir / "ct.mha"
-        pred_ct_path = out_path
-        mask_path = patient_dir / "mask.mha"
-
-        gt_ct = read_image_to_array(gt_ct_path)
-        pred_ct = read_image_to_array(pred_ct_path)
-        mask = read_image_to_array(mask_path)
-
-        scores = img_metrics.score_patient(gt_ct, pred_ct, mask)
-        scores["patient"] = patient_dir.name
-        per_patient.append(scores)
-
-    if per_patient:
-        metric_names = [k for k in per_patient[0] if k != "patient"]
-        averages = {
-            m: float(np.mean([p[m] for p in per_patient]))
-            for m in metric_names
-        }
-
-        print("\n=== Average metrics over all patients ===")
-        for k, v in averages.items():
-            print(f"{k:10s}: {v:.4f}")
-
-        # print("\n=== Per-patient metrics ===")
-        # for p in per_patient:
-        #     print(p)
 
 
 if __name__ == "__main__":
