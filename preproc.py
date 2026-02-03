@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import os
 import argparse
 import json
@@ -140,13 +139,13 @@ def preprocess_mri_and_save(root_dir, out_name="mr_preproc.mha"):
 # ---------------- CLI ----------------
 def parse_args(argv):
     p = argparse.ArgumentParser()
-    p.add_argument("--org_ct", required=True,
+    p.add_argument("--root_folder", required=True,
                    help="Root folder with patient subfolders")
     return p.parse_args(argv)
 
 def main(argv=None):
     args = parse_args(argv)
-    root = args.org_ct
+    root = args.root_folder
 
     mean, std = compute_population_stats(root)
     apply_population_normalization_and_save(root, mean, std)
