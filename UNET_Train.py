@@ -1,23 +1,3 @@
-# === BEGIN: remap single-MIG-index to local 0 ===
-import os
-
-def remap_single_mig_to_local_zero():
-    cvd = os.environ.get("CUDA_VISIBLE_DEVICES", "").strip()
-    if not cvd:
-        return
-    # If it's a single numeric token (e.g. "2") — likely a MIG index exported by SLURM —
-    # remap it to "0" so the runtime will expose that single device as cuda:0.
-    if "," not in cvd:
-        try:
-            int(cvd)
-            os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-            # Optional: ensure consistent ordering
-            os.environ.setdefault("CUDA_DEVICE_ORDER", "PCI_BUS_ID")
-        except ValueError:
-            pass
-
-remap_single_mig_to_local_zero()
-# === END: remap ===
 import os
 import json
 secrets_path = 'secrets.json'
