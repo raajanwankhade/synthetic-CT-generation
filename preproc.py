@@ -116,6 +116,27 @@ def apply_population_normalization_and_save(root_dir, mean, std, out_name="ct_pr
         write_array_as_image(z.astype(np.float32), ref_img,
                              os.path.join(pd, out_name))
 
+def preprocess_mri_and_save(root_dir, out_name="mr_preproc.mha"):
+    patient_dirs = sorted([d for d in glob(os.path.join(root_dir, "*")) if os.path.isdir(d)])
+
+    for pd in tqdm(patient_dirs, desc="Saving normalized MR"):
+        mri_path = os.path.join(pd, "mr.mha")
+        if not os.path.exists(mri_path):
+            continue
+
+        ref_img, mri = load_image_as_array(mri_path)
+        mri = mri.astype(np.float32)
+
+        mean = mri.mean()
+        std = mri.std()
+        if std == 0:
+            std = 1e-6
+
+        z = (mri - mean) / std
+        write_array_as_image(z.astype(np.float32), ref_img,
+                             os.path.join(pd, out_name))
+
+
 # ---------------- CLI ----------------
 def parse_args(argv):
     p = argparse.ArgumentParser()
@@ -129,6 +150,7 @@ def main(argv=None):
 
     mean, std = compute_population_stats(root)
     apply_population_normalization_and_save(root, mean, std)
+    preprocess_mri_and_save(root)
     print(f"[DONE] Preprocessing complete. mean={mean:.2f}, std={std:.2f}")
 
 if __name__ == "__main__":

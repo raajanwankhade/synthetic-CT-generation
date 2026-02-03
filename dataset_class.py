@@ -164,7 +164,7 @@ class MRCTDataset(Dataset):
                 return cached
 
         ct = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "ct_preproc.mha")))
-        mod = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / f"{self.modality}.mha")))
+        mod = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / f"{self.modality}_preproc.mha")))
         mask = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "mask.mha")))
 
         value = (ct, mod, mask)
