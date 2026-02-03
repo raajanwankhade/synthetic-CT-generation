@@ -60,6 +60,7 @@ def parse_args(argv):
                    help="Root folder of sCT patient folders")
     p.add_argument("--sct_name", default="sct.mha",
                    help="sCT filename inside each patient folder (default: sct.mha)")
+    p.add_argument("--out_name", default="sct_postproc.mha")
     return p.parse_args(argv)
 
 def main(argv=None):
@@ -74,10 +75,10 @@ def main(argv=None):
 
     mean = float(np.load(os.path.join(stats_dir, MEAN_FILENAME)))
     std = float(np.load(os.path.join(stats_dir, STD_FILENAME)))
-
+    out_name = args.out_name
     postprocess_sct_to_hu(root, args.sct, mean, std,
                           sct_name=args.sct_name,
-                          out_name="sct_postproc.mha")
+                          out_name=out_name)
     print("[DONE] Postprocessing complete.")
 
 if __name__ == "__main__":
