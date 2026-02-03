@@ -21,10 +21,10 @@ def load_image_as_array(path):
     arr = sitk.GetArrayFromImage(img)
     return img, arr
 
-def write_array_as_image(arr, ref_img, out_path):
+def write_array_as_image(arr, ref_img, out_path, use_compression=True):
     out_img = sitk.GetImageFromArray(arr)
     out_img.CopyInformation(ref_img)
-    sitk.WriteImage(out_img, out_path)
+    sitk.WriteImage(out_img, out_path, useCompression=use_compression)
 
 # ---------------- Running stats (vectorized) ----------------
 class RunningStats:
@@ -111,9 +111,9 @@ def apply_population_normalization_and_save(root_dir, mean, std, in_name="ct.mha
         if std == 0:
             std = 1e-6
 
-        z = (ct - mean) / std
-        write_array_as_image(z.astype(np.float32), ref_img,
-                             os.path.join(pd, out_name))
+        z = ((ct - mean) / std).astype(np.float32)
+        write_array_as_image(z, ref_img,
+                             os.path.join(pd, out_name), use_compression=True)
 
 def preprocess_cbct_and_save(root_dir, in_name="cbct.mha", out_name="cbct_preproc.mha"):
     mean, std = compute_population_stats(root_dir, in_name=in_name)
@@ -135,9 +135,9 @@ def preprocess_cbct_and_save(root_dir, in_name="cbct.mha", out_name="cbct_prepro
         if std == 0:
             std = 1e-6
 
-        z = (cbct - mean) / std
-        write_array_as_image(z.astype(np.float32), ref_img,
-                             os.path.join(pd, out_name))
+        z = ((cbct - mean) / std).astype(np.float32)
+        write_array_as_image(z, ref_img,
+                             os.path.join(pd, out_name), use_compression=True)
     
     return mean, std
 
@@ -157,9 +157,9 @@ def preprocess_mri_and_save(root_dir, in_name = "mr.mha" ,out_name="mr_preproc.m
         if std == 0:
             std = 1e-6
 
-        z = (mri - mean) / std
-        write_array_as_image(z.astype(np.float32), ref_img,
-                             os.path.join(pd, out_name))
+        z = ((mri - mean) / std).astype(np.float32)
+        write_array_as_image(z, ref_img,
+                             os.path.join(pd, out_name), use_compression=True)
 
 def preprocess_ct_and_save(root, in_name="ct.mha", out_name="ct_preproc.mha"):
     mean, std = compute_population_stats(root, in_name=in_name)
