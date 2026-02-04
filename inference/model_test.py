@@ -5,8 +5,8 @@ import numpy as np
 import SimpleITK as sitk
 import torch
 from tqdm.auto import tqdm
-from inference import config
-from inference.test_dataset_class import (
+import config
+from test_dataset_class import (
     extract_patches_sequentially,
     extract_patches_sequentially_3d,
     is_patient_dir,

@@ -13,7 +13,7 @@ import kagglehub
 import torch
 import torch.nn as nn
 
-from ..config import cfg
+from config import cfg
 
 # =========================
 # CLI ARGUMENTS
@@ -57,7 +57,7 @@ print(f"Device: {DEVICE}")
 # =========================
 # IMPORT ARCHITECTURES
 # =========================
-from ..UNET_model import ResEncoder2D, ResDecoder2D, ResEncoder3D, ResDecoder3D
+from UNET_model import ResEncoder2D, ResDecoder2D, ResEncoder3D, ResDecoder3D
 
 
 # =========================
