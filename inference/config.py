@@ -1,7 +1,7 @@
 # Configuration for TorchScript inference
 
-MODEL_PATH = ""
-INPUT_PATH = ""
+MODEL_PATH = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/runs/Unet3dHN/full_run2/checkpoints/scripted.pth"
+INPUT_PATH = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-hn/versions/3/Task1"
 MODALITY = "mr"  # "mr" or "cbct"
 
 # Patch size:
@@ -18,7 +18,7 @@ PATCH_SIZE = (32, 192, 160)
 #   None for non-overlapping
 STRIDE = None
 
-OUTPUT_DIR = "inference_outputs"
+OUTPUT_DIR = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs"
 DEVICE = "cuda"  # "cpu" or "cuda"
 
 # Slice mode:

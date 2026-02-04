@@ -6,6 +6,5 @@ gpu_test.sh
 secrets.json
 wandb/
 testing/
-*.sh
 *log*
 *.out

@@ -44,30 +44,10 @@ seed_everything(SEED)
 # Device selection (rank-aware) + AMP safety
 # -------------------------------------------------------------------------
 def _select_device():
-    """Select a valid CUDA device (if available) and set it as current.
-
-    Fixes cases where CUDA is available but the current device id is invalid
-    (common in SLURM/MPI launches when the process rank isn't mapped).
-    """
-    if torch.cuda.is_available() and torch.cuda.device_count() > 0:
-        # Prefer per-process local rank if provided by launcher
-        for env_key in ("LOCAL_RANK", "SLURM_LOCALID", "MPI_LOCALRANKID", "OMPI_COMM_WORLD_LOCAL_RANK"):
-            if env_key in os.environ:
-                try:
-                    idx = int(os.environ[env_key])
-                    idx = idx % torch.cuda.device_count()
-                    torch.cuda.set_device(idx)
-                    return torch.device(f"cuda:{idx}")
-                except Exception:
-                    break
-        # Fallback to device 0
-        try:
-            torch.cuda.set_device(0)
-        except Exception:
-            pass
+    if torch.cuda.is_available() and torch.cuda.device_count() == 1:
+        torch.cuda.set_device(0)
         return torch.device("cuda:0")
     return torch.device("cpu")
-
 
 device = _select_device()
 use_amp = (device.type == "cuda")
