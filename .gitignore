@@ -2,10 +2,8 @@ runs/
 inference_outputs/
 __pycache__/
 datasets/
-gpu_test.py
-gpu_test.sh
 secrets.json
 wandb/
 testing/
-*log*
-*.out
+sctgen.egg-info/
+depreciated/

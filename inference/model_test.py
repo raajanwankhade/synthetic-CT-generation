@@ -5,15 +5,15 @@ import numpy as np
 import SimpleITK as sitk
 import torch
 from tqdm.auto import tqdm
-import config
-from test_dataset_class import (
+from config import cfg
+from data.patches import (
     extract_patches_sequentially,
     extract_patches_sequentially_3d,
-    is_patient_dir,
     make_adjacent_stack,
     stitch_patches_array,
     stitch_patches_array_3d,
 )
+from data.utils import is_patient_dir
 
 
 def _predict_patch(
@@ -149,61 +149,61 @@ def run_patient(
 
 
 def main() -> None:
-    model_path = Path(config.MODEL_PATH)
-    input_path = Path(config.INPUT_PATH)
-    output_dir = Path(config.OUTPUT_DIR)
+    model_path = Path(cfg.inference.model_path)
+    input_path = Path(cfg.inference.input_path)
+    output_dir = Path(cfg.inference.output_dir)
 
     if not model_path.exists():
         raise FileNotFoundError(f"Model not found: {model_path}")
     if not input_path.exists():
         raise FileNotFoundError(f"Input path not found: {input_path}")
 
-    device = config.DEVICE
+    device = cfg.inference.device
     model = torch.jit.load(str(model_path), map_location=device)
     model.eval()
 
     # Determine if 3D mode
-    is_3d = str(config.NUM_ADJACENT_SLICES).lower() == "3d"
+    is_3d = str(cfg.inference.num_adjacent_slices).lower() == "3d"
 
     if is_3d:
         # 3D: patch_size and stride are 3-tuples (D, H, W)
-        if len(config.PATCH_SIZE) != 3:
+        if len(cfg.inference.patch_size) != 3:
             raise ValueError("3D inference requires PATCH_SIZE=(D,H,W)")
-        patch_size = tuple(int(x) for x in config.PATCH_SIZE)
+        patch_size = tuple(int(x) for x in cfg.inference.patch_size)
         stride = None
-        if config.STRIDE is not None:
-            if len(config.STRIDE) != 3:
+        if cfg.inference.stride is not None:
+            if len(cfg.inference.stride) != 3:
                 raise ValueError("3D inference requires STRIDE=(sd,sh,sw)")
-            stride = tuple(int(x) for x in config.STRIDE)
+            stride = tuple(int(x) for x in cfg.inference.stride)
     else:
         # 2D/2.5D: patch_size and stride are 2-tuples (H, W)
-        patch_size = (int(config.PATCH_SIZE[0]), int(config.PATCH_SIZE[1]))
+        patch_size = (int(cfg.inference.patch_size[0]), int(cfg.inference.patch_size[1]))
         stride = None
-        if config.STRIDE is not None:
-            stride = (int(config.STRIDE[0]), int(config.STRIDE[1]))
+        if cfg.inference.stride is not None:
+            stride = (int(cfg.inference.stride[0]), int(cfg.inference.stride[1]))
 
     patients: List[Path] = []
-    if is_patient_dir(input_path, config.MODALITY):
+    if is_patient_dir(input_path, cfg.inference.modality):
         patients = [input_path]
     else:
         for p in sorted(input_path.iterdir()):
-            if is_patient_dir(p, config.MODALITY):
+            if is_patient_dir(p, cfg.inference.modality):
                 patients.append(p)
 
     if not patients:
         raise ValueError("No valid patient folders found")
 
-    channels_last = getattr(config, "CHANNELS_LAST", False)
+    channels_last = cfg.inference.channels_last
     for patient_dir in tqdm(patients):
         out_path = run_patient(
             model=model,
             patient_dir=patient_dir,
-            modality=config.MODALITY,
+            modality=cfg.inference.modality,
             patch_size=patch_size,
             stride=stride,
             output_dir=output_dir,
             device=device,
-            num_adjacent_slices=config.NUM_ADJACENT_SLICES,
+            num_adjacent_slices=cfg.inference.num_adjacent_slices,
             channels_last=channels_last,
         )
         print(f"Saved: {out_path}")

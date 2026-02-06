@@ -1,0 +1,2078 @@
+Running on node: gpuit
+SLURM_JOB_GPUS=1
+CUDA_VISIBLE_DEVICES=MIG-cc67418b-8d94-51c4-88d2-ec45ff0e92c0
+  0%|          | 0/156 [00:00<?, ?it/s]
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   2%|▏         | 1/48 [00:00<00:11,  3.97it/s][A
+Predicting 3D patches:   6%|▋         | 3/48 [00:00<00:05,  8.50it/s][A
+Predicting 3D patches:  10%|█         | 5/48 [00:00<00:03, 11.22it/s][A
+Predicting 3D patches:  15%|█▍        | 7/48 [00:00<00:03, 12.80it/s][A
+Predicting 3D patches:  19%|█▉        | 9/48 [00:00<00:02, 13.82it/s][A
+Predicting 3D patches:  23%|██▎       | 11/48 [00:00<00:02, 14.46it/s][A
+Predicting 3D patches:  27%|██▋       | 13/48 [00:01<00:02, 14.91it/s][A
+Predicting 3D patches:  31%|███▏      | 15/48 [00:01<00:02, 15.20it/s][A
+Predicting 3D patches:  35%|███▌      | 17/48 [00:01<00:02, 15.42it/s][A
+Predicting 3D patches:  40%|███▉      | 19/48 [00:01<00:01, 15.55it/s][A
+Predicting 3D patches:  44%|████▍     | 21/48 [00:01<00:01, 15.66it/s][A
+Predicting 3D patches:  48%|████▊     | 23/48 [00:01<00:01, 15.71it/s][A
+Predicting 3D patches:  52%|█████▏    | 25/48 [00:01<00:01, 15.77it/s][A
+Predicting 3D patches:  56%|█████▋    | 27/48 [00:01<00:01, 15.80it/s][A
+Predicting 3D patches:  60%|██████    | 29/48 [00:02<00:01, 15.83it/s][A
+Predicting 3D patches:  65%|██████▍   | 31/48 [00:02<00:01, 15.83it/s][A
+Predicting 3D patches:  69%|██████▉   | 33/48 [00:02<00:00, 15.86it/s][A
+Predicting 3D patches:  73%|███████▎  | 35/48 [00:02<00:00, 15.85it/s][A
+Predicting 3D patches:  77%|███████▋  | 37/48 [00:02<00:00, 15.88it/s][A
+Predicting 3D patches:  81%|████████▏ | 39/48 [00:02<00:00, 15.86it/s][A
+Predicting 3D patches:  85%|████████▌ | 41/48 [00:02<00:00, 15.88it/s][A
+Predicting 3D patches:  90%|████████▉ | 43/48 [00:02<00:00, 15.87it/s][A
+Predicting 3D patches:  94%|█████████▍| 45/48 [00:03<00:00, 15.87it/s][A
+Predicting 3D patches:  98%|█████████▊| 47/48 [00:03<00:00, 15.86it/s][A
+                                                                      [A  1%|          | 1/156 [00:03<09:18,  3.61s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA001/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.48it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 15.97it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.14it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.23it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.24it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.21it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.21it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.22it/s][A
+                                                                      [A  1%|▏         | 2/156 [00:05<07:14,  2.82s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA004/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.28it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.18it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.12it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.07it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.05it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.02it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.02it/s][A
+                                                                      [A  2%|▏         | 3/156 [00:08<06:33,  2.57s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA006/sct.mha
+
+Predicting 3D patches:   0%|          | 0/60 [00:00<?, ?it/s][A
+Predicting 3D patches:   3%|▎         | 2/60 [00:00<00:03, 15.77it/s][A
+Predicting 3D patches:   7%|▋         | 4/60 [00:00<00:03, 16.09it/s][A
+Predicting 3D patches:  10%|█         | 6/60 [00:00<00:03, 16.21it/s][A
+Predicting 3D patches:  13%|█▎        | 8/60 [00:00<00:03, 16.28it/s][A
+Predicting 3D patches:  17%|█▋        | 10/60 [00:00<00:03, 16.29it/s][A
+Predicting 3D patches:  20%|██        | 12/60 [00:00<00:02, 16.23it/s][A
+Predicting 3D patches:  23%|██▎       | 14/60 [00:00<00:02, 16.19it/s][A
+Predicting 3D patches:  27%|██▋       | 16/60 [00:00<00:02, 16.17it/s][A
+Predicting 3D patches:  30%|███       | 18/60 [00:01<00:02, 16.18it/s][A
+Predicting 3D patches:  33%|███▎      | 20/60 [00:01<00:02, 16.11it/s][A
+Predicting 3D patches:  37%|███▋      | 22/60 [00:01<00:02, 16.07it/s][A
+Predicting 3D patches:  40%|████      | 24/60 [00:01<00:02, 16.04it/s][A
+Predicting 3D patches:  43%|████▎     | 26/60 [00:01<00:02, 16.00it/s][A
+Predicting 3D patches:  47%|████▋     | 28/60 [00:01<00:02, 15.98it/s][A
+Predicting 3D patches:  50%|█████     | 30/60 [00:01<00:01, 15.96it/s][A
+Predicting 3D patches:  53%|█████▎    | 32/60 [00:01<00:01, 15.95it/s][A
+Predicting 3D patches:  57%|█████▋    | 34/60 [00:02<00:01, 15.95it/s][A
+Predicting 3D patches:  60%|██████    | 36/60 [00:02<00:01, 15.94it/s][A
+Predicting 3D patches:  63%|██████▎   | 38/60 [00:02<00:01, 15.93it/s][A
+Predicting 3D patches:  67%|██████▋   | 40/60 [00:02<00:01, 15.95it/s][A
+Predicting 3D patches:  70%|███████   | 42/60 [00:02<00:01, 15.93it/s][A
+Predicting 3D patches:  73%|███████▎  | 44/60 [00:02<00:01, 15.94it/s][A
+Predicting 3D patches:  77%|███████▋  | 46/60 [00:02<00:00, 15.95it/s][A
+Predicting 3D patches:  80%|████████  | 48/60 [00:02<00:00, 15.95it/s][A
+Predicting 3D patches:  83%|████████▎ | 50/60 [00:03<00:00, 15.95it/s][A
+Predicting 3D patches:  87%|████████▋ | 52/60 [00:03<00:00, 15.95it/s][A
+Predicting 3D patches:  90%|█████████ | 54/60 [00:03<00:00, 15.95it/s][A
+Predicting 3D patches:  93%|█████████▎| 56/60 [00:03<00:00, 15.96it/s][A
+Predicting 3D patches:  97%|█████████▋| 58/60 [00:03<00:00, 15.96it/s][A
+Predicting 3D patches: 100%|██████████| 60/60 [00:03<00:00, 15.95it/s][A
+                                                                      [A  3%|▎         | 4/156 [00:12<08:07,  3.21s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA008/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.83it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.13it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.28it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.29it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.27it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.27it/s][A
+                                                                      [A  3%|▎         | 5/156 [00:14<07:16,  2.89s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA010/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.77it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.09it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.22it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.30it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.27it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.26it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.25it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.25it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.24it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.24it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.24it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.24it/s][A
+                                                                      [A  4%|▍         | 6/156 [00:16<06:41,  2.68s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA012/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 16.31it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.33it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.26it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.17it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.11it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.06it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.03it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 15.99it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 15.97it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 15.96it/s][A
+                                                                      [A  4%|▍         | 7/156 [00:19<06:49,  2.75s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA013/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.99it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.21it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.32it/s][A
+                                                                      [A  5%|▌         | 8/156 [00:22<06:27,  2.62s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA014/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.31it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.18it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.11it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.05it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.02it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.96it/s][A
+                                                                      [A  6%|▌         | 9/156 [00:24<06:10,  2.52s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA015/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 15.69it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.07it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.19it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.26it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.28it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.23it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.14it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.09it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.05it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.03it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 15.97it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 15.98it/s][A
+                                                                      [A  6%|▋         | 10/156 [00:27<06:24,  2.63s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA018/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.93it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.16it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.33it/s][A
+                                                                      [A  7%|▋         | 11/156 [00:29<06:05,  2.52s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA019/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.86it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.14it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.14it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.07it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.03it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.00it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 15.96it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 15.95it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 15.94it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 15.95it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 15.95it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.95it/s][A
+                                                                      [A  8%|▊         | 12/156 [00:31<05:55,  2.47s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA021/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.00it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.16it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.26it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.16it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.11it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.06it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.04it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.00it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.98it/s][A
+                                                                      [A  8%|▊         | 13/156 [00:34<05:44,  2.41s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA023/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 16.05it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.21it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.28it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.33it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.21it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.14it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.09it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.06it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.02it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 15.97it/s][A
+                                                                      [A  9%|▉         | 14/156 [00:37<06:01,  2.55s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA025/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.50it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 15.99it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.16it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.28it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.24it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.13it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.07it/s][A
+                                                                      [A 10%|▉         | 15/156 [00:39<05:48,  2.47s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA026/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.36it/s][A
+                                                                      [A 10%|█         | 16/156 [00:41<05:39,  2.43s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA028/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.36it/s][A
+                                                                      [A 11%|█         | 17/156 [00:43<05:29,  2.37s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA029/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.07it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.24it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.16it/s][A
+                                                                      [A 12%|█▏        | 18/156 [00:46<05:24,  2.35s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA030/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.04it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.23it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.21it/s][A
+                                                                      [A 12%|█▏        | 19/156 [00:48<05:18,  2.33s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA031/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 15.88it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.15it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.25it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.20it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.13it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.08it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.04it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.03it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.00it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.00it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 15.97it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 15.98it/s][A
+                                                                      [A 13%|█▎        | 20/156 [00:51<05:38,  2.49s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA032/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.09it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.25it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.30it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.32it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.27it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.28it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.31it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.28it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.18it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.16it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.18it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.24it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.28it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.24it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.16it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.10it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.05it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.03it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.01it/s][A
+                                                                      [A 13%|█▎        | 21/156 [00:54<06:10,  2.74s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA033/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.36it/s][A
+                                                                      [A 14%|█▍        | 22/156 [00:56<05:46,  2.58s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA034/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.30it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.31it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.33it/s][A
+                                                                      [A 15%|█▍        | 23/156 [00:59<05:32,  2.50s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA035/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.29it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.31it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.23it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.12it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.06it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.01it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 15.99it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 15.96it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 15.96it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 15.93it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 15.94it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 15.92it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 15.92it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:01, 15.92it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 15.93it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 15.91it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 15.92it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 15.91it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 15.92it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 15.91it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 15.91it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:03<00:00, 15.91it/s][A
+                                                                      [A 15%|█▌        | 24/156 [01:02<06:03,  2.75s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA036/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.02it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.22it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.18it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.12it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 15.94it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 15.94it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 15.92it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 15.93it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.92it/s][A
+                                                                      [A 16%|█▌        | 25/156 [01:04<05:45,  2.64s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA037/sct.mha
+
+Predicting 3D patches:   0%|          | 0/60 [00:00<?, ?it/s][A
+Predicting 3D patches:   3%|▎         | 2/60 [00:00<00:03, 15.20it/s][A
+Predicting 3D patches:   7%|▋         | 4/60 [00:00<00:03, 15.65it/s][A
+Predicting 3D patches:  10%|█         | 6/60 [00:00<00:03, 15.79it/s][A
+Predicting 3D patches:  13%|█▎        | 8/60 [00:00<00:03, 15.86it/s][A
+Predicting 3D patches:  17%|█▋        | 10/60 [00:00<00:03, 15.90it/s][A
+Predicting 3D patches:  20%|██        | 12/60 [00:00<00:03, 15.92it/s][A
+Predicting 3D patches:  23%|██▎       | 14/60 [00:00<00:02, 15.94it/s][A
+Predicting 3D patches:  27%|██▋       | 16/60 [00:01<00:02, 15.95it/s][A
+Predicting 3D patches:  30%|███       | 18/60 [00:01<00:02, 15.95it/s][A
+Predicting 3D patches:  33%|███▎      | 20/60 [00:01<00:02, 15.96it/s][A
+Predicting 3D patches:  37%|███▋      | 22/60 [00:01<00:02, 15.96it/s][A
+Predicting 3D patches:  40%|████      | 24/60 [00:01<00:02, 15.97it/s][A
+Predicting 3D patches:  43%|████▎     | 26/60 [00:01<00:02, 15.97it/s][A
+Predicting 3D patches:  47%|████▋     | 28/60 [00:01<00:02, 15.97it/s][A
+Predicting 3D patches:  50%|█████     | 30/60 [00:01<00:01, 15.97it/s][A
+Predicting 3D patches:  53%|█████▎    | 32/60 [00:02<00:01, 15.97it/s][A
+Predicting 3D patches:  57%|█████▋    | 34/60 [00:02<00:01, 15.97it/s][A
+Predicting 3D patches:  60%|██████    | 36/60 [00:02<00:01, 15.98it/s][A
+Predicting 3D patches:  63%|██████▎   | 38/60 [00:02<00:01, 15.98it/s][A
+Predicting 3D patches:  67%|██████▋   | 40/60 [00:02<00:01, 15.98it/s][A
+Predicting 3D patches:  70%|███████   | 42/60 [00:02<00:01, 15.98it/s][A
+Predicting 3D patches:  73%|███████▎  | 44/60 [00:02<00:01, 15.98it/s][A
+Predicting 3D patches:  77%|███████▋  | 46/60 [00:02<00:00, 15.97it/s][A
+Predicting 3D patches:  80%|████████  | 48/60 [00:03<00:00, 15.98it/s][A
+Predicting 3D patches:  83%|████████▎ | 50/60 [00:03<00:00, 15.97it/s][A
+Predicting 3D patches:  87%|████████▋ | 52/60 [00:03<00:00, 15.97it/s][A
+Predicting 3D patches:  90%|█████████ | 54/60 [00:03<00:00, 15.97it/s][A
+Predicting 3D patches:  93%|█████████▎| 56/60 [00:03<00:00, 15.97it/s][A
+Predicting 3D patches:  97%|█████████▋| 58/60 [00:03<00:00, 15.97it/s][A
+Predicting 3D patches: 100%|██████████| 60/60 [00:03<00:00, 15.98it/s][A
+                                                                      [A 17%|█▋        | 26/156 [01:09<06:43,  3.11s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA038/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.52it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.01it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.16it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.37it/s][A
+                                                                      [A 17%|█▋        | 27/156 [01:11<06:07,  2.85s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA039/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.14it/s][A
+                                                                      [A 18%|█▊        | 28/156 [01:13<05:43,  2.68s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA040/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.99it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.20it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.28it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.31it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.29it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.27it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.26it/s][A
+                                                                      [A 19%|█▊        | 29/156 [01:16<05:26,  2.57s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA041/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.24it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.12it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.05it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.02it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 15.99it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 15.98it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:01, 15.97it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.98it/s][A
+                                                                      [A 19%|█▉        | 30/156 [01:18<05:14,  2.50s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA042/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 15.93it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.18it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.26it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.16it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.10it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.07it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.04it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.02it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 15.97it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 15.98it/s][A
+                                                                      [A 20%|█▉        | 31/156 [01:21<05:25,  2.60s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA043/sct.mha
+
+Predicting 3D patches:   0%|          | 0/24 [00:00<?, ?it/s][A
+Predicting 3D patches:   8%|▊         | 2/24 [00:00<00:01, 16.04it/s][A
+Predicting 3D patches:  17%|█▋        | 4/24 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  25%|██▌       | 6/24 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  33%|███▎      | 8/24 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  42%|████▏     | 10/24 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 12/24 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  58%|█████▊    | 14/24 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  67%|██████▋   | 16/24 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  75%|███████▌  | 18/24 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  83%|████████▎ | 20/24 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches:  92%|█████████▏| 22/24 [00:01<00:00, 16.33it/s][A
+Predicting 3D patches: 100%|██████████| 24/24 [00:01<00:00, 16.34it/s][A
+                                                                      [A 21%|██        | 32/156 [01:22<04:50,  2.34s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA045/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.82it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.15it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.22it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.12it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.07it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.04it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.01it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.00it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 15.97it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.96it/s][A
+                                                                      [A 21%|██        | 33/156 [01:25<04:48,  2.35s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA047/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.38it/s][A
+                                                                      [A 22%|██▏       | 34/156 [01:27<04:42,  2.32s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA048/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.23it/s][A
+                                                                      [A 22%|██▏       | 35/156 [01:29<04:39,  2.31s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA049/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 15.98it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.19it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.28it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.30it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.29it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 16.28it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 16.27it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 16.27it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 16.27it/s][A
+                                                                      [A 23%|██▎       | 36/156 [01:32<04:54,  2.46s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA051/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.39it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.39it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.39it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.22it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.15it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.10it/s][A
+                                                                      [A 24%|██▎       | 37/156 [01:34<04:47,  2.41s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA053/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.09it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.25it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.24it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.17it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.12it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.08it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.06it/s][A
+                                                                      [A 24%|██▍       | 38/156 [01:37<04:41,  2.38s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA056/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.38it/s][A
+                                                                      [A 25%|██▌       | 39/156 [01:39<04:33,  2.34s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA059/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 15.67it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.06it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.21it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.26it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.19it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.13it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.08it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.05it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.03it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 15.99it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 15.98it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 15.98it/s][A
+                                                                      [A 26%|██▌       | 40/156 [01:41<04:29,  2.33s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA060/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.38it/s][A
+                                                                      [A 26%|██▋       | 41/156 [01:44<04:24,  2.30s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA061/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.31it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.38it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.38it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.38it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.25it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.16it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.08it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.05it/s][A
+                                                                      [A 27%|██▋       | 42/156 [01:47<04:55,  2.59s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA066/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.01it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.22it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.29it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.33it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.33it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.33it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.30it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.20it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.14it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.10it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.07it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.04it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.03it/s][A
+                                                                      [A 28%|██▊       | 43/156 [01:50<05:19,  2.83s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA067/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.01it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.23it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.29it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.33it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.34it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.35it/s][A
+                                                                      [A 28%|██▊       | 44/156 [01:53<05:32,  2.97s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA068/sct.mha
+
+Predicting 3D patches:   0%|          | 0/60 [00:00<?, ?it/s][A
+Predicting 3D patches:   3%|▎         | 2/60 [00:00<00:03, 15.75it/s][A
+Predicting 3D patches:   7%|▋         | 4/60 [00:00<00:03, 16.12it/s][A
+Predicting 3D patches:  10%|█         | 6/60 [00:00<00:03, 16.24it/s][A
+Predicting 3D patches:  13%|█▎        | 8/60 [00:00<00:03, 16.30it/s][A
+Predicting 3D patches:  17%|█▋        | 10/60 [00:00<00:03, 16.33it/s][A
+Predicting 3D patches:  20%|██        | 12/60 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  23%|██▎       | 14/60 [00:00<00:02, 16.37it/s][A
+Predicting 3D patches:  27%|██▋       | 16/60 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  30%|███       | 18/60 [00:01<00:02, 16.25it/s][A
+Predicting 3D patches:  33%|███▎      | 20/60 [00:01<00:02, 16.17it/s][A
+Predicting 3D patches:  37%|███▋      | 22/60 [00:01<00:02, 16.11it/s][A
+Predicting 3D patches:  40%|████      | 24/60 [00:01<00:02, 16.08it/s][A
+Predicting 3D patches:  43%|████▎     | 26/60 [00:01<00:02, 16.05it/s][A
+Predicting 3D patches:  47%|████▋     | 28/60 [00:01<00:01, 16.04it/s][A
+Predicting 3D patches:  50%|█████     | 30/60 [00:01<00:01, 16.02it/s][A
+Predicting 3D patches:  53%|█████▎    | 32/60 [00:01<00:01, 16.02it/s][A
+Predicting 3D patches:  57%|█████▋    | 34/60 [00:02<00:01, 16.01it/s][A
+Predicting 3D patches:  60%|██████    | 36/60 [00:02<00:01, 16.01it/s][A
+Predicting 3D patches:  63%|██████▎   | 38/60 [00:02<00:01, 16.00it/s][A
+Predicting 3D patches:  67%|██████▋   | 40/60 [00:02<00:01, 16.00it/s][A
+Predicting 3D patches:  70%|███████   | 42/60 [00:02<00:01, 15.99it/s][A
+Predicting 3D patches:  73%|███████▎  | 44/60 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  77%|███████▋  | 46/60 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  80%|████████  | 48/60 [00:02<00:00, 16.00it/s][A
+Predicting 3D patches:  83%|████████▎ | 50/60 [00:03<00:00, 16.00it/s][A
+Predicting 3D patches:  87%|████████▋ | 52/60 [00:03<00:00, 16.00it/s][A
+Predicting 3D patches:  90%|█████████ | 54/60 [00:03<00:00, 15.99it/s][A
+Predicting 3D patches:  93%|█████████▎| 56/60 [00:03<00:00, 16.00it/s][A
+Predicting 3D patches:  97%|█████████▋| 58/60 [00:03<00:00, 15.99it/s][A
+Predicting 3D patches: 100%|██████████| 60/60 [00:03<00:00, 15.99it/s][A
+                                                                      [A 29%|██▉       | 45/156 [01:58<06:08,  3.32s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA069/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.16it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.29it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.39it/s][A
+                                                                      [A 29%|██▉       | 46/156 [02:00<05:28,  2.99s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA071/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.33it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.37it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.39it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.38it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.32it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.30it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.29it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.28it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.28it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.28it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.28it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.27it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.27it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.27it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.26it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.26it/s][A
+                                                                      [A 30%|███       | 47/156 [02:03<05:35,  3.07s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA072/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 16.33it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.12it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.02it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.01it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.05it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.17it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.22it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.27it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.28it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.31it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.32it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.23it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.12it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.08it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.02it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.01it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 15.98it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 15.96it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 15.97it/s][A
+                                                                      [A 31%|███       | 48/156 [02:06<05:24,  3.01s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA077/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 16.32it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.32it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.33it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.28it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.30it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 16.37it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 16.37it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 16.36it/s][A
+                                                                      [A 31%|███▏      | 49/156 [02:09<05:16,  2.96s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA082/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.38it/s][A
+                                                                      [A 32%|███▏      | 50/156 [02:11<04:51,  2.75s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA084/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.32it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.23it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.15it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.11it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 16.07it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 16.06it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 16.04it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 16.03it/s][A
+                                                                      [A 33%|███▎      | 51/156 [02:14<04:51,  2.78s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA085/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.15it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.28it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.31it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.34it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.39it/s][A
+                                                                      [A 33%|███▎      | 52/156 [02:16<04:34,  2.64s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA086/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.34it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.28it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.20it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.14it/s][A
+                                                                      [A 34%|███▍      | 53/156 [02:18<04:20,  2.53s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA089/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.39it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.37it/s][A
+                                                                      [A 35%|███▍      | 54/156 [02:21<04:11,  2.47s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA090/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.22it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.30it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.34it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.35it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.35it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.34it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.29it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.21it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.14it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.10it/s][A
+                                                                      [A 35%|███▌      | 55/156 [02:24<04:34,  2.72s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA091/sct.mha
+
+Predicting 3D patches:   0%|          | 0/48 [00:00<?, ?it/s][A
+Predicting 3D patches:   4%|▍         | 2/48 [00:00<00:02, 16.36it/s][A
+Predicting 3D patches:   8%|▊         | 4/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  12%|█▎        | 6/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  17%|█▋        | 8/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  21%|██        | 10/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  25%|██▌       | 12/48 [00:00<00:02, 16.38it/s][A
+Predicting 3D patches:  29%|██▉       | 14/48 [00:00<00:02, 16.39it/s][A
+Predicting 3D patches:  33%|███▎      | 16/48 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  38%|███▊      | 18/48 [00:01<00:01, 16.38it/s][A
+Predicting 3D patches:  42%|████▏     | 20/48 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  46%|████▌     | 22/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 24/48 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  54%|█████▍    | 26/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  58%|█████▊    | 28/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  62%|██████▎   | 30/48 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 32/48 [00:01<00:00, 16.36it/s][A
+Predicting 3D patches:  71%|███████   | 34/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 36/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  79%|███████▉  | 38/48 [00:02<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 40/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  88%|████████▊ | 42/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  92%|█████████▏| 44/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches:  96%|█████████▌| 46/48 [00:02<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 48/48 [00:02<00:00, 16.35it/s][A
+                                                                      [A 36%|███▌      | 56/156 [02:27<04:49,  2.90s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA093/sct.mha
+
+Predicting 3D patches:   0%|          | 0/27 [00:00<?, ?it/s][A
+Predicting 3D patches:   7%|▋         | 2/27 [00:00<00:01, 16.32it/s][A
+Predicting 3D patches:  15%|█▍        | 4/27 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  22%|██▏       | 6/27 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  30%|██▉       | 8/27 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  37%|███▋      | 10/27 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  44%|████▍     | 12/27 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  52%|█████▏    | 14/27 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  59%|█████▉    | 16/27 [00:00<00:00, 16.39it/s][A
+Predicting 3D patches:  67%|██████▋   | 18/27 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  74%|███████▍  | 20/27 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  81%|████████▏ | 22/27 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  89%|████████▉ | 24/27 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  96%|█████████▋| 26/27 [00:01<00:00, 16.39it/s][A
+                                                                      [A 37%|███▋      | 57/156 [02:29<04:15,  2.58s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA095/sct.mha
+
+Predicting 3D patches:   0%|          | 0/32 [00:00<?, ?it/s][A
+Predicting 3D patches:   6%|▋         | 2/32 [00:00<00:01, 16.33it/s][A
+Predicting 3D patches:  12%|█▎        | 4/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  19%|█▉        | 6/32 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  25%|██▌       | 8/32 [00:00<00:01, 16.37it/s][A
+Predicting 3D patches:  31%|███▏      | 10/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  38%|███▊      | 12/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  44%|████▍     | 14/32 [00:00<00:01, 16.38it/s][A
+Predicting 3D patches:  50%|█████     | 16/32 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  56%|█████▋    | 18/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  62%|██████▎   | 20/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  69%|██████▉   | 22/32 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 24/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  81%|████████▏ | 26/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  88%|████████▊ | 28/32 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  94%|█████████▍| 30/32 [00:01<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 32/32 [00:01<00:00, 16.24it/s][A
+                                                                      [A 37%|███▋      | 58/156 [02:32<04:04,  2.50s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA096/sct.mha
+
+Predicting 3D patches:   0%|          | 0/40 [00:00<?, ?it/s][A
+Predicting 3D patches:   5%|▌         | 2/40 [00:00<00:02, 16.11it/s][A
+Predicting 3D patches:  10%|█         | 4/40 [00:00<00:02, 16.27it/s][A
+Predicting 3D patches:  15%|█▌        | 6/40 [00:00<00:02, 16.32it/s][A
+Predicting 3D patches:  20%|██        | 8/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  25%|██▌       | 10/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  30%|███       | 12/40 [00:00<00:01, 16.35it/s][A
+Predicting 3D patches:  35%|███▌      | 14/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  40%|████      | 16/40 [00:00<00:01, 16.36it/s][A
+Predicting 3D patches:  45%|████▌     | 18/40 [00:01<00:01, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 20/40 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  55%|█████▌    | 22/40 [00:01<00:01, 16.37it/s][A
+Predicting 3D patches:  60%|██████    | 24/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  65%|██████▌   | 26/40 [00:01<00:00, 16.37it/s][A
+Predicting 3D patches:  70%|███████   | 28/40 [00:01<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 30/40 [00:01<00:00, 16.39it/s][A
+Predicting 3D patches:  80%|████████  | 32/40 [00:01<00:00, 16.28it/s][A
+Predicting 3D patches:  85%|████████▌ | 34/40 [00:02<00:00, 16.20it/s][A
+Predicting 3D patches:  90%|█████████ | 36/40 [00:02<00:00, 16.14it/s][A
+Predicting 3D patches:  95%|█████████▌| 38/40 [00:02<00:00, 16.11it/s][A
+Predicting 3D patches: 100%|██████████| 40/40 [00:02<00:00, 16.07it/s][A
+                                                                      [A 38%|███▊      | 59/156 [02:34<04:12,  2.61s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA097/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.38it/s][A
+                                                                      [A 38%|███▊      | 60/156 [02:35<03:19,  2.08s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA098/sct.mha
+
+Predicting 3D patches:   0%|          | 0/16 [00:00<?, ?it/s][A
+Predicting 3D patches:  12%|█▎        | 2/16 [00:00<00:00, 15.44it/s][A
+Predicting 3D patches:  25%|██▌       | 4/16 [00:00<00:00, 15.97it/s][A
+Predicting 3D patches:  38%|███▊      | 6/16 [00:00<00:00, 15.99it/s][A
+Predicting 3D patches:  50%|█████     | 8/16 [00:00<00:00, 15.99it/s][A
+Predicting 3D patches:  62%|██████▎   | 10/16 [00:00<00:00, 15.99it/s][A
+Predicting 3D patches:  75%|███████▌  | 12/16 [00:00<00:00, 16.00it/s][A
+Predicting 3D patches:  88%|████████▊ | 14/16 [00:00<00:00, 16.00it/s][A
+Predicting 3D patches: 100%|██████████| 16/16 [00:01<00:00, 16.00it/s][A
+                                                                      [A 39%|███▉      | 61/156 [02:36<02:50,  1.79s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA099/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 40%|███▉      | 62/156 [02:37<02:21,  1.51s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA100/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.24it/s][A
+                                                                      [A 40%|████      | 63/156 [02:38<02:01,  1.31s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA102/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.34it/s][A
+                                                                      [A 41%|████      | 64/156 [02:39<01:47,  1.17s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA103/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.08it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.02it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.01it/s][A
+                                                                      [A 42%|████▏     | 65/156 [02:40<01:37,  1.07s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA104/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.25it/s][A
+                                                                      [A 42%|████▏     | 66/156 [02:41<01:30,  1.01s/it]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA105/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.38it/s][A
+                                                                      [A 43%|████▎     | 67/156 [02:41<01:25,  1.04it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA106/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.22it/s][A
+                                                                      [A 44%|████▎     | 68/156 [02:42<01:21,  1.08it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA107/sct.mha
+
+Predicting 3D patches:   0%|          | 0/16 [00:00<?, ?it/s][A
+Predicting 3D patches:  12%|█▎        | 2/16 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  25%|██▌       | 4/16 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  38%|███▊      | 6/16 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 8/16 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 10/16 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  75%|███████▌  | 12/16 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  88%|████████▊ | 14/16 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 16/16 [00:00<00:00, 16.33it/s][A
+                                                                      [A 44%|████▍     | 69/156 [02:43<01:25,  1.02it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA108/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 45%|████▍     | 70/156 [02:44<01:20,  1.07it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA109/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 46%|████▌     | 71/156 [02:45<01:17,  1.10it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA110/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.39it/s][A
+                                                                      [A 46%|████▌     | 72/156 [02:46<01:14,  1.12it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA113/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.38it/s][A
+                                                                      [A 47%|████▋     | 73/156 [02:47<01:12,  1.14it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA115/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 47%|████▋     | 74/156 [02:48<01:11,  1.15it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA116/sct.mha
+
+Predicting 3D patches:   0%|          | 0/16 [00:00<?, ?it/s][A
+Predicting 3D patches:  12%|█▎        | 2/16 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  25%|██▌       | 4/16 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  38%|███▊      | 6/16 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 8/16 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  62%|██████▎   | 10/16 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches:  75%|███████▌  | 12/16 [00:00<00:00, 16.17it/s][A
+Predicting 3D patches:  88%|████████▊ | 14/16 [00:00<00:00, 16.11it/s][A
+Predicting 3D patches: 100%|██████████| 16/16 [00:00<00:00, 16.08it/s][A
+                                                                      [A 48%|████▊     | 75/156 [02:49<01:16,  1.05it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA117/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.38it/s][A
+                                                                      [A 49%|████▊     | 76/156 [02:50<01:13,  1.09it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA119/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.38it/s][A
+                                                                      [A 49%|████▉     | 77/156 [02:50<01:10,  1.12it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA120/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.38it/s][A
+                                                                      [A 50%|█████     | 78/156 [02:51<01:08,  1.14it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA121/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.24it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.24it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.24it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.25it/s][A
+                                                                      [A 51%|█████     | 79/156 [02:52<01:06,  1.15it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA124/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.04it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.03it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 15.99it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 15.99it/s][A
+                                                                      [A 51%|█████▏    | 80/156 [02:53<01:05,  1.15it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA126/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.04it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.00it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 15.95it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 15.96it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 15.94it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 15.95it/s][A
+                                                                      [A 52%|█████▏    | 81/156 [02:54<01:05,  1.15it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA129/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.36it/s][A
+                                                                      [A 53%|█████▎    | 82/156 [02:55<01:03,  1.16it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA130/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 53%|█████▎    | 83/156 [02:56<01:02,  1.17it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA132/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.34it/s][A
+                                                                      [A 54%|█████▍    | 84/156 [02:56<01:01,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA133/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.36it/s][A
+                                                                      [A 54%|█████▍    | 85/156 [02:57<01:00,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA135/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 55%|█████▌    | 86/156 [02:58<00:59,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA136/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.36it/s][A
+                                                                      [A 56%|█████▌    | 87/156 [02:59<00:58,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA138/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 56%|█████▋    | 88/156 [03:00<00:57,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA139/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.10it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.06it/s][A
+                                                                      [A 57%|█████▋    | 89/156 [03:01<00:56,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA141/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 58%|█████▊    | 90/156 [03:02<00:56,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA142/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.19it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.10it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.06it/s][A
+                                                                      [A 58%|█████▊    | 91/156 [03:02<00:55,  1.18it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNA143/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 59%|█████▉    | 92/156 [03:03<00:48,  1.32it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC001/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 60%|█████▉    | 93/156 [03:03<00:43,  1.45it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC002/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 60%|██████    | 94/156 [03:04<00:45,  1.37it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC003/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.21it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.07it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.02it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.00it/s][A
+                                                                    [A 61%|██████    | 95/156 [03:05<00:41,  1.48it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC004/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 62%|██████▏   | 96/156 [03:05<00:38,  1.57it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC005/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.17it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.11it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.06it/s][A
+                                                                      [A 62%|██████▏   | 97/156 [03:06<00:40,  1.45it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC007/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.29it/s][A
+                                                                      [A 63%|██████▎   | 98/156 [03:07<00:42,  1.38it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC008/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 63%|██████▎   | 99/156 [03:08<00:38,  1.50it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC012/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.31it/s][A
+                                                                      [A 64%|██████▍   | 100/156 [03:08<00:40,  1.39it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC014/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.25it/s][A
+                                                                    [A 65%|██████▍   | 101/156 [03:09<00:36,  1.49it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC017/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.15it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.07it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.04it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.02it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.01it/s][A
+                                                                      [A 65%|██████▌   | 102/156 [03:10<00:38,  1.40it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC019/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 66%|██████▌   | 103/156 [03:10<00:35,  1.51it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC020/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.28it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.27it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.25it/s][A
+                                                                    [A 67%|██████▋   | 104/156 [03:11<00:32,  1.59it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC021/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.11it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.00it/s][A
+                                                                    [A 67%|██████▋   | 105/156 [03:11<00:31,  1.63it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC022/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.19it/s][A
+                                                                    [A 68%|██████▊   | 106/156 [03:12<00:29,  1.67it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC023/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 69%|██████▊   | 107/156 [03:13<00:32,  1.51it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC025/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.18it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.11it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.08it/s][A
+                                                                      [A 69%|██████▉   | 108/156 [03:14<00:33,  1.41it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC029/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.35it/s][A
+                                                                    [A 70%|██████▉   | 109/156 [03:14<00:31,  1.51it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC031/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.34it/s][A
+                                                                    [A 71%|███████   | 110/156 [03:15<00:28,  1.60it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC035/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.08it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.03it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.02it/s][A
+                                                                      [A 71%|███████   | 111/156 [03:16<00:31,  1.44it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC036/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.01it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.07it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.02it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.03it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.00it/s][A
+                                                                      [A 72%|███████▏  | 112/156 [03:16<00:32,  1.35it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC037/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 72%|███████▏  | 113/156 [03:17<00:29,  1.46it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC038/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.30it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.28it/s][A
+                                                                      [A 73%|███████▎  | 114/156 [03:18<00:30,  1.37it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC039/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.08it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.03it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.02it/s][A
+                                                                      [A 74%|███████▎  | 115/156 [03:19<00:31,  1.32it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC040/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 74%|███████▍  | 116/156 [03:19<00:27,  1.44it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC043/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.30it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.11it/s][A
+                                                                    [A 75%|███████▌  | 117/156 [03:20<00:25,  1.54it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC045/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 76%|███████▌  | 118/156 [03:20<00:23,  1.63it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC046/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 76%|███████▋  | 119/156 [03:21<00:25,  1.47it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC050/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.17it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.09it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.07it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.04it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.04it/s][A
+                                                                      [A 77%|███████▋  | 120/156 [03:22<00:26,  1.37it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC061/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 78%|███████▊  | 121/156 [03:22<00:23,  1.49it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC066/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 78%|███████▊  | 122/156 [03:23<00:21,  1.57it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC067/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 79%|███████▉  | 123/156 [03:24<00:20,  1.62it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC068/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.19it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.12it/s][A
+                                                                      [A 79%|███████▉  | 124/156 [03:24<00:21,  1.47it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC071/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 80%|████████  | 125/156 [03:25<00:19,  1.56it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC072/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 81%|████████  | 126/156 [03:25<00:18,  1.64it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC073/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.17it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.08it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.06it/s][A
+                                                                    [A 81%|████████▏ | 127/156 [03:26<00:17,  1.68it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC076/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.16it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.27it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.17it/s][A
+                                                                    [A 82%|████████▏ | 128/156 [03:27<00:16,  1.72it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC082/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 83%|████████▎ | 129/156 [03:27<00:17,  1.53it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC083/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.35it/s][A
+                                                                      [A 83%|████████▎ | 130/156 [03:28<00:18,  1.41it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC084/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.33it/s][A
+                                                                    [A 84%|████████▍ | 131/156 [03:29<00:16,  1.52it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC085/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 85%|████████▍ | 132/156 [03:29<00:15,  1.59it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC087/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.35it/s][A
+                                                                    [A 85%|████████▌ | 133/156 [03:30<00:13,  1.65it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC088/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.31it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.14it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.08it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.04it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.02it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.01it/s][A
+                                                                      [A 86%|████████▌ | 134/156 [03:31<00:14,  1.48it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC094/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.27it/s][A
+                                                                    [A 87%|████████▋ | 135/156 [03:31<00:13,  1.56it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC098/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.20it/s][A
+                                                                    [A 87%|████████▋ | 136/156 [03:32<00:12,  1.62it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC099/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.34it/s][A
+                                                                      [A 88%|████████▊ | 137/156 [03:33<00:12,  1.49it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC101/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 88%|████████▊ | 138/156 [03:33<00:11,  1.57it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC102/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.27it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.26it/s][A
+                                                                      [A 89%|████████▉ | 139/156 [03:34<00:11,  1.45it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC103/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.13it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.08it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.05it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.03it/s][A
+                                                                      [A 90%|████████▉ | 140/156 [03:35<00:11,  1.36it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC104/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.28it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.22it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.25it/s][A
+                                                                      [A 90%|█████████ | 141/156 [03:36<00:11,  1.31it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC105/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.17it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.10it/s][A
+                                                                    [A 91%|█████████ | 142/156 [03:36<00:09,  1.42it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC107/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.24it/s][A
+                                                                    [A 92%|█████████▏| 143/156 [03:37<00:08,  1.52it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC109/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.19it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.34it/s][A
+                                                                    [A 92%|█████████▏| 144/156 [03:37<00:07,  1.60it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC110/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.38it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.19it/s][A
+                                                                    [A 93%|█████████▎| 145/156 [03:38<00:06,  1.67it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC111/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 94%|█████████▎| 146/156 [03:38<00:05,  1.71it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC112/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.37it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.37it/s][A
+                                                                      [A 94%|█████████▍| 147/156 [03:39<00:05,  1.53it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC114/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 95%|█████████▍| 148/156 [03:40<00:04,  1.61it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC117/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.16it/s][A
+                                                                    [A 96%|█████████▌| 149/156 [03:40<00:04,  1.67it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC118/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.34it/s][A
+                                                                    [A 96%|█████████▌| 150/156 [03:41<00:03,  1.72it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC120/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.18it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.08it/s][A
+                                                                    [A 97%|█████████▋| 151/156 [03:41<00:02,  1.75it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC121/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.34it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.37it/s][A
+                                                                    [A 97%|█████████▋| 152/156 [03:42<00:02,  1.78it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC124/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.36it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.36it/s][A
+                                                                    [A 98%|█████████▊| 153/156 [03:43<00:01,  1.80it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC125/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.33it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.35it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.27it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.25it/s][A
+                                                                    [A 99%|█████████▊| 154/156 [03:43<00:01,  1.78it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC127/sct.mha
+
+Predicting 3D patches:   0%|          | 0/8 [00:00<?, ?it/s][A
+Predicting 3D patches:  25%|██▌       | 2/8 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  50%|█████     | 4/8 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches:  75%|███████▌  | 6/8 [00:00<00:00, 16.25it/s][A
+Predicting 3D patches: 100%|██████████| 8/8 [00:00<00:00, 16.25it/s][A
+                                                                    [A 99%|█████████▉| 155/156 [03:44<00:00,  1.79it/s]Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC128/sct.mha
+
+Predicting 3D patches:   0%|          | 0/12 [00:00<?, ?it/s][A
+Predicting 3D patches:  17%|█▋        | 2/12 [00:00<00:00, 16.32it/s][A
+Predicting 3D patches:  33%|███▎      | 4/12 [00:00<00:00, 16.29it/s][A
+Predicting 3D patches:  50%|█████     | 6/12 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches:  67%|██████▋   | 8/12 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches:  83%|████████▎ | 10/12 [00:00<00:00, 16.26it/s][A
+Predicting 3D patches: 100%|██████████| 12/12 [00:00<00:00, 16.25it/s][A
+                                                                      [A100%|██████████| 156/156 [03:45<00:00,  1.56it/s]100%|██████████| 156/156 [03:45<00:00,  1.44s/it]
+Saved: /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/inference/inference_outputs/1HNC130/sct.mha
+INFERENCE MADE
+Postprocessing sCT:   0%|          | 0/158 [00:00<?, ?it/s]Postprocessing sCT:   1%|          | 1/158 [00:00<00:54,  2.89it/s]Postprocessing sCT:   1%|▏         | 2/158 [00:00<00:48,  3.25it/s]Postprocessing sCT:   2%|▏         | 3/158 [00:00<00:46,  3.36it/s]Postprocessing sCT:   3%|▎         | 4/158 [00:01<00:52,  2.96it/s]Postprocessing sCT:   3%|▎         | 5/158 [00:01<00:51,  2.99it/s]Postprocessing sCT:   4%|▍         | 6/158 [00:01<00:47,  3.17it/s]Postprocessing sCT:   4%|▍         | 7/158 [00:02<00:51,  2.95it/s]Postprocessing sCT:   5%|▌         | 8/158 [00:02<00:51,  2.92it/s]Postprocessing sCT:   6%|▌         | 9/158 [00:02<00:48,  3.08it/s]Postprocessing sCT:   6%|▋         | 10/158 [00:03<00:49,  2.98it/s]Postprocessing sCT:   7%|▋         | 11/158 [00:03<00:46,  3.13it/s]Postprocessing sCT:   8%|▊         | 12/158 [00:03<00:47,  3.08it/s]Postprocessing sCT:   8%|▊         | 13/158 [00:04<00:44,  3.23it/s]Postprocessing sCT:   9%|▉         | 14/158 [00:04<00:47,  3.05it/s]Postprocessing sCT:   9%|▉         | 15/158 [00:04<00:45,  3.16it/s]Postprocessing sCT:  10%|█         | 16/158 [00:05<00:46,  3.05it/s]Postprocessing sCT:  11%|█         | 17/158 [00:05<00:44,  3.14it/s]Postprocessing sCT:  11%|█▏        | 18/158 [00:05<00:46,  3.02it/s]Postprocessing sCT:  12%|█▏        | 19/158 [00:06<00:45,  3.08it/s]Postprocessing sCT:  13%|█▎        | 20/158 [00:06<00:48,  2.87it/s]Postprocessing sCT:  13%|█▎        | 21/158 [00:06<00:48,  2.81it/s]Postprocessing sCT:  14%|█▍        | 22/158 [00:07<00:45,  2.99it/s]Postprocessing sCT:  15%|█▍        | 23/158 [00:07<00:47,  2.86it/s]Postprocessing sCT:  15%|█▌        | 24/158 [00:07<00:44,  3.01it/s]Postprocessing sCT:  16%|█▌        | 25/158 [00:08<00:45,  2.92it/s]Postprocessing sCT:  16%|█▋        | 26/158 [00:08<00:47,  2.79it/s]Postprocessing sCT:  17%|█▋        | 27/158 [00:08<00:44,  2.95it/s]Postprocessing sCT:  18%|█▊        | 28/158 [00:09<00:43,  2.99it/s]Postprocessing sCT:  18%|█▊        | 29/158 [00:09<00:43,  2.98it/s]Postprocessing sCT:  19%|█▉        | 30/158 [00:09<00:42,  3.03it/s]Postprocessing sCT:  20%|█▉        | 31/158 [00:10<00:41,  3.08it/s]Postprocessing sCT:  20%|██        | 32/158 [00:10<00:38,  3.26it/s]Postprocessing sCT:  21%|██        | 33/158 [00:10<00:39,  3.14it/s]Postprocessing sCT:  22%|██▏       | 34/158 [00:11<00:37,  3.27it/s]Postprocessing sCT:  22%|██▏       | 35/158 [00:11<00:38,  3.23it/s]Postprocessing sCT:  23%|██▎       | 36/158 [00:11<00:38,  3.18it/s]Postprocessing sCT:  23%|██▎       | 37/158 [00:12<00:39,  3.09it/s]Postprocessing sCT:  24%|██▍       | 38/158 [00:12<00:38,  3.13it/s]Postprocessing sCT:  25%|██▍       | 39/158 [00:12<00:35,  3.33it/s]Postprocessing sCT:  25%|██▌       | 40/158 [00:12<00:35,  3.36it/s]Postprocessing sCT:  26%|██▌       | 41/158 [00:13<00:33,  3.53it/s]Postprocessing sCT:  27%|██▋       | 42/158 [00:13<00:32,  3.54it/s]Postprocessing sCT:  27%|██▋       | 43/158 [00:13<00:35,  3.23it/s]Postprocessing sCT:  28%|██▊       | 44/158 [00:14<00:36,  3.15it/s]Postprocessing sCT:  28%|██▊       | 45/158 [00:14<00:36,  3.07it/s]Postprocessing sCT:  29%|██▉       | 46/158 [00:14<00:35,  3.18it/s]Postprocessing sCT:  30%|██▉       | 47/158 [00:15<00:33,  3.29it/s]Postprocessing sCT:  30%|███       | 48/158 [00:15<00:34,  3.18it/s]Postprocessing sCT:  31%|███       | 49/158 [00:15<00:36,  3.01it/s]Postprocessing sCT:  32%|███▏      | 50/158 [00:16<00:34,  3.15it/s]Postprocessing sCT:  32%|███▏      | 51/158 [00:16<00:35,  3.02it/s]Postprocessing sCT:  33%|███▎      | 52/158 [00:16<00:34,  3.05it/s]Postprocessing sCT:  34%|███▎      | 53/158 [00:17<00:33,  3.11it/s]Postprocessing sCT:  34%|███▍      | 54/158 [00:17<00:33,  3.06it/s]Postprocessing sCT:  35%|███▍      | 55/158 [00:17<00:34,  3.01it/s]Postprocessing sCT:  35%|███▌      | 56/158 [00:18<00:34,  2.95it/s]Postprocessing sCT:  36%|███▌      | 57/158 [00:18<00:29,  3.39it/s]Postprocessing sCT:  37%|███▋      | 58/158 [00:18<00:30,  3.29it/s]Postprocessing sCT:  37%|███▋      | 59/158 [00:19<00:32,  3.07it/s]Postprocessing sCT:  39%|███▊      | 61/158 [00:19<00:20,  4.67it/s]Postprocessing sCT:  40%|███▉      | 63/158 [00:19<00:15,  6.27it/s]Postprocessing sCT:  41%|████      | 65/158 [00:19<00:11,  7.86it/s]Postprocessing sCT:  42%|████▏     | 67/158 [00:19<00:09,  9.27it/s]Postprocessing sCT:  44%|████▎     | 69/158 [00:19<00:08, 10.16it/s]Postprocessing sCT:  45%|████▍     | 71/158 [00:19<00:07, 11.04it/s]Postprocessing sCT:  46%|████▌     | 73/158 [00:20<00:07, 12.03it/s]Postprocessing sCT:  47%|████▋     | 75/158 [00:20<00:06, 12.07it/s]Postprocessing sCT:  49%|████▊     | 77/158 [00:20<00:06, 12.46it/s]Postprocessing sCT:  50%|█████     | 79/158 [00:20<00:05, 13.21it/s]Postprocessing sCT:  51%|█████▏    | 81/158 [00:20<00:05, 13.29it/s]Postprocessing sCT:  53%|█████▎    | 83/158 [00:20<00:05, 13.59it/s]Postprocessing sCT:  54%|█████▍    | 85/158 [00:20<00:05, 13.74it/s]Postprocessing sCT:  55%|█████▌    | 87/158 [00:21<00:05, 13.78it/s]Postprocessing sCT:  56%|█████▋    | 89/158 [00:21<00:04, 13.84it/s]Postprocessing sCT:  58%|█████▊    | 91/158 [00:21<00:04, 13.79it/s]Postprocessing sCT:  59%|█████▉    | 94/158 [00:21<00:03, 16.57it/s]Postprocessing sCT:  61%|██████▏   | 97/158 [00:21<00:03, 18.40it/s]Postprocessing sCT:  63%|██████▎   | 100/158 [00:21<00:02, 19.78it/s]Postprocessing sCT:  65%|██████▌   | 103/158 [00:21<00:02, 20.75it/s]Postprocessing sCT:  67%|██████▋   | 106/158 [00:22<00:02, 21.10it/s]Postprocessing sCT:  69%|██████▉   | 109/158 [00:22<00:02, 20.75it/s]Postprocessing sCT:  71%|███████   | 112/158 [00:22<00:02, 19.89it/s]Postprocessing sCT:  73%|███████▎  | 115/158 [00:22<00:02, 19.20it/s]Postprocessing sCT:  75%|███████▍  | 118/158 [00:22<00:01, 21.38it/s]Postprocessing sCT:  77%|███████▋  | 121/158 [00:22<00:01, 19.88it/s]Postprocessing sCT:  78%|███████▊  | 124/158 [00:23<00:01, 18.70it/s]Postprocessing sCT:  80%|████████  | 127/158 [00:23<00:01, 20.06it/s]Postprocessing sCT:  82%|████████▏ | 130/158 [00:23<00:01, 19.41it/s]Postprocessing sCT:  84%|████████▍ | 133/158 [00:23<00:01, 20.61it/s]Postprocessing sCT:  86%|████████▌ | 136/158 [00:23<00:01, 19.89it/s]Postprocessing sCT:  88%|████████▊ | 139/158 [00:23<00:00, 20.38it/s]Postprocessing sCT:  90%|████████▉ | 142/158 [00:23<00:00, 19.46it/s]Postprocessing sCT:  92%|█████████▏| 145/158 [00:23<00:00, 21.68it/s]Postprocessing sCT:  94%|█████████▎| 148/158 [00:24<00:00, 21.44it/s]Postprocessing sCT:  96%|█████████▌| 151/158 [00:24<00:00, 23.16it/s]Postprocessing sCT:  97%|█████████▋| 154/158 [00:24<00:00, 23.25it/s]Postprocessing sCT:  99%|█████████▉| 157/158 [00:24<00:00, 24.51it/s]Postprocessing sCT: 100%|██████████| 158/158 [00:24<00:00,  6.45it/s]
+[DONE] Postprocessing complete.
+POST PROCESSING DONE
+Scoring patients:   0%|          | 0/156 [00:00<?, ?it/s]Scoring patients:   1%|          | 1/156 [00:07<19:33,  7.57s/it]Scoring patients:   1%|▏         | 2/156 [00:14<17:50,  6.95s/it]Scoring patients:   2%|▏         | 3/156 [00:20<17:10,  6.73s/it]Scoring patients:   3%|▎         | 4/156 [00:28<18:04,  7.14s/it]Scoring patients:   3%|▎         | 5/156 [00:35<17:35,  6.99s/it]Scoring patients:   4%|▍         | 6/156 [00:41<16:38,  6.66s/it]Scoring patients:   4%|▍         | 7/156 [00:50<18:31,  7.46s/it]Scoring patients:   5%|▌         | 8/156 [00:58<18:51,  7.65s/it]Scoring patients:   6%|▌         | 9/156 [01:04<17:36,  7.19s/it]Scoring patients:   6%|▋         | 10/156 [01:12<18:27,  7.58s/it]Scoring patients:   7%|▋         | 11/156 [01:18<16:44,  6.93s/it]Scoring patients:   8%|▊         | 12/156 [01:25<16:50,  7.02s/it]Scoring patients:   8%|▊         | 13/156 [01:32<16:20,  6.86s/it]Scoring patients:   9%|▉         | 14/156 [01:40<17:15,  7.29s/it]Scoring patients:  10%|▉         | 15/156 [01:46<16:23,  6.98s/it]Scoring patients:  10%|█         | 16/156 [01:53<16:20,  7.00s/it]Scoring patients:  11%|█         | 17/156 [01:59<15:07,  6.53s/it]Scoring patients:  12%|█▏        | 18/156 [02:06<15:20,  6.67s/it]Scoring patients:  12%|█▏        | 19/156 [02:12<14:44,  6.46s/it]Scoring patients:  13%|█▎        | 20/156 [02:19<15:07,  6.67s/it]Scoring patients:  13%|█▎        | 21/156 [02:26<15:47,  7.02s/it]Scoring patients:  14%|█▍        | 22/156 [02:33<14:59,  6.71s/it]Scoring patients:  15%|█▍        | 23/156 [02:40<15:39,  7.06s/it]Scoring patients:  15%|█▌        | 24/156 [02:47<15:03,  6.84s/it]Scoring patients:  16%|█▌        | 25/156 [02:54<15:10,  6.95s/it]Scoring patients:  17%|█▋        | 26/156 [03:02<15:37,  7.21s/it]Scoring patients:  17%|█▋        | 27/156 [03:08<14:38,  6.81s/it]Scoring patients:  18%|█▊        | 28/156 [03:15<15:05,  7.07s/it]Scoring patients:  19%|█▊        | 29/156 [03:23<15:33,  7.35s/it]Scoring patients:  19%|█▉        | 30/156 [03:31<15:44,  7.49s/it]Scoring patients:  20%|█▉        | 31/156 [03:39<15:34,  7.47s/it]Scoring patients:  21%|██        | 32/156 [03:44<14:06,  6.83s/it]Scoring patients:  21%|██        | 33/156 [03:51<14:04,  6.87s/it]Scoring patients:  22%|██▏       | 34/156 [03:57<13:14,  6.52s/it]Scoring patients:  22%|██▏       | 35/156 [04:03<13:24,  6.65s/it]Scoring patients:  23%|██▎       | 36/156 [04:11<13:52,  6.94s/it]Scoring patients:  24%|██▎       | 37/156 [04:19<14:20,  7.23s/it]Scoring patients:  24%|██▍       | 38/156 [04:26<14:19,  7.29s/it]Scoring patients:  25%|██▌       | 39/156 [04:31<12:52,  6.60s/it]Scoring patients:  26%|██▌       | 40/156 [04:38<12:34,  6.50s/it]Scoring patients:  26%|██▋       | 41/156 [04:44<12:09,  6.34s/it]Scoring patients:  27%|██▋       | 42/156 [04:49<11:41,  6.15s/it]Scoring patients:  28%|██▊       | 43/156 [04:57<12:21,  6.57s/it]Scoring patients:  28%|██▊       | 44/156 [05:05<12:54,  6.91s/it]Scoring patients:  29%|██▉       | 45/156 [05:12<13:15,  7.16s/it]Scoring patients:  29%|██▉       | 46/156 [05:19<12:39,  6.91s/it]Scoring patients:  30%|███       | 47/156 [05:25<12:23,  6.82s/it]Scoring patients:  31%|███       | 48/156 [05:33<12:48,  7.12s/it]Scoring patients:  31%|███▏      | 49/156 [05:41<13:17,  7.45s/it]Scoring patients:  32%|███▏      | 50/156 [05:47<12:10,  6.89s/it]Scoring patients:  33%|███▎      | 51/156 [05:55<12:35,  7.19s/it]Scoring patients:  33%|███▎      | 52/156 [06:01<12:04,  6.97s/it]Scoring patients:  34%|███▍      | 53/156 [06:08<12:03,  7.02s/it]Scoring patients:  35%|███▍      | 54/156 [06:16<12:05,  7.12s/it]Scoring patients:  35%|███▌      | 55/156 [06:23<12:13,  7.26s/it]Scoring patients:  36%|███▌      | 56/156 [06:32<12:36,  7.57s/it]Scoring patients:  37%|███▋      | 57/156 [06:36<10:57,  6.64s/it]Scoring patients:  37%|███▋      | 58/156 [06:43<11:00,  6.74s/it]Scoring patients:  38%|███▊      | 59/156 [06:51<11:39,  7.21s/it]Scoring patients:  38%|███▊      | 60/156 [06:53<08:59,  5.62s/it]Scoring patients:  39%|███▉      | 61/156 [06:55<07:11,  4.54s/it]Scoring patients:  40%|███▉      | 62/156 [06:57<05:54,  3.78s/it]Scoring patients:  40%|████      | 63/156 [06:59<05:02,  3.25s/it]Scoring patients:  41%|████      | 64/156 [07:01<04:20,  2.84s/it]Scoring patients:  42%|████▏     | 65/156 [07:03<03:48,  2.52s/it]Scoring patients:  42%|████▏     | 66/156 [07:05<03:28,  2.32s/it]Scoring patients:  43%|████▎     | 67/156 [07:07<03:12,  2.16s/it]Scoring patients:  44%|████▎     | 68/156 [07:08<03:02,  2.07s/it]Scoring patients:  44%|████▍     | 69/156 [07:10<02:58,  2.05s/it]Scoring patients:  45%|████▍     | 70/156 [07:13<02:55,  2.04s/it]Scoring patients:  46%|████▌     | 71/156 [07:14<02:51,  2.02s/it]Scoring patients:  46%|████▌     | 72/156 [07:16<02:47,  1.99s/it]Scoring patients:  47%|████▋     | 73/156 [07:18<02:43,  1.97s/it]Scoring patients:  47%|████▋     | 74/156 [07:20<02:43,  2.00s/it]Scoring patients:  48%|████▊     | 75/156 [07:23<02:55,  2.16s/it]Scoring patients:  49%|████▊     | 76/156 [07:25<02:47,  2.09s/it]Scoring patients:  49%|████▉     | 77/156 [07:27<02:42,  2.06s/it]Scoring patients:  50%|█████     | 78/156 [07:29<02:38,  2.03s/it]Scoring patients:  51%|█████     | 79/156 [07:31<02:35,  2.02s/it]Scoring patients:  51%|█████▏    | 80/156 [07:33<02:29,  1.96s/it]Scoring patients:  52%|█████▏    | 81/156 [07:35<02:25,  1.94s/it]Scoring patients:  53%|█████▎    | 82/156 [07:36<02:21,  1.91s/it]Scoring patients:  53%|█████▎    | 83/156 [07:38<02:18,  1.90s/it]Scoring patients:  54%|█████▍    | 84/156 [07:40<02:15,  1.89s/it]Scoring patients:  54%|█████▍    | 85/156 [07:42<02:14,  1.89s/it]Scoring patients:  55%|█████▌    | 86/156 [07:44<02:11,  1.87s/it]Scoring patients:  56%|█████▌    | 87/156 [07:46<02:09,  1.87s/it]Scoring patients:  56%|█████▋    | 88/156 [07:48<02:10,  1.92s/it]Scoring patients:  57%|█████▋    | 89/156 [07:50<02:07,  1.90s/it]Scoring patients:  58%|█████▊    | 90/156 [07:52<02:06,  1.92s/it]Scoring patients:  58%|█████▊    | 91/156 [07:54<02:06,  1.94s/it]Scoring patients:  59%|█████▉    | 92/156 [07:55<01:56,  1.81s/it]Scoring patients:  60%|█████▉    | 93/156 [07:57<01:47,  1.71s/it]Scoring patients:  60%|██████    | 94/156 [07:59<01:51,  1.80s/it]Scoring patients:  61%|██████    | 95/156 [08:00<01:46,  1.74s/it]Scoring patients:  62%|██████▏   | 96/156 [08:02<01:39,  1.66s/it]Scoring patients:  62%|██████▏   | 97/156 [08:04<01:43,  1.75s/it]Scoring patients:  63%|██████▎   | 98/156 [08:05<01:38,  1.70s/it]Scoring patients:  63%|██████▎   | 99/156 [08:07<01:31,  1.61s/it]Scoring patients:  64%|██████▍   | 100/156 [08:09<01:38,  1.75s/it]Scoring patients:  65%|██████▍   | 101/156 [08:10<01:34,  1.72s/it]Scoring patients:  65%|██████▌   | 102/156 [08:12<01:36,  1.79s/it]Scoring patients:  66%|██████▌   | 103/156 [08:14<01:30,  1.70s/it]Scoring patients:  67%|██████▋   | 104/156 [08:15<01:24,  1.62s/it]Scoring patients:  67%|██████▋   | 105/156 [08:17<01:27,  1.72s/it]Scoring patients:  68%|██████▊   | 106/156 [08:19<01:30,  1.82s/it]Scoring patients:  69%|██████▊   | 107/156 [08:21<01:26,  1.77s/it]Scoring patients:  69%|██████▉   | 108/156 [08:22<01:21,  1.71s/it]Scoring patients:  70%|██████▉   | 109/156 [08:24<01:23,  1.78s/it]Scoring patients:  71%|███████   | 110/156 [08:26<01:18,  1.71s/it]Scoring patients:  71%|███████   | 111/156 [08:28<01:22,  1.83s/it]Scoring patients:  72%|███████▏  | 112/156 [08:30<01:23,  1.89s/it]Scoring patients:  72%|███████▏  | 113/156 [08:32<01:21,  1.89s/it]Scoring patients:  73%|███████▎  | 114/156 [08:34<01:21,  1.94s/it]Scoring patients:  74%|███████▎  | 115/156 [08:36<01:17,  1.90s/it]Scoring patients:  74%|███████▍  | 116/156 [08:37<01:11,  1.78s/it]Scoring patients:  75%|███████▌  | 117/156 [08:39<01:07,  1.73s/it]Scoring patients:  76%|███████▌  | 118/156 [08:40<01:01,  1.63s/it]Scoring patients:  76%|███████▋  | 119/156 [08:42<01:03,  1.72s/it]Scoring patients:  77%|███████▋  | 120/156 [08:45<01:09,  1.92s/it]Scoring patients:  78%|███████▊  | 121/156 [08:46<01:02,  1.79s/it]Scoring patients:  78%|███████▊  | 122/156 [08:48<01:03,  1.87s/it]Scoring patients:  79%|███████▉  | 123/156 [08:50<01:02,  1.88s/it]Scoring patients:  79%|███████▉  | 124/156 [08:52<01:04,  2.02s/it]Scoring patients:  80%|████████  | 125/156 [08:54<00:59,  1.93s/it]Scoring patients:  81%|████████  | 126/156 [08:56<00:53,  1.77s/it]Scoring patients:  81%|████████▏ | 127/156 [08:57<00:50,  1.73s/it]Scoring patients:  82%|████████▏ | 128/156 [08:59<00:47,  1.71s/it]Scoring patients:  83%|████████▎ | 129/156 [09:01<00:48,  1.78s/it]Scoring patients:  83%|████████▎ | 130/156 [09:03<00:49,  1.89s/it]Scoring patients:  84%|████████▍ | 131/156 [09:04<00:44,  1.77s/it]Scoring patients:  85%|████████▍ | 132/156 [09:06<00:42,  1.76s/it]Scoring patients:  85%|████████▌ | 133/156 [09:08<00:39,  1.72s/it]Scoring patients:  86%|████████▌ | 134/156 [09:10<00:40,  1.86s/it]Scoring patients:  87%|████████▋ | 135/156 [09:12<00:39,  1.86s/it]Scoring patients:  87%|████████▋ | 136/156 [09:14<00:37,  1.85s/it]Scoring patients:  88%|████████▊ | 137/156 [09:15<00:33,  1.76s/it]Scoring patients:  88%|████████▊ | 138/156 [09:18<00:34,  1.94s/it]Scoring patients:  89%|████████▉ | 139/156 [09:19<00:31,  1.83s/it]Scoring patients:  90%|████████▉ | 140/156 [09:21<00:31,  1.96s/it]Scoring patients:  90%|█████████ | 141/156 [09:23<00:29,  2.00s/it]Scoring patients:  91%|█████████ | 142/156 [09:25<00:27,  1.98s/it]Scoring patients:  92%|█████████▏| 143/156 [09:27<00:24,  1.89s/it]Scoring patients:  92%|█████████▏| 144/156 [09:29<00:21,  1.82s/it]Scoring patients:  93%|█████████▎| 145/156 [09:30<00:18,  1.70s/it]Scoring patients:  94%|█████████▎| 146/156 [09:32<00:17,  1.72s/it]Scoring patients:  94%|█████████▍| 147/156 [09:34<00:16,  1.81s/it]Scoring patients:  95%|█████████▍| 148/156 [09:36<00:15,  1.92s/it]Scoring patients:  96%|█████████▌| 149/156 [09:38<00:12,  1.82s/it]Scoring patients:  96%|█████████▌| 150/156 [09:39<00:10,  1.73s/it]Scoring patients:  97%|█████████▋| 151/156 [09:41<00:08,  1.61s/it]Scoring patients:  97%|█████████▋| 152/156 [09:42<00:06,  1.56s/it]Scoring patients:  98%|█████████▊| 153/156 [09:44<00:04,  1.57s/it]Scoring patients:  99%|█████████▊| 154/156 [09:46<00:03,  1.73s/it]Scoring patients:  99%|█████████▉| 155/156 [09:47<00:01,  1.66s/it]Scoring patients: 100%|██████████| 156/156 [09:49<00:00,  1.83s/it]Scoring patients: 100%|██████████| 156/156 [09:49<00:00,  3.78s/it]
+
+=== Average metrics over all patients ===
+mae       : 118.0586
+psnr      : 25.2507
+ms_ssim   : 0.8807
+METRICS CALCULATED

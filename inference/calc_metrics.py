@@ -5,14 +5,11 @@ import argparse
 import numpy as np
 from tqdm.auto import tqdm
 
-try:
-    from inference import config
-    from inference.image_metrics import ImageMetrics
-    from inference.test_dataset_class import is_patient_dir, read_image_to_array
-except ImportError:
-    import config
-    from image_metrics import ImageMetrics
-    from test_dataset_class import is_patient_dir, read_image_to_array
+from config import cfg
+
+from metrics.image import ImageMetrics
+
+from data.utils import is_patient_dir, read_image_to_array
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,8 +25,8 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    input_path = Path(config.INPUT_PATH)
-    output_dir = Path(config.OUTPUT_DIR)
+    input_path = Path(cfg.inference.input_path)
+    output_dir = Path(cfg.inference.output_dir)
 
     if not input_path.exists():
         raise FileNotFoundError(f"Input path not found: {input_path}")
@@ -37,11 +34,11 @@ def main() -> None:
         raise FileNotFoundError(f"Output dir not found: {output_dir}")
 
     patients: List[Path] = []   
-    if is_patient_dir(input_path, config.MODALITY):
+    if is_patient_dir(input_path, cfg.inference.modality):
         patients = [input_path]
     else:
         for p in sorted(input_path.iterdir()):
-            if is_patient_dir(p, config.MODALITY):
+            if is_patient_dir(p, cfg.inference.modality):
                 patients.append(p)
 
     if not patients:
