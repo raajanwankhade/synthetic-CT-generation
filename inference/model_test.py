@@ -117,14 +117,14 @@ def run_patient(
             mod_arr, patch_size=patch_size, stride=stride
         )
         pred_patches: List[np.ndarray] = []
-        for p in tqdm(patches, desc="Predicting 3D patches", leave=False):
+        for p in patches:
             pred = _predict_patch(model, p, device, is_3d=True, channels_last=channels_last)
             pred_patches.append(pred)
         out_vol = stitch_patches_array_3d(pred_patches, coords, (depth, h, w))
     else:
         # Slice-by-slice 2D or 2.5D inference
         num_adj = int(num_adjacent_slices)
-        for z in tqdm(range(depth), desc="Predicting slices", leave=False):
+        for z in range(depth):
             stack = make_adjacent_stack(mod_arr, z, num_adj)
 
             patches, coords, _ = extract_patches_sequentially(
