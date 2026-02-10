@@ -206,7 +206,7 @@ def main() -> None:
             num_adjacent_slices=config.NUM_ADJACENT_SLICES,
             channels_last=channels_last,
         )
-        print(f"Saved: {out_path}")
+        print(f"\nSaved: {out_path}")
 
 
 if __name__ == "__main__":
