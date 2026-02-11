@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 from typing import List, Tuple
 
@@ -148,7 +149,7 @@ def run_patient(
     return out_path
 
 
-def main() -> None:
+def main(args: argparse.Namespace) -> None:
     model_path = Path(config.MODEL_PATH)
     input_path = Path(config.INPUT_PATH)
     output_dir = Path(config.OUTPUT_DIR)
@@ -206,8 +207,15 @@ def main() -> None:
             num_adjacent_slices=config.NUM_ADJACENT_SLICES,
             channels_last=channels_last,
         )
-        print(f"\nSaved: {out_path}")
+        if not args.quiet:
+            print(f"\nSaved: {out_path}")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Run model inference on patient volumes.")
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Disable per-patient save messages.",
+    )
+    main(parser.parse_args())
