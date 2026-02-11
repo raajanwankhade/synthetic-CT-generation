@@ -54,7 +54,14 @@ class ImageMetricsGPU:
             pred = pred[mask == 1]
 
         mse = torch.mean((gt - pred) ** 2)
-        return (20 * torch.log10(dr) - 10 * torch.log10(mse)).item()
+
+        if mse == 0:
+            return float("inf")
+        
+        dr_tensor = torch.tensor(dr, device=self.device)
+        psnr = 20 * torch.log10(dr_tensor / torch.sqrt(mse))
+        
+        return psnr.item()
 
     # ---------- uniform filter (3D) ----------
 
@@ -141,8 +148,25 @@ class ImageMetricsGPU:
             ms_vals.append(ssim_val)
 
             if mask is not None:
-                m = mask[3:-3, 3:-3, 3:-3]
-                ms_mask_vals.append(ssim_map[m.bool()].mean())
+                # m = mask[3:-3, 3:-3, 3:-3]
+                # ms_mask_vals.append(ssim_map[m.bool()].mean())
+# dynamically crop mask to match ssim_map
+                min_shape = [min(a, b) for a, b in zip(ssim_map.shape, mask.shape)]
+                
+                ssim_crop = ssim_map[
+                    :min_shape[0],
+                    :min_shape[1],
+                    :min_shape[2]
+                ]
+                
+                mask_crop = mask[
+                    :min_shape[0],
+                    :min_shape[1],
+                    :min_shape[2]
+                ]
+                
+                ms_mask_vals.append(ssim_crop[mask_crop.bool()].mean())
+
 
             gt = F.avg_pool3d(gt.unsqueeze(0).unsqueeze(0), 2).squeeze()
             pred = F.avg_pool3d(pred.unsqueeze(0).unsqueeze(0), 2).squeeze()
