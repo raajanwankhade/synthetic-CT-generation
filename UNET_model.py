@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from typing import List, Optional, Union
 from config import cfg
 # -----------------------------------------------------------------------------
 # Configurable model settings
@@ -71,8 +72,8 @@ class ResEncoder3D(nn.Module):
         in_ch: int = 1,
         base_ch: int = 32,
         num_stages: int = 4,
-        blocks_per_stage: int | list[int] = 2,
-        stage_channels: list[int] | None = None,
+        blocks_per_stage: Union[int, List[int]] = 2,
+        stage_channels: Optional[List[int]] = None,
         convs_per_block: int = 2,
         norm_layer=nn.InstanceNorm3d,
         negative_slope: float = 0.01,
@@ -129,8 +130,8 @@ class ResEncoder3D(nn.Module):
         self.stages = nn.ModuleList(stages)
         self.out_ch = ch
 
-    def forward(self, x: torch.Tensor) -> list[torch.Tensor]:
-        feats: list[torch.Tensor] = []
+    def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
+        feats = torch.jit.annotate(List[torch.Tensor], [])
         x = self.stem(x)
         for m in self.stages:
             x = m(x)
@@ -210,7 +211,7 @@ class ResDecoder3D(nn.Module):
             nn.Conv3d(final_in_ch // 2, out_ch, kernel_size=1),
         )
 
-    def forward(self, feats: list[torch.Tensor]) -> torch.Tensor:
+    def forward(self, feats: List[torch.Tensor]) -> torch.Tensor:
         x = feats[-1]
         for i, up in enumerate(self.up_blocks):
             skip_idx = len(feats) - 2 - i
@@ -282,8 +283,8 @@ class ResEncoder2D(nn.Module):
         self.stages = nn.ModuleList(stages)
         self.out_ch = ch
 
-    def forward(self, x: torch.Tensor) -> list[torch.Tensor]:
-        feats: list[torch.Tensor] = []
+    def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
+        feats = torch.jit.annotate(List[torch.Tensor], [])
         x = self.stem(x)
         for m in self.stages:
             x = m(x)
@@ -340,7 +341,7 @@ class ResDecoder2D(nn.Module):
             nn.Conv2d(final_in_ch // 2, out_ch, kernel_size=1),
         )
 
-    def forward(self, feats: list[torch.Tensor]) -> torch.Tensor:
+    def forward(self, feats: List[torch.Tensor]) -> torch.Tensor:
         x = feats[-1]  # start from deepest (lowest res)
         for i, up in enumerate(self.up_blocks):
             skip_idx = len(feats) - 2 - i
@@ -420,7 +421,7 @@ def build_resunet2d(
     base_ch: int = 32,
     num_stages: int = 4,
     blocks_per_stage: int = 2,
-    stage_channels: list[int] | None = None,
+    stage_channels: Optional[List[int]] = None,
     norm_layer=nn.BatchNorm2d,
 ) -> tuple[ResEncoder2D, ResDecoder2D]:
     """Factory for a 2D ResUNet."""
