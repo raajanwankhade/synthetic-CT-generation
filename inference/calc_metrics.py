@@ -13,7 +13,7 @@ try:
 except ImportError:
     import config
     # from image_metrics import ImageMetrics
-    from inference.image_metrics_gpu import ImageMetricsGPU
+    from image_metrics_gpu import ImageMetricsGPU
     from test_dataset_class import is_patient_dir, read_image_to_array
 
 
@@ -50,7 +50,7 @@ def main() -> None:
         raise ValueError("No valid patient folders found")
 
     # img_metrics = ImageMetrics()
-    from inference.image_metrics_gpu import ImageMetricsGPU
+    img_metrics = ImageMetricsGPU()
     per_patient = []
 
     for patient_dir in tqdm(patients, desc="Scoring patients"):
