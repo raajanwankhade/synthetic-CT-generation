@@ -29,3 +29,72 @@ NUM_ADJACENT_SLICES = "3d"
 
 # Use channels_last memory format for GPU inference (should match training)
 CHANNELS_LAST = True
+
+if __name__ == "__main__":
+    import argparse
+    import ast
+    import sys
+
+    def tuple_or_none(value):
+        if value.lower() == "none":
+            return None
+        try:
+            parsed = ast.literal_eval(value)
+            if isinstance(parsed, tuple):
+                return parsed
+        except Exception:
+            pass
+        raise argparse.ArgumentTypeError(
+            "Must be a tuple like '(32,192,160)' or 'None'"
+        )
+
+    def slices_type(value):
+        if value.lower() == "3d":
+            return "3d"
+        try:
+            return int(value)
+        except ValueError:
+            raise argparse.ArgumentTypeError(
+                "Must be integer or '3d'"
+            )
+
+    def bool_type(value):
+        if value.lower() in {"true", "1", "yes"}:
+            return True
+        if value.lower() in {"false", "0", "no"}:
+            return False
+        raise argparse.ArgumentTypeError("Boolean expected")
+
+    parser = argparse.ArgumentParser(description="Override config values")
+
+    parser.add_argument("--model_path", type=str)
+    parser.add_argument("--input_path", type=str)
+    parser.add_argument("--modality", type=str)
+    parser.add_argument("--patch_size", type=tuple_or_none)
+    parser.add_argument("--stride", type=tuple_or_none)
+    parser.add_argument("--output_dir", type=str)
+    parser.add_argument("--device", type=str)
+    parser.add_argument("--num_adjacent_slices", type=slices_type)
+    parser.add_argument("--channels_last", type=bool_type)
+
+    args = parser.parse_args()
+
+    # Update globals only if provided
+    g = globals()
+    for key, value in vars(args).items():
+        if value is not None:
+            g[key.upper()] = value
+
+    print("\nFinal configuration:\n")
+    for name in [
+        "MODEL_PATH",
+        "INPUT_PATH",
+        "MODALITY",
+        "PATCH_SIZE",
+        "STRIDE",
+        "OUTPUT_DIR",
+        "DEVICE",
+        "NUM_ADJACENT_SLICES",
+        "CHANNELS_LAST",
+    ]:
+        print(f"{name} = {g[name]}")
