@@ -12,14 +12,6 @@ cfg = {
     "foreground_threshold": 0.3,
     "val_split": 0.2,
 
-    # # Segmentation data
-    # "Segmentation_Dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/segmentation_dataset/Task1/AB_segmentations",
-    # "CT_DIR": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-ab/versions/2/versions/1/Task1",
-    # "seg_ct_filename": "ct_preproc.mha",
-    # "seg_label_filename": "segmentation.mha",
-    # "output_dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/runs/segmentationAB_unet3d",
-
-    # "teacher_filepath": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/runs/segmentationAB_unet3d/fold_5/seg_best.pth",
     # Dataloaders
     "batch_size": 4,
     "num_workers_train": 4,
@@ -54,23 +46,6 @@ cfg = {
     "grad_clip": None,
     "sanity_steps": 1,
     "resume_path": None,
-
-    # # Segmentation training
-    # "seg_num_classes": 9,
-    # "seg_epochs": 200,
-    # "seg_class_weights": None,
-    # "seg_foreground_fraction": 0.6,
-    # "seg_max_retries": 20,
-    # "seg_steps_per_epoch": None,
-    # "seg_rotation_prob": 0.5,
-    # "seg_scale_prob": 0.5,
-    # "seg_scale_range": (0.9, 1.1),
-    # "seg_noise_prob": 0.3,
-    # "seg_noise_std": 0.02,
-    # "seg_early_stop_patience": 10,
-    # "seg_k_folds": 5,
-    # "seg_kfold_seed": 42,
-    # "seg_learning_rate": 1e-3,
 
     "ANATOMY_CLASSES": { ##Anatomy based classes to use for segmentation training
         "AB": [
@@ -115,7 +90,7 @@ cfg = {
 
     # W&B
     "wandb_mode": "online",  # "online", "offline", or "disabled"
-    "wandb_project": "test_runs",
+    "wandb_project": "MR_CT_Translation_UNET",
     "wandb_run_name": "Segmentation_Student_UNET3D_AB",
     "id_wandb":None,
     "resume_wandb":None,
@@ -134,14 +109,4 @@ cfg = {
         "convs_per_block": 2,
         "negative_slope": 0.01,
     },
-
-    # "seg_model3d_cfg": {
-    #     "in_ch": 1,
-    #     "out_ch": 1,  # This will be overridden in code based on anatomy
-    #     "base_ch": 32,
-    #     "stage_channels": [32, 64, 128, 256],
-    #     "blocks_per_stage": [2, 2, 2, 2],
-    #     "convs_per_block": 2,
-    #     "negative_slope": 0.01,
-    # },
 }
