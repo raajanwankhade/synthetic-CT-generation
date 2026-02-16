@@ -23,8 +23,10 @@ from config import cfg
 # Model architecture (moved out of this file)
 from UNET_model import build_resunet2d, build_resunet3d
 import train_utils as tu
-from segmentation_module.old.segmentor import SemanticConsistencyModule
+# from segmentation_module.old.segmentor import SemanticConsistencyModule
 
+from dataset_class import MRCTDataset, build_dataloaders
+from UNET_Loss import LossModule
 # Shutdown flag
 SHUTDOWN_FLAG_PATH = os.path.join(cfg["run_dir"], "stop.flag")
 # Reproducibility + device helpers
@@ -43,6 +45,7 @@ seed_everything(SEED)
 # -------------------------------------------------------------------------
 # Device selection (rank-aware) + AMP safety
 # -------------------------------------------------------------------------
+
 def _select_device():
     if torch.cuda.is_available() and torch.cuda.device_count() == 1:
         torch.cuda.set_device(0)
@@ -71,7 +74,6 @@ except Exception:
     pass
 
 # Training
-from dataset_class import MRCTDataset, build_dataloaders
 
 #Run dir
 run_dir = Path(cfg["run_dir"])
@@ -122,11 +124,12 @@ def perform_sanity_check(
     device: torch.device,
     optimizer,
     scaler,
-    criterion,
+    # criterion,
+    loss_module: LossModule,
     amp_dtype: torch.dtype,
     use_amp: bool,
-    lambda_ssim: float,
-    ssim_down: int,
+    # lambda_ssim: float,
+    # ssim_down: int,
     grad_clip,
     sanity_steps: int,
     # run_model,
@@ -147,22 +150,22 @@ def perform_sanity_check(
         optimizer.zero_grad(set_to_none=True)
         with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
             preds = decoder(encoder(x))
-            loss_l1 = criterion(preds, y)
-            loss_ssim = tu.ssim_loss(preds, y, ssim_down)
-            loss = loss_l1 + lambda_ssim * loss_ssim
-
-        if not torch.isfinite(loss):
+            # loss_l1 = criterion(preds, y)
+            # loss_ssim = tu.ssim_loss(preds, y, ssim_down)
+            # loss = loss_l1 + lambda_ssim * loss_ssim
+            total_loss, l1, ssim_loss = loss_module(preds, y, m)
+        if not torch.isfinite(total_loss):
             raise RuntimeError("Sanity check failed: non-finite loss")
 
         if scaler.is_enabled():
-            scaler.scale(loss).backward()
+            scaler.scale(total_loss).backward()
             if grad_clip is not None:
                 scaler.unscale_(optimizer)
                 torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
             scaler.step(optimizer)
             scaler.update()
         else:
-            loss.backward()
+            total_loss.backward()
             if grad_clip is not None:
                 torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
             optimizer.step()
@@ -180,7 +183,8 @@ def train_model(
     scheduler_patience=5,
     device: torch.device | None = None,
     wandb_log=True,
-    lambda_ssim=1000.0,
+    # lambda_ssim=1000.0,
+    loss_module:LossModule = LossModule(device),
     resume_path=None,
     grad_clip=None,
     sanity_steps=1,
@@ -207,17 +211,15 @@ def train_model(
             encoder = encoder.to(memory_format=torch.channels_last)
             decoder = decoder.to(memory_format=torch.channels_last)
 
-    criterion = nn.L1Loss()
-    semantic_criterion = SemanticConsistencyModule(device)
-    lambda_sem = 0.1 # Weight for semantic loss
+    # criterion = nn.L1Loss()
+    # semantic_criterion = SemanticConsistencyModule(device)
+    # lambda_sem = 0.1 # Weight for semantic loss
     optimizer = tu.build_optimizer(encoder, decoder, device, lr)
     scheduler = tu.build_scheduler(optimizer, scheduler_patience)
     ckpt_mgr = tu.CheckpointManager(run_dir / cfg["ckpt_dir"], monitor="val_loss", mode="min", filename=cfg["ckpt_filename"])
 
     scaler_enabled = (use_amp and amp_dtype == torch.float16)
     scaler = torch.amp.GradScaler(enabled=scaler_enabled)
-
-    ssim_down = int(cfg.get("ssim_downsample", 1))
     
     if resume_path is None:
         print("🆕 Starting fresh training")
@@ -242,16 +244,18 @@ def train_model(
         device=device,
         optimizer=optimizer,
         scaler=scaler,
-        criterion=criterion,
+        loss_module=loss_module,
         amp_dtype=amp_dtype,
         use_amp=use_amp,
-        lambda_ssim=lambda_ssim,
-        ssim_down=ssim_down,
+        # lambda_ssim=lambda_ssim,
+        # ssim_down=ssim_down,
         grad_clip=grad_clip,
         sanity_steps=sanity_steps,
     )
+    
 
-    history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": [], "Dice_Score": []}
+
+    history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": []}
     end_epoch = start_epoch + num_epochs - 1
     for epoch in tqdm(range(start_epoch, end_epoch + 1), desc="Progress"):
         print(f"\n🧾 Epoch {epoch}/{end_epoch}")
@@ -266,46 +270,49 @@ def train_model(
             m = batch["mask"].to(device, non_blocking=True)
             x, y, m = tu.enforce_channels_last(x, y, m, device)
 
+
+
             optimizer.zero_grad(set_to_none=True)
             with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                 preds = decoder(encoder(x))
-                loss_l1 = criterion(preds, y)
-                loss_ssim = tu.ssim_loss(preds, y, ssim_down)
-
+                # loss_l1 = criterion(preds, y)
+                # loss_ssim = tu.ssim_loss(preds, y, ssim_down)
+                total_loss, l1, ssim_loss= loss_module(preds, y, m)
                 # --- NEW: Semantic Loss ---
                 # Pass the generated sCT (preds) and the Ground Truth Mask (m)
-                loss_sem = semantic_criterion(preds, m)
+                # loss_sem = semantic_criterion(preds, m)
 
-                loss = loss_l1 + lambda_ssim * loss_ssim + lambda_sem * loss_sem
+                # loss = loss_l1 + lambda_ssim * loss_ssim + lambda_sem * loss_sem
 
-            if not torch.isfinite(loss):
+            if not torch.isfinite(total_loss):
                 print("⚠️ Non-finite loss encountered; skipping step")
                 continue
 
             if scaler.is_enabled():
-                scaler.scale(loss).backward()
+                scaler.scale(total_loss).backward()
                 if grad_clip is not None:
                     scaler.unscale_(optimizer)
                     torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
                 scaler.step(optimizer)
                 scaler.update()
             else:
-                loss.backward()
+                total_loss.backward()
                 if grad_clip is not None:
                     torch.nn.utils.clip_grad_norm_(list(encoder.parameters()) + list(decoder.parameters()), grad_clip)
                 optimizer.step()
 
-            train_loss += float(loss.item())
+            train_loss += float(total_loss.item())
             if not tu.SHUTDOWN_REQUESTED and shutdown_flag_path and os.path.exists(shutdown_flag_path):
                 print("⏹️ Shutdown flag detected. Stopping training after current epoch.")
                 tu.SHUTDOWN_REQUESTED = True
-            pbar.set_postfix(loss=f"{loss.item():.4f}")
+            
+            pbar.set_postfix(loss=f"{total_loss.item():.4f}")
 
         train_loss /= max(1, len(train_loader))
 
         encoder.eval()
         decoder.eval()
-        val_loss, val_loss_sem, ssim_sum, psnr_sum = 0.0, 0.0, 0.0, 0.0
+        val_loss, ssim_sum, psnr_sum = 0.0, 0.0, 0.0
 
         with torch.no_grad():
             for batch in tqdm(val_loader, desc="Validating", leave=False):
@@ -314,17 +321,19 @@ def train_model(
                 m = batch["mask"].to(device, non_blocking=True)
                 x, y, m = tu.enforce_channels_last(x, y, m, device)
 
+                
+
                 preds = decoder(encoder(x))
 
-                sem = semantic_criterion(preds, m)
+                # sem = semantic_criterion(preds, m)
 
-                loss_l1 = criterion(preds, y)
-                loss_ssim = tu.ssim_loss(preds, y, ssim_down)
-                loss = loss_l1 + lambda_ssim * loss_ssim + lambda_sem * sem
+                # loss_l1 = criterion(preds, y)
+                # loss_ssim = tu.ssim_loss(preds, y, ssim_down)
+                # loss = loss_l1 + lambda_ssim * loss_ssim + lambda_sem * sem
+                total_loss, l1, ssim_loss= loss_module(preds, y, m)
 
-                val_loss += float(loss.item())
-                val_loss_sem += float(sem.item())
-                s, p = tu.compute_metrics(preds, y)
+                val_loss += float(total_loss.item())
+                s, p = loss_module.compute_val_metrics(preds, y)
                 ssim_sum += s
                 psnr_sum += p
                 
@@ -333,12 +342,12 @@ def train_model(
                     tu.SHUTDOWN_REQUESTED = True
 
         val_loss /= max(1, len(val_loader))
-        sem_loss_avg = val_loss_sem / max(1, len(val_loader))
-        dice_score_avg = 1- sem_loss_avg  
+        # sem_loss_avg = val_loss_sem / max(1, len(val_loader))
+        # dice_score_avg = 1- sem_loss_avg  
         ssim_avg = ssim_sum / max(1, len(val_loader))
         psnr_avg = psnr_sum / max(1, len(val_loader))
 
-        val_metrics = {"val_loss": val_loss, "dice_score": dice_score_avg, "SSIM": ssim_avg, "PSNR": psnr_avg}
+        val_metrics = {"val_loss": val_loss, "SSIM": ssim_avg, "PSNR": psnr_avg}
         scheduler.step(val_loss)
         ckpt_mgr.update(epoch, encoder, decoder, optimizer, scheduler, scaler, val_metrics)
 
@@ -346,14 +355,14 @@ def train_model(
             f"Epoch {epoch:03d} | "
             f"Train Loss: {train_loss:.4f} | "
             f"Val Loss: {val_loss:.4f} | "
-            f"SSIM: {ssim_avg:.4f} | PSNR: {psnr_avg:.2f} | Dice Score: {dice_score_avg:.4f} | "
+            f"SSIM: {ssim_avg:.4f} | PSNR: {psnr_avg:.2f} | "
             f"LR: {optimizer.param_groups[0]['lr']:.1e}"
         )
         history["train_loss"].append(train_loss)
         history["val_loss"].append(val_loss)
         history["SSIM"].append(ssim_avg)
         history["PSNR"].append(psnr_avg)
-        history["Dice_Score"].append(dice_score_avg)
+        # history["Dice_Score"].append(dice_score_avg)
 
         if wandb_log:
             wandb.log({
@@ -362,7 +371,6 @@ def train_model(
                 "val_loss": val_loss,
                 "SSIM": ssim_avg,
                 "PSNR": psnr_avg,
-                "Dice_Score": dice_score_avg,
                 "lr": optimizer.param_groups[0]["lr"],
             })
 
@@ -433,7 +441,10 @@ else:
         blocks_per_stage=2,
     )
 
-
+lambda_ssim = cfg["lambda_ssim"]
+# lambda_seg = cfg["lambda_seg"]
+ssim_down = int(cfg.get("ssim_downsample", 1))
+loss_module = LossModule(device, ssim_down=ssim_down, ssim_weight=lambda_ssim)
 trained_enc, trained_dec, history = train_model(
     encoder=enc,
     decoder=dec,
@@ -444,7 +455,7 @@ trained_enc, trained_dec, history = train_model(
     lr=cfg["lr"],
     device=device,
     wandb_log=(cfg["wandb_mode"] != "disabled"),
-    lambda_ssim=cfg["lambda_ssim"],
+    loss_module=loss_module,
     scheduler_patience=cfg["scheduler_patience"],
     grad_clip=cfg["grad_clip"],
     sanity_steps=cfg["sanity_steps"],
@@ -488,13 +499,14 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 
 # 4. Dice Score
-plt.subplot(4, 1, 4)
-plt.plot(epochs, history["Dice_Score"], label="Dice Score", color='tab:green', linewidth=2)
-plt.title("Dice Score over Epochs")
-plt.xlabel("Epoch")
-plt.ylabel("Dice Score")
-plt.legend()
-plt.grid(True, alpha=0.3)
+# plt.subplot(4, 1, 4)
+# plt.plot(epochs, history["Dice_Score"], label="Dice Score", color='tab:green', linewidth=2)
+# plt.title("Dice Score over Epochs")
+# plt.xlabel("Epoch")
+# plt.ylabel("Dice Score")
+# plt.legend()
+# plt.grid(True, alpha=0.3)
+
 plt.tight_layout()
 plt.savefig(str(run_dir / cfg["Loss_Plot_name"]))
 
