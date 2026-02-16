@@ -161,14 +161,14 @@ def get_amp_dtype(cfg: dict) -> torch.dtype:
     return torch.bfloat16 if amp_dtype_name == "bf16" else torch.float16
 
 
-def build_optimizer(encoder: nn.Module, decoder: nn.Module, device: torch.device, lr: float):
+def build_optimizer(encoder: nn.Module, decoder: nn.Module, device: torch.device, lr: float, verbose: bool = True):
     try:
         optimizer = torch.optim.AdamW(
             list(encoder.parameters()) + list(decoder.parameters()),
             lr=lr,
             fused=(device.type == "cuda"),
         )
-        if device.type == "cuda":
+        if device.type == "cuda" and verbose:
             print("✅ Using AdamW(fused=True) on CUDA")
         return optimizer
     except TypeError:
@@ -185,27 +185,27 @@ def build_scheduler(optimizer, scheduler_patience: int):
     )
 
 
-def maybe_compile_models(encoder: nn.Module, decoder: nn.Module, cfg: dict):
-    compile_enabled = False
-    if cfg.get("torch_compile", False):
-        try:
-            slurm_tmp = os.environ.get("SLURM_TMPDIR")
-            if slurm_tmp:
-                os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", os.path.join(slurm_tmp, "torchinductor"))
-            try:
-                from torch._dynamo import config as dynamo_config  # type: ignore
-                dynamo_config.suppress_errors = True
-            except Exception:
-                pass
+# def maybe_compile_models(encoder: nn.Module, decoder: nn.Module, cfg: dict):
+#     compile_enabled = False
+#     if cfg.get("torch_compile", False):
+#         try:
+#             slurm_tmp = os.environ.get("SLURM_TMPDIR")
+#             if slurm_tmp:
+#                 os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", os.path.join(slurm_tmp, "torchinductor"))
+#             try:
+#                 from torch._dynamo import config as dynamo_config  # type: ignore
+#                 dynamo_config.suppress_errors = True
+#             except Exception:
+#                 pass
 
-            mode = cfg.get("torch_compile_mode", "reduce-overhead")
-            encoder = cast(nn.Module, torch.compile(encoder, mode=mode))
-            decoder = cast(nn.Module, torch.compile(decoder, mode=mode))
-            compile_enabled = True
-            print(f"✅ torch.compile enabled (mode={mode})")
-        except Exception as e:
-            print(f"⚠️ torch.compile not enabled: {e}")
-    return encoder, decoder, compile_enabled
+#             mode = cfg.get("torch_compile_mode", "reduce-overhead")
+#             encoder = cast(nn.Module, torch.compile(encoder, mode=mode))
+#             decoder = cast(nn.Module, torch.compile(decoder, mode=mode))
+#             compile_enabled = True
+#             print(f"✅ torch.compile enabled (mode={mode})")
+#         except Exception as e:
+#             print(f"⚠️ torch.compile not enabled: {e}")
+#     return encoder, decoder, compile_enabled
 
 
 def enforce_channels_last(x: torch.Tensor, y: torch.Tensor, m: torch.Tensor, device: torch.device):

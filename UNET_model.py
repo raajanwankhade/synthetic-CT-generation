@@ -86,6 +86,7 @@ class ResEncoder3D(nn.Module):
         )
 
         stages = []
+        self.stage_positions = []
         if stage_channels is None:
             stage_channels = [base_ch * (2 ** i) for i in range(num_stages)]
         if isinstance(blocks_per_stage, int):
@@ -117,6 +118,7 @@ class ResEncoder3D(nn.Module):
             ]
             stage = nn.Sequential(*blocks)
             stages.append(stage)
+            self.stage_positions.append(len(stages) - 1)
             if s != len(stage_channels) - 1:
                 next_ch = stage_channels[s + 1]
                 down = nn.Sequential(
@@ -133,9 +135,9 @@ class ResEncoder3D(nn.Module):
     def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
         feats = torch.jit.annotate(List[torch.Tensor], [])
         x = self.stem(x)
-        for m in self.stages:
+        for idx, m in enumerate(self.stages):
             x = m(x)
-            if len(feats) == 0 or feats[-1].shape[-1] != x.shape[-1]:
+            if idx in self.stage_positions:
                 feats.append(x)
         return feats
 
@@ -266,11 +268,13 @@ class ResEncoder2D(nn.Module):
         )
 
         stages = []
+        self.stage_positions = []
         ch = base_ch
         for s in range(num_stages):
             blocks = [ResBlock(ch, norm_layer=norm_layer) for _ in range(blocks_per_stage)]
             stage = nn.Sequential(*blocks)
             stages.append(stage)
+            self.stage_positions.append(len(stages) - 1)
             if s != num_stages - 1:
                 down = nn.Sequential(
                     nn.Conv2d(ch, ch * 2, kernel_size=3, stride=2, padding=1, bias=False),
@@ -286,10 +290,9 @@ class ResEncoder2D(nn.Module):
     def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
         feats = torch.jit.annotate(List[torch.Tensor], [])
         x = self.stem(x)
-        for m in self.stages:
+        for idx, m in enumerate(self.stages):
             x = m(x)
-            # only save feature maps that change spatial resolution (avoid duplicate same-size)
-            if len(feats) == 0 or feats[-1].shape[-1] != x.shape[-1]:
+            if idx in self.stage_positions:
                 feats.append(x)
         return feats
 

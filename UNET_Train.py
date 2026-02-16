@@ -23,7 +23,7 @@ from config import cfg
 # Model architecture (moved out of this file)
 from UNET_model import build_resunet2d, build_resunet3d
 import train_utils as tu
-from segmentor import SemanticConsistencyModule
+from segmentation_module.old.segmentor import SemanticConsistencyModule
 
 # Shutdown flag
 SHUTDOWN_FLAG_PATH = os.path.join(cfg["run_dir"], "stop.flag")
@@ -67,6 +67,7 @@ IS_3D = str(cfg.get("num_adjacent_slices", 0)).lower() == "3d"
 try:
     torch.set_float32_matmul_precision("high")
 except Exception:
+    print("⚠️ torch.set_float32_matmul_precision not available; continuing without it")
     pass
 
 # Training
@@ -128,7 +129,7 @@ def perform_sanity_check(
     ssim_down: int,
     grad_clip,
     sanity_steps: int,
-    run_model,
+    # run_model,
 ):
     if not sanity_steps or sanity_steps <= 0:
         return
@@ -145,7 +146,7 @@ def perform_sanity_check(
 
         optimizer.zero_grad(set_to_none=True)
         with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
-            preds = run_model(x)
+            preds = decoder(encoder(x))
             loss_l1 = criterion(preds, y)
             loss_ssim = tu.ssim_loss(preds, y, ssim_down)
             loss = loss_l1 + lambda_ssim * loss_ssim
@@ -206,25 +207,6 @@ def train_model(
             encoder = encoder.to(memory_format=torch.channels_last)
             decoder = decoder.to(memory_format=torch.channels_last)
 
-    encoder_eager = encoder
-    decoder_eager = decoder
-    encoder, decoder, compile_enabled = tu.maybe_compile_models(encoder, decoder, cfg)
-
-    def _run_model(x: torch.Tensor):
-        nonlocal encoder, decoder, compile_enabled
-        try:
-            feats = encoder(x)
-            return decoder(feats)
-        except Exception as e:
-            if compile_enabled:
-                print(f"⚠️ torch.compile failed at runtime; falling back to eager: {e}")
-                encoder = encoder_eager
-                decoder = decoder_eager
-                compile_enabled = False
-                feats = encoder(x)
-                return decoder(feats)
-            raise
-
     criterion = nn.L1Loss()
     semantic_criterion = SemanticConsistencyModule(device)
     lambda_sem = 0.1 # Weight for semantic loss
@@ -267,7 +249,6 @@ def train_model(
         ssim_down=ssim_down,
         grad_clip=grad_clip,
         sanity_steps=sanity_steps,
-        run_model=_run_model,
     )
 
     history = {"train_loss": [], "val_loss": [], "SSIM": [], "PSNR": [], "Dice_Score": []}
@@ -287,7 +268,7 @@ def train_model(
 
             optimizer.zero_grad(set_to_none=True)
             with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
-                preds = _run_model(x)
+                preds = decoder(encoder(x))
                 loss_l1 = criterion(preds, y)
                 loss_ssim = tu.ssim_loss(preds, y, ssim_down)
 
@@ -333,7 +314,7 @@ def train_model(
                 m = batch["mask"].to(device, non_blocking=True)
                 x, y, m = tu.enforce_channels_last(x, y, m, device)
 
-                preds = _run_model(x)
+                preds = decoder(encoder(x))
 
                 sem = semantic_criterion(preds, m)
 
