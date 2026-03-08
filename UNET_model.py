@@ -356,7 +356,7 @@ class ResDecoder3D(nn.Module):
         for i, up in enumerate(self.up_blocks):
             skip_idx = len(feats) - 2 - i
             skip = feats[skip_idx]
-            x = F.interpolate(x, scale_factor=2, mode="nearest")
+            x = F.interpolate(x, scale_factor=2.0, mode="nearest")
             x = torch.cat([x, skip], dim=1)
             x = up(x)
         return self.final_conv(x)
@@ -548,7 +548,7 @@ class ResDecoder2D(nn.Module):
         for i, up in enumerate(self.up_blocks):
             skip_idx = len(feats) - 2 - i
             skip = feats[skip_idx]
-            x = F.interpolate(x, scale_factor=2, mode="nearest")
+            x = F.interpolate(x, scale_factor=2.0, mode="nearest")
             x = torch.cat([x, skip], dim=1)
             x = up(x)
         return self.final_conv(x)

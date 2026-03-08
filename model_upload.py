@@ -11,9 +11,9 @@ import kagglehub
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Upload a model file to Kaggle")
-    parser.add_argument("--kaggle_model", type=str,
+    parser.add_argument("--kaggle_model", type=str, required=True,
                         help="Kaggle model path: 'model-name/framework/variant' (username auto-prepended)")
-    parser.add_argument("--model_file", type=str,
+    parser.add_argument("--model_file", type=str, required=True,
                         help="Path to the model file to upload")
     return parser.parse_args()
 
