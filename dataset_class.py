@@ -1,24 +1,28 @@
+import json
+import logging
+
 import numpy as np
 import torch
 import SimpleITK as sitk
 from torch.utils.data import Dataset, DataLoader, Subset
 from pathlib import Path
-from tqdm.auto import tqdm
 from collections import OrderedDict
 import random
 
-# 3D patch sizes by anatomy
-PATCH_SIZE_3D_BY_ANATOMY = {
-    "AB": (32, 192, 224),
-    "HN": (32, 192, 160),
-    "TH": (32, 192, 192),
-}
+# # 3D patch sizes by anatomy
+# PATCH_SIZE_3D_BY_ANATOMY = {
+#     "AB": (32, 192, 224),
+#     "HN": (32, 192, 160),
+#     "TH": (32, 192, 192),
+# }
 
 class MRCTDataset(Dataset):
     def __init__(
         self,
         root,
         modality="mr",
+        use_preproc_files=False,
+        use_pruned_data=False,
         patch_size=(256, 256),
         anatomy=None,
         num_adjacent_slices=0,
@@ -44,14 +48,12 @@ class MRCTDataset(Dataset):
             if num_adjacent_slices.lower() != "3d":
                 raise ValueError("num_adjacent_slices must be >= 0, odd, or '3d'")
             self.is_3d = True
-            if patch_size is None:
-                patch_size = PATCH_SIZE_3D_BY_ANATOMY.get(str(anatomy).upper())
         else:
             if num_adjacent_slices < 0:
                 raise ValueError("num_adjacent_slices must be >= 0")
 
         if patch_size is None:
-            raise ValueError("patch_size must be provided (or set anatomy=AB/HN/TH for 3D)")
+            raise ValueError("patch_size must be provided in config")
 
         self.patch_size = tuple(patch_size)
         if len(self.patch_size) == 3:
@@ -73,6 +75,8 @@ class MRCTDataset(Dataset):
         self.num_adjacent_slices = num_adjacent_slices
         self.transform = transform
         self.modality = modality.lower()
+        self.use_preproc_files = bool(use_preproc_files)
+        self.use_pruned_data = bool(use_pruned_data)
         self.max_retries = max_retries
         self.foreground_threshold = float(foreground_threshold)
         self.cache_size = int(cache_size)
@@ -119,16 +123,31 @@ class MRCTDataset(Dataset):
             )
 
         # Collect valid patient folders across one or more region roots (ignore /overviews/)
+        if self.use_pruned_data:
+            logger = logging.getLogger(__name__)
+            logger.info("using pruned data")
+            # Load pruned patient filenames from JSON
+            pruned_filenames_path = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/pruned_filenames.json"
+            with open(pruned_filenames_path, "r") as f:
+                pruned_data = json.load(f)
+            self.pruned_patients = set()
+            for region, filenames in pruned_data.items():
+                self.pruned_patients.update(filenames)
+        
         self.patients = []
         self.patient_region = {}
         if _is_patient_dir(self.root):
             # root is itself a patient directory
-            self.patients = [self.root]
-            self.patient_region[str(self.root)] = self.root.parent.name
+            if not self.use_pruned_data or self.root.name not in self.pruned_patients:
+                self.patients = [self.root]
+                self.patient_region[str(self.root)] = self.root.parent.name
         else:
             for region_root in self.region_roots:
                 for p in sorted(region_root.glob("*")):
                     if p.is_dir() and p.name.lower() != "overviews" and _is_patient_dir(p):
+                        # Skip patient if it's in the pruned list
+                        if self.use_pruned_data and p.name in self.pruned_patients:
+                            continue
                         self.patients.append(p)
                         self.patient_region[str(p)] = region_root.name
 
@@ -137,7 +156,7 @@ class MRCTDataset(Dataset):
         # --- MODIFIED SECTION START ---
         # Collect all (patient, slice_idx) pairs *that have a non-empty mask*
         self.samples = []
-        for p in tqdm(self.patients, desc="Loading Data"):
+        for p in self.patients:
             # We load the mask to check for non-empty slices
             mask = sitk.GetArrayFromImage(sitk.ReadImage(str(p / "mask.mha")))
             
@@ -147,7 +166,8 @@ class MRCTDataset(Dataset):
                     self.samples.append((p, i))
         
         if not self.samples:
-            print("Warning: No valid samples found. Check dataset and mask integrity.")
+            logger = logging.getLogger(__name__)
+            logger.warning("Warning: No valid samples found. Check dataset and mask integrity.")
         # --- MODIFIED SECTION END ---
 
     def _load_patient_arrays(self, patient_path: Path):
@@ -163,8 +183,11 @@ class MRCTDataset(Dataset):
                 self._patient_cache.move_to_end(key)
                 return cached
 
-        ct = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "ct_preproc.mha")))
-        mod = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / f"{self.modality}_preproc.mha")))
+        ct_name = "ct_preproc.mha" if self.use_preproc_files else "ct.mha"
+        mod_name = f"{self.modality}_preproc.mha" if self.use_preproc_files else f"{self.modality}.mha"
+
+        ct = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / ct_name)))
+        mod = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / mod_name)))
         mask = sitk.GetArrayFromImage(sitk.ReadImage(str(patient_path / "mask.mha")))
 
         value = (ct, mod, mask)
@@ -355,34 +378,42 @@ if __name__ == "__main__":
     # You can point this either to:
     # - a single region folder: ...\\train\\Task1\\AB
     # - the task folder:        ...\\train\\Task1   (will scan all regions under it)
-    from config import cfg
-    root = cfg["root"]  # <-- change this
-    modality = "mr"  # "mr" or "cbct"
-    # num_adjacent_slices = 0  # 0 for 2D, or odd values (1,3,5,...) for 2.5D
-    # patch_sizes = [
-    #     (256, 256),
-    #     (192, 192),
-    #     (128, 128),
-    #     (64, 64),
-    #     (32, 32),
-    # ]
+    # from config import cfg
+    import os
+    import importlib.util
+
+    DEFAULT_CONFIG_PATH = "config.py"
+    config_path = os.environ.get("CONFIG_PATH", DEFAULT_CONFIG_PATH)
+
+
+    spec = importlib.util.spec_from_file_location("config", config_path)
+    config_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(config_module)
+    cfg = config_module.cfg
+    
+    root = cfg["root"]
+    modality = cfg.get("modality", "mr")
+    patch_size = cfg.get("patch_size", (256, 256))
+    anatomy = cfg.get("anatomy", "HN")
+    num_adjacent_slices = cfg.get("num_adjacent_slices", 0)
 
     n_samples = 3  # how many samples to print per patch size
-    foreground_threshold = 0.5
-    cache_size = 1
+    foreground_threshold = cfg.get("foreground_threshold", 0.5)
+    cache_size = cfg.get("cache_size", 1)
+    use_preproc_files = bool(cfg.get("use_preproc_files", False))
 
     print(f"Root: {root}")
-    print(f"Modality: {modality} | num_adjacent_slices=3d")
+    print(f"Modality: {modality} | num_adjacent_slices={num_adjacent_slices} | use_preproc_files={use_preproc_files}")
+    print(f"Patch size: {patch_size} | Anatomy: {anatomy}")
 
-    # 3D test using anatomy-based patch sizes
-    anatomy = "HN"  # "AB", "HN", or "TH"
     try:
         ds = MRCTDataset(
             root=root,
             modality=modality,
-            patch_size=None,
+            patch_size=patch_size,
             anatomy=anatomy,
-            num_adjacent_slices="3d",
+            num_adjacent_slices=num_adjacent_slices,
+            use_preproc_files=use_preproc_files,
             max_retries=50,
             foreground_threshold=foreground_threshold,
             cache_size=cache_size,
@@ -407,4 +438,4 @@ if __name__ == "__main__":
                 )
         print("OK")
     except Exception as e:
-        print(f"FAILED for 3D test: {type(e).__name__}: {e}")
+        print(f"FAILED: {type(e).__name__}: {e}")

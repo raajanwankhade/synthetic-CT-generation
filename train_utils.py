@@ -1,5 +1,6 @@
 import os
 import io
+import logging
 from typing import cast
 
 import numpy as np
@@ -21,6 +22,7 @@ def init_wandb(cfg: dict, seed: int, use_amp: bool, is_3d: bool):
     return wandb.init(
         project=cfg["wandb_project"],
         name=cfg["wandb_run_name"],
+        group=cfg["wandb_run_group"],
         config={
             "seed": seed,
             "epochs": cfg["epochs"],
@@ -29,10 +31,14 @@ def init_wandb(cfg: dict, seed: int, use_amp: bool, is_3d: bool):
             "patch_size": cfg["patch_size"],
             "anatomy": cfg.get("anatomy", None),
             "num_adjacent_slices": cfg["num_adjacent_slices"],
-            "model": "ResNet3D_EncoderDecoder" if is_3d else "ResNet2D_EncoderDecoder",
+            "model": "UNET3D_EncoderDecoder" if is_3d else "UNET2D_EncoderDecoder",
             "scheduler": "ReduceLROnPlateau",
-            "loss": "L1 + SSIM + Seg Loss",
+            "loss": "L1 + SSIM",
+            "SSIM_weight": cfg["lambda_ssim"],
+            "SSIM_downsample": cfg["ssim_downsample"],
             "amp": use_amp,
+            "amp_dtype": cfg["amp_dtype"],
+            "torch_compile": cfg.get("torch_compile", False),
         },
         mode=cfg["wandb_mode"],
         resume=cfg["resume_wandb"],
@@ -127,7 +133,8 @@ class CheckpointManager:
             ckpt_path = os.path.join(self.save_dir, self.filename)
             self.save_epoch(ckpt_path, epoch, encoder, decoder, optimizer, scheduler, scaler)
             self.best_path = ckpt_path
-            print(f"✅ Saved BEST checkpoint: epoch={epoch} {self.monitor}={score:.5f} -> {ckpt_path}")
+            logger = logging.getLogger(__name__)
+            logger.info(f"✅ Saved BEST checkpoint: epoch={epoch} {self.monitor}={score:.5f} -> {ckpt_path}")
 
     def save_epoch(self, ckpt_path, epoch, encoder, decoder, optimizer, scheduler, scaler):
         torch.save({
@@ -152,7 +159,8 @@ class CheckpointManager:
         if optimizer is not None and "optimizer" in ckpt:
             optimizer.load_state_dict(ckpt["optimizer"])
         epoch = ckpt.get("epoch", None)
-        print(f"🔁 Loaded best checkpoint from {self.best_path} (epoch={epoch})")
+        logger = logging.getLogger(__name__)
+        logger.info(f"🔁 Loaded best checkpoint from {self.best_path} (epoch={epoch})")
         return ckpt
 
 
@@ -169,7 +177,8 @@ def build_optimizer(encoder: nn.Module, decoder: nn.Module, device: torch.device
             fused=(device.type == "cuda"),
         )
         if device.type == "cuda" and verbose:
-            print("✅ Using AdamW(fused=True) on CUDA")
+            logger = logging.getLogger(__name__)
+            logger.info("✅ Using AdamW(fused=True) on CUDA")
         return optimizer
     except TypeError:
         return torch.optim.Adam(
@@ -185,27 +194,51 @@ def build_scheduler(optimizer, scheduler_patience: int):
     )
 
 
-# def maybe_compile_models(encoder: nn.Module, decoder: nn.Module, cfg: dict):
-#     compile_enabled = False
-#     if cfg.get("torch_compile", False):
-#         try:
-#             slurm_tmp = os.environ.get("SLURM_TMPDIR")
-#             if slurm_tmp:
-#                 os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", os.path.join(slurm_tmp, "torchinductor"))
-#             try:
-#                 from torch._dynamo import config as dynamo_config  # type: ignore
-#                 dynamo_config.suppress_errors = True
-#             except Exception:
-#                 pass
+def maybe_compile_models(encoder: nn.Module, decoder: nn.Module, cfg: dict, device: torch.device):
+    logger = logging.getLogger(__name__)
+    """Optionally compile encoder and decoder using torch.compile.
+    
+    Args:
+        encoder: Encoder model to compile
+        decoder: Decoder model to compile
+        cfg: Config dict with torch_compile and torch_compile_mode settings
+        device: Device on which models are deployed
+    
+    Returns:
+        Tuple of (compiled_encoder, compiled_decoder, compile_enabled)
+    """
+    compile_enabled = False
+    if cfg.get("torch_compile", False):
+        try:
+            # Use SLURM temp dir for TorchInductor cache if available
+            slurm_tmp = os.environ.get("SLURM_TMPDIR")
+            if slurm_tmp:
+                cache_dir = os.path.join(slurm_tmp, "torchinductor")
+                os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", cache_dir)
+                logger.info(f"Using TorchInductor cache: {cache_dir}")
+            
+            # Let compile errors surface so you can debug them
+            try:
+                from torch._dynamo import config as dynamo_config  # type: ignore
+                dynamo_config.suppress_errors = False
+            except Exception:
+                pass
 
-#             mode = cfg.get("torch_compile_mode", "reduce-overhead")
-#             encoder = cast(nn.Module, torch.compile(encoder, mode=mode))
-#             decoder = cast(nn.Module, torch.compile(decoder, mode=mode))
-#             compile_enabled = True
-#             print(f"✅ torch.compile enabled (mode={mode})")
-#         except Exception as e:
-#             print(f"⚠️ torch.compile not enabled: {e}")
-#     return encoder, decoder, compile_enabled
+            mode = cfg.get("torch_compile_mode", "default")
+            backend = cfg.get("torch_compile_backend", "inductor")  # inductor (optimizing) | aot_eager (debug only)
+            
+            logger.info(f"🔧 Compiling encoder (mode={mode}, backend={backend})...")
+            encoder = cast(nn.Module, torch.compile(encoder, mode=mode, backend=backend))
+            
+            logger.info(f"🔧 Compiling decoder (mode={mode}, backend={backend})...")
+            decoder = cast(nn.Module, torch.compile(decoder, mode=mode, backend=backend))
+            
+            compile_enabled = True
+            logger.info(f"✅ torch.compile enabled successfully (mode={mode}, backend={backend})")
+        except Exception as e:
+            logger.warning(f"⚠️ torch.compile not enabled: {e}")
+            logger.info("   (This is normal on older PyTorch versions or unsupported backends)")
+    return encoder, decoder, compile_enabled
 
 
 def enforce_channels_last(x: torch.Tensor, y: torch.Tensor, m: torch.Tensor, device: torch.device):
