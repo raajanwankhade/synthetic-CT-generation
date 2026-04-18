@@ -8,3 +8,5 @@ pillow               # PIL
 wandb
 simpleitk
 kagglehub
+TotalSegmentator
+nibabel

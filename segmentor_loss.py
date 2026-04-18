@@ -76,7 +76,7 @@ class SegmentorLoss(nn.Module):
         ).to(device)
 
         # -- Load trained weights
-        weights_path = (
+        weights_path = cfg.get("binary_teacher_path") or (
             Path(cfg["run_dir"])
             / cfg["ckpt_dir"]
             / cfg.get("teacher_filename", "frozen_teacher.pth")
