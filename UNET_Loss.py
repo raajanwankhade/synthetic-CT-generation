@@ -56,4 +56,21 @@ class LossModule(nn.Module):
         total_loss = l1 + self.ssim_weight * ssim_loss + self.seg_weight * seg_loss
         return total_loss, l1.item(), ssim_loss.item(), seg_loss.item()
 
+    def surrogate_dice_loss(
+        self,
+        logits: torch.Tensor,
+        pseudo_labels: torch.Tensor,
+        eps: float = 1e-6,
+    ) -> torch.Tensor:
+        probs = torch.sigmoid(logits)
+        b, c = probs.shape[:2]
+
+        probs_flat = probs.view(b, c, -1)
+        labels_flat = pseudo_labels.view(b, c, -1).to(probs_flat.dtype)
+
+        intersection = (probs_flat * labels_flat).sum(dim=-1)
+        cardinality = probs_flat.sum(dim=-1) + labels_flat.sum(dim=-1)
+        dice_per_class = (2.0 * intersection + eps) / (cardinality + eps)
+        return 1.0 - dice_per_class.mean()
+
 

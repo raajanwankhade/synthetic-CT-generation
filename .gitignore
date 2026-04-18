@@ -14,3 +14,5 @@ depreciated/
 .vscode/
 *.png
 *.txt
+inference/ablation_outputs_hn
+inference/ablation_outputs_3d_ppd/ablation_summary.csv

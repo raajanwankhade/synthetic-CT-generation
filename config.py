@@ -57,6 +57,38 @@ cfg = {
     "sanity_steps": 1,
     "resume_path": None,
 
+    # Alternating TS training
+    "TS_epochs": 1,
+    "regular_epochs": 2,
+    "ts_seg_classes": "all",  # Mode selector: "binary", "all", or list indices.
+                                # Examples: "binary", "all", or [1, 3, 5]
+                                # Class indices are TotalSegmentator labels in [1, 104].
+                                # For "all", class-count is inferred automatically.
+    "surrogate_weight": 0.5,  # Weight on surrogate Dice in total loss.
+                               # total_loss += surrogate_weight * s_loss
+    "surrogate_lr": 1e-3,  # Learning rate for surrogate head optimizer.
+                            # Independent of main model LR schedule.
+                            # Fixed — not stepped by the scheduler.
+    "persist_ts_cache": True,  # Save pseudo-label volumes to disk.
+                                # Enables resume across training interruptions.
+                                # Files saved to run_dir/ts_cache/
+
+    # TS dataloader and I/O controls
+    "ts_fraction": 0.2,
+    "ts_batch_size": 8,
+    "ts_patch_size": (32, 192, 192),
+    "ts_stride": (32, 192, 192),
+    "ts_num_workers": 0,
+    "ts_cache_size": 2,
+    "ts_use_preproc_files": False,  # False => TS loader uses mr.mha/ct.mha (non-preproc files)
+    "ts_randomize_each_cycle": True,  # Re-sample TS patient subset each TS cycle (seed + cycle_idx)
+    "ts_min_dice_for_cache": 0.0,  # Minimum TS Dice needed to cache pseudo labels.
+                                # 0.0 disables gating so cache populates from early cycles.
+    "ts_use_ramdisk": True,
+    "ts_tmp_dir": None,  # If set, overrides ramdisk/default temp path for TS NIfTI files
+    "keep_ts_inputs": False,
+    "binary_teacher_path": None,
+
     # Teacher Training
     "teacher_filename": "frozen_teacher.pth",
     "teacher_patience": 10,  # early stopping patience for teacher validation loss
@@ -75,12 +107,12 @@ cfg = {
     "ckpt_filename": "best.pth",
 
     # W&B
-    "wandb_mode": "disabled",  # "online", "offline", or "disabled"
+    "wandb_mode": "online",  # "online", "offline", or "disabled"
     "wandb_project": "MR_CT_Translation_UNET",
-    "wandb_run_group": "ablations",
-    "wandb_run_name": "[abl]_UNet3D_HN_pruned_preproc_L1_SSIM_run2",
+    "wandb_run_group": "TS_alternate",  # e.g. "Ablation_Study_1"
+    "wandb_run_name": "test",  # e.g. "Unet3D_HN_ssim_l1"
     "id_wandb":None,
-    "resume_wandb":None,
+    "resume_wandb":None, #allow
 
 
     #Figure save locations
