@@ -1,0 +1,40 @@
+name: xai_env
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+
+  # PyTorch stack (CUDA-enabled)
+  - pytorch=2.2
+  - torchvision=0.17
+  - pytorch-cuda=12.1   # DO NOT set 12.9 here
+
+  # Core
+  - numpy>=1.23,<2.0
+  - matplotlib>=3.7
+
+  # Medical imaging
+  - monai=1.3
+  - nibabel>=5.1
+
+  # Scientific
+  - scipy>=1.10
+  - scikit-image>=0.21
+  - pandas>=2.0
+
+  # Visualization
+  - plotly>=5.14
+
+  # Utilities
+  - pillow>=9.5
+  - tqdm>=4.65
+
+  # Optional
+  # - jupyter
+  # - ipywidgets
+
+  - pip
