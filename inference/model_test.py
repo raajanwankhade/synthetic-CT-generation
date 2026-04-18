@@ -16,6 +16,19 @@ from test_dataset_class import (
     stitch_patches_array_3d,
 )
 
+# Detect interactive environment (Jupyter/IPython)
+try:
+    get_ipython()  # type: ignore
+    IS_INTERACTIVE = True
+except NameError:
+    IS_INTERACTIVE = False
+
+# Conditional tqdm - only show progress bar in interactive environments
+if IS_INTERACTIVE:
+    tqdm_iter = tqdm
+else:
+    tqdm_iter = lambda x, **kwargs: x  # type: ignore
+
 
 def _predict_patch(
     model: torch.jit.ScriptModule,
@@ -89,6 +102,7 @@ def run_patient(
     device: str,
     num_adjacent_slices,  # int or "3d"
     channels_last: bool = False,
+    use_preproc_files: bool = False,
 ) -> Path:
     """
     Run inference on a single patient volume.
@@ -98,7 +112,10 @@ def run_patient(
       - 2.5D inference (num_adjacent_slices=1,3,5,...)
       - 3D volumetric inference (num_adjacent_slices="3d")
     """
-    mod_img = sitk.ReadImage(str(patient_dir / f"{modality}.mha"))
+    if use_preproc_files:
+        mod_img = sitk.ReadImage(str(patient_dir / f"{modality}_preproc.mha"))
+    else:
+        mod_img = sitk.ReadImage(str(patient_dir / f"{modality}.mha"))
     mod_arr = sitk.GetArrayFromImage(mod_img)  # (D, H, W)
 
     if mod_arr.ndim != 3:
@@ -150,9 +167,16 @@ def run_patient(
 
 
 def main(args: argparse.Namespace) -> None:
+    print("[model_test.py] Starting inference...")
     model_path = Path(config.MODEL_PATH)
     input_path = Path(config.INPUT_PATH)
     output_dir = Path(config.OUTPUT_DIR)
+    preproc = config.USE_PREPROC_FILES
+
+    print(f"[model_test.py] Model: {model_path}")
+    print(f"[model_test.py] Input: {input_path}")
+    print(f"[model_test.py] Output: {output_dir}")
+    print(f"[model_test.py] Preprocessing: {preproc}")
 
     if not model_path.exists():
         raise FileNotFoundError(f"Model not found: {model_path}")
@@ -160,11 +184,14 @@ def main(args: argparse.Namespace) -> None:
         raise FileNotFoundError(f"Input path not found: {input_path}")
 
     device = config.DEVICE
+    print(f"[model_test.py] Loading model on device: {device}")
     model = torch.jit.load(str(model_path), map_location=device)
     model.eval()
 
     # Determine if 3D mode
     is_3d = str(config.NUM_ADJACENT_SLICES).lower() == "3d"
+    mode = "3D" if is_3d else "2D/2.5D"
+    print(f"[model_test.py] Inference mode: {mode} (adjacent_slices={config.NUM_ADJACENT_SLICES})")
 
     if is_3d:
         # 3D: patch_size and stride are 3-tuples (D, H, W)
@@ -183,6 +210,8 @@ def main(args: argparse.Namespace) -> None:
         if config.STRIDE is not None:
             stride = (int(config.STRIDE[0]), int(config.STRIDE[1]))
 
+    print(f"[model_test.py] Patch size: {patch_size}, Stride: {stride}")
+
     patients: List[Path] = []
     if is_patient_dir(input_path, config.MODALITY):
         patients = [input_path]
@@ -194,8 +223,10 @@ def main(args: argparse.Namespace) -> None:
     if not patients:
         raise ValueError("No valid patient folders found")
 
+    print(f"[model_test.py] Found {len(patients)} patient(s) to process")
+    print("[model_test.py] Starting to load and process patient data...")
     channels_last = getattr(config, "CHANNELS_LAST", False)
-    for patient_dir in tqdm(patients):
+    for patient_dir in tqdm_iter(patients, desc="Processing patients", disable=not IS_INTERACTIVE):
         out_path = run_patient(
             model=model,
             patient_dir=patient_dir,
@@ -206,9 +237,12 @@ def main(args: argparse.Namespace) -> None:
             device=device,
             num_adjacent_slices=config.NUM_ADJACENT_SLICES,
             channels_last=channels_last,
+            use_preproc_files=preproc,
         )
         if not args.quiet:
-            print(f"\nSaved: {out_path}")
+            print(f"[model_test.py] Saved: {out_path}")
+
+    print("[model_test.py] Inference completed successfully.")
 
 
 if __name__ == "__main__":

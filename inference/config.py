@@ -1,16 +1,16 @@
 # Configuration for TorchScript inference
 
-MODEL_PATH = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/runs/Unet3dHN/full_run2/checkpoints/scripted.pth"
+MODEL_PATH = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/ablations/Unet3D/HN/preproc_l1_ssim_dice/run1/checkpoints/scripted.pth"
 INPUT_PATH = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-hn/versions/3/Task1"
 MODALITY = "mr"  # "mr" or "cbct"
-
+USE_PREPROC_FILES = True  # If True, looks for preprocessed files like "mr_preproc.mha" instead of "mr.mha"
 # Patch size:
 #   2D/2.5D: (H, W) e.g., (256, 256)
 #   3D:      (D, H, W) e.g., (32, 192, 160)
     # "AB": (32, 192, 224),
     # "HN": (32, 192, 160),
     # "TH": (32, 192, 192),
-PATCH_SIZE = (32, 192, 160)
+PATCH_SIZE = (32, 192, 192)
 
 # Stride for overlapping patches:
 #   2D/2.5D: (sh, sw) e.g., (128, 128)
@@ -76,6 +76,7 @@ if __name__ == "__main__":
     parser.add_argument("--device", type=str)
     parser.add_argument("--num_adjacent_slices", type=slices_type)
     parser.add_argument("--channels_last", type=bool_type)
+    parser.add_argument("--use_preproc_files", type=bool_type)
 
     args = parser.parse_args()
 
@@ -96,5 +97,6 @@ if __name__ == "__main__":
         "DEVICE",
         "NUM_ADJACENT_SLICES",
         "CHANNELS_LAST",
+        "USE_PREPROC_FILES",
     ]:
         print(f"{name} = {g[name]}")

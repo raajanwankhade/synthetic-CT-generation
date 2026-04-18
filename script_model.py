@@ -176,14 +176,3 @@ if args.onnx:
             opset_version=17,
         )
     print(f"✔ ONNX saved to: {onnx_path}")
-
-# =========================
-# USAGE REMINDER
-# =========================
-print("\n─── Inference usage (no architecture code needed) ───")
-print(f'  model = torch.jit.load("{EXPORT_PATH}", map_location="cpu")')
-print(f'  output = model(torch.randn{INPUT_SHAPE})')
-print(f'\n  # To inspect embedded config:')
-print(f'  extra = {{"model_metadata.json": ""}}')
-print(f'  model = torch.jit.load("{EXPORT_PATH}", _extra_files=extra)')
-print(f'  import json; cfg = json.loads(extra["model_metadata.json"])')

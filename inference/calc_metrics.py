@@ -5,6 +5,19 @@ import argparse
 import numpy as np
 from tqdm.auto import tqdm
 
+# Detect interactive environment (Jupyter/IPython)
+try:
+    get_ipython()  # type: ignore
+    IS_INTERACTIVE = True
+except NameError:
+    IS_INTERACTIVE = False
+
+# Conditional tqdm - only show progress bar in interactive environments
+if IS_INTERACTIVE:
+    tqdm_iter = tqdm
+else:
+    tqdm_iter = lambda x, **kwargs: x  # type: ignore
+
 try:
     from inference import config
     from inference.image_metrics import ImageMetrics
@@ -27,9 +40,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    print("[calc_metrics.py] Starting metrics calculation...")
     args = parse_args()
     input_path = Path(config.INPUT_PATH)
     output_dir = Path(config.OUTPUT_DIR)
+
+    print(f"[calc_metrics.py] Input path: {input_path}")
+    print(f"[calc_metrics.py] Output dir: {output_dir}")
+    print(f"[calc_metrics.py] GT CT filename: {args.gt_ct_filename}")
+    print(f"[calc_metrics.py] Predicted CT filename: {args.pred_ct_filename}")
 
     if not input_path.exists():
         raise FileNotFoundError(f"Input path not found: {input_path}")
@@ -47,11 +66,12 @@ def main() -> None:
     if not patients:
         raise ValueError("No valid patient folders found")
 
+    print(f"[calc_metrics.py] Found {len(patients)} patient(s) to score")
     img_metrics = ImageMetrics()
     # img_metrics = ImageMetricsGPU()
     per_patient = []
 
-    for patient_dir in tqdm(patients, desc="Scoring patients"):
+    for patient_dir in tqdm_iter(patients, desc="Scoring patients", disable=not IS_INTERACTIVE):
         gt_ct_path = patient_dir / args.gt_ct_filename
         mask_path = patient_dir / args.mask_filename
         pred_ct_path = output_dir / patient_dir.name / args.pred_ct_filename
@@ -80,11 +100,7 @@ def main() -> None:
     print("\n=== Average metrics over all patients ===")
     for k, v in averages.items():
         print(f"{k:10s}: {v:.4f}")
-
-    # Uncomment for per-patient breakdown
-    # print("\n=== Per-patient metrics ===")
-    # for p in per_patient:
-    #     print(p)
+    print("[calc_metrics.py] Metrics calculation completed.\n")
 
 
 if __name__ == "__main__":
