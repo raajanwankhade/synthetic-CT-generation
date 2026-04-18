@@ -251,6 +251,7 @@ class MRCTDataset(Dataset):
             mod_crop = mod[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw][None, ...]
             ct_crop = ct[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw][None, ...]
             mask_crop = mask[z0:z0 + pd, y0:y0 + ph, x0:x0 + pw][None, ...]
+            patch_start = (int(z0), int(y0), int(x0))
         else:
             # Handle 2.5D context
             half = self.num_adjacent // 2
@@ -303,6 +304,7 @@ class MRCTDataset(Dataset):
             mod_crop = mod_stack[:, y0:y0 + ph, x0:x0 + pw]
             ct_crop = ct_slice[:, y0:y0 + ph, x0:x0 + pw]
             mask_crop = mask_slice[:, y0:y0 + ph, x0:x0 + pw]
+            patch_start = (int(slice_idx), int(y0), int(x0))
 
         sample = {
             "input": torch.from_numpy(np.ascontiguousarray(mod_crop)).float(),
@@ -310,7 +312,8 @@ class MRCTDataset(Dataset):
             "mask": torch.from_numpy(np.ascontiguousarray(mask_crop)).float(),
             "patient": patient_path.name,
             "region": self.patient_region.get(str(patient_path), ""),
-            "slice_idx": slice_idx
+            "slice_idx": slice_idx,
+            "patch_start": patch_start,
         }
 
         if self.transform:
