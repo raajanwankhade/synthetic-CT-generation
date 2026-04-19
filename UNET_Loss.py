@@ -6,17 +6,20 @@ from torchmetrics.functional import structural_similarity_index_measure as ssim
 from torchmetrics.functional import peak_signal_noise_ratio as psnr
 
 class LossModule(nn.Module):
-    def __init__(self, device, ssim_down=1, ssim_weight=1.0, seg_weight=0.1):
+    def __init__(self, device, ssim_down=1, ssim_weight=1.0, seg_weight=0.1, return_items=True):
         super().__init__()
         self.ssim_down = ssim_down
         self.ssim_weight = ssim_weight
-        self.seg_weight = seg_weight
+        self.seg_weight = float(seg_weight)
+        self.return_items = bool(return_items)
         self.device = device
 
         self.l1_loss = nn.L1Loss()
-        # Import lazily so segmentor_loss reads CONFIG_PATH after runtime setup.
-        from segmentor_loss import SegmentorLoss
-        self.segmentor_loss = SegmentorLoss(device)
+        self.segmentor_loss = None
+        if self.seg_weight > 0.0:
+            # Import lazily so segmentor_loss reads CONFIG_PATH after runtime setup.
+            from segmentor_loss import SegmentorLoss
+            self.segmentor_loss = SegmentorLoss(device)
 
     @staticmethod
     def _as_tensor(metric_out: torch.Tensor | tuple[torch.Tensor, torch.Tensor]) -> torch.Tensor:
@@ -49,28 +52,33 @@ class LossModule(nn.Module):
         psnr_val = self._as_tensor(psnr(preds, target, data_range=data_range)).item()
         return ssim_val, psnr_val
     
-    def forward(self, preds: torch.Tensor, y: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, float, float, float]:
+    def forward(self, preds: torch.Tensor, y: torch.Tensor, mask: torch.Tensor):
         l1 = self.l1_loss(preds, y)
         ssim_loss = self._ssim_loss(preds, y, self.ssim_down)
-        seg_loss = self.segmentor_loss(preds, mask)
+        if self.segmentor_loss is not None:
+            seg_loss = self.segmentor_loss(preds, mask)
+        else:
+            seg_loss = preds.new_zeros(())
         total_loss = l1 + self.ssim_weight * ssim_loss + self.seg_weight * seg_loss
-        return total_loss, l1.item(), ssim_loss.item(), seg_loss.item()
+        if self.return_items:
+            return total_loss, l1.item(), ssim_loss.item(), seg_loss.item()
+        return total_loss, l1, ssim_loss, seg_loss
 
-    def surrogate_dice_loss(
-        self,
-        logits: torch.Tensor,
-        pseudo_labels: torch.Tensor,
-        eps: float = 1e-6,
-    ) -> torch.Tensor:
-        probs = torch.sigmoid(logits)
-        b, c = probs.shape[:2]
+    # def surrogate_dice_loss(
+    #     self,
+    #     logits: torch.Tensor,
+    #     pseudo_labels: torch.Tensor,
+    #     eps: float = 1e-6,
+    # ) -> torch.Tensor:
+    #     probs = torch.sigmoid(logits)
+    #     b, c = probs.shape[:2]
 
-        probs_flat = probs.view(b, c, -1)
-        labels_flat = pseudo_labels.view(b, c, -1).to(probs_flat.dtype)
+    #     probs_flat = probs.view(b, c, -1)
+    #     labels_flat = pseudo_labels.view(b, c, -1).to(probs_flat.dtype)
 
-        intersection = (probs_flat * labels_flat).sum(dim=-1)
-        cardinality = probs_flat.sum(dim=-1) + labels_flat.sum(dim=-1)
-        dice_per_class = (2.0 * intersection + eps) / (cardinality + eps)
-        return 1.0 - dice_per_class.mean()
+    #     intersection = (probs_flat * labels_flat).sum(dim=-1)
+    #     cardinality = probs_flat.sum(dim=-1) + labels_flat.sum(dim=-1)
+    #     dice_per_class = (2.0 * intersection + eps) / (cardinality + eps)
+    #     return 1.0 - dice_per_class.mean()
 
 

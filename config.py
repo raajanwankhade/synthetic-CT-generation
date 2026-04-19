@@ -4,10 +4,11 @@ cfg = {
     "root": '/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-hn/versions/3/Task1',
     "modality": "mr",
 
-    "patch_size": (32, 192, 192),
+    "patch_size": (32, 128, 128),
     "anatomy": "HN",  # "AB", "HN", or "TH" for 3D
     "num_adjacent_slices": "3d",  # 3D patches
-    "cache_size": 2,
+    "cache_size": 8,
+    "max_retries": 4,
     "foreground_threshold": 0.3,
     "val_split": 0.2,
 
@@ -50,7 +51,22 @@ cfg = {
     "lambda_seg": 100,
     "lambda_ssim": 1000,
     "lambda_l1": 1.0,
+    "lambda_adv": 0.4,
     "lambda_afp": 0.1,
+
+    # WGAN-GP training config (UNET3D generator + Discriminator3D critic)
+    "wgan_gp_cfg": {
+        "lambda_adv": 0.4,  # Generator adversarial-loss weight
+        "lambda_gp": 10.0,   # Gradient penalty coefficient
+        "n_critic": 5,       # Critic updates per generator update
+        "gen_lr": 1e-4,
+        "disc_lr": 1e-4,
+        "disc_betas": (0.0, 0.9),
+        "gen_scheduler_patience": 10,
+        "disc_scheduler_patience": 10,
+        "critic_grad_clip": None,
+        "best_ckpt_filename": "best_wgan_gp.pth",
+    },
 
     "scheduler_patience": 10,
     "grad_clip": None,
@@ -128,6 +144,19 @@ cfg = {
         "blocks_per_stage": [2, 2, 2, 2],
         "convs_per_block": 2,
         "negative_slope": 0.01,
+    },
+
+    # Discriminator (3D)
+    "discriminator3d_cfg": {
+        "in_ch": 1,
+        "base_ch": 16,
+        "stage_channels": [16, 32, 64, 128],
+        "blocks_per_stage": [2, 2, 2, 2],
+        "convs_per_block": 2,
+        "use_residual": True,
+        "negative_slope": 0.2,
+        "norm": "instance",  # "instance" or "batch"
+        "pool_logits": False,
     },
 
     # Model (2D)
