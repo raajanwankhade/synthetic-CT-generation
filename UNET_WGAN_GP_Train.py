@@ -224,6 +224,7 @@ def main(cfg: dict) -> None:
     logger.info("WGAN-GP training complete")
     logger.info("=" * 60)
 
+#region argparse
 
 def _infer_type(value):
     if value is None:
@@ -348,6 +349,7 @@ def update_cfg_from_args(cfg: dict, args: argparse.Namespace) -> dict:
                 updated_cfg[key] = arg_value
     return updated_cfg
 
+#endregion argparse
 
 def save_config_to_run_dir(cfg: dict, run_dir: Path, logger: logging.Logger) -> Path:
     run_dir.mkdir(parents=True, exist_ok=True)

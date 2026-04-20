@@ -347,21 +347,21 @@ def train_wgan_gp(
 
         if tu.SHUTDOWN_REQUESTED:
             logger.info(f"Shutdown requested. Stopping at epoch {epoch}.")
-            last_ckpt_path = ckpt_dir / f"epoch_{epoch}_wgan_gp_last.pth"
-            _save_checkpoint(
-                ckpt_path=last_ckpt_path,
-                epoch=epoch,
-                encoder=encoder,
-                decoder=decoder,
-                critic=critic,
-                gen_optimizer=gen_optimizer,
-                critic_optimizer=critic_optimizer,
-                gen_scheduler=gen_scheduler,
-                critic_scheduler=critic_scheduler,
-                scaler=scaler,
-                best_val_loss=best_val_loss,
-            )
-            logger.info(f"Saved last checkpoint to {last_ckpt_path}")
             break
+    last_ckpt_path = ckpt_dir / f"epoch_{epoch}_wgan_gp_last.pth"
+    _save_checkpoint(
+        ckpt_path=last_ckpt_path,
+        epoch=epoch,
+        encoder=encoder,
+        decoder=decoder,
+        critic=critic,
+        gen_optimizer=gen_optimizer,
+        critic_optimizer=critic_optimizer,
+        gen_scheduler=gen_scheduler,
+        critic_scheduler=critic_scheduler,
+        scaler=scaler,
+        best_val_loss=best_val_loss,
+    )
+    logger.info(f"Saved last checkpoint to {last_ckpt_path}")
 
     return encoder, decoder, critic, history
