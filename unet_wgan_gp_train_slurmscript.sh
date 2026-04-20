@@ -56,14 +56,14 @@ echo "Allotted CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 export CUDA_VISIBLE_DEVICES="MIG-d92daec9-5afd-5a16-adac-861b9216d4f9"
 
 python3 UNET_WGAN_GP_Train.py \
-  --run_dir /data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/runs/wgan_gp/fullrun1 \
-  --patch_size 32,128,128 \
+  --run_dir /workspace/awesome-synthetic-CT-generation/bhuvanesh/runs/wgan_gp/fullrun1 \
+  --patch_size 32,128,192 \
   --num_adjacent_slices 3d \
   --use_pruned_data false \
   --use_preproc_files true \
-  --epochs 30 \
+  --epochs 1 \
   --batch_size 8 \
   --wandb_mode online \
   --wandb_run_group "WGAN-GP UNET3D" \
   --wandb_run_name "fullrun1" \
-  --log_file train_wgan_gp.log
+  --log_file train_wgan_gp.log \

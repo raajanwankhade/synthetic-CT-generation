@@ -11,6 +11,31 @@ import torch.nn as nn
 import train_utils as tu
 
 
+def _state_dict_for_save(module: nn.Module):
+    # torch.compile wraps modules as OptimizedModule with original weights in _orig_mod.
+    base_module = getattr(module, "_orig_mod", module)
+    return base_module.state_dict()
+
+
+def _load_state_dict_compatible(module: nn.Module, state_dict: dict, module_name: str, logger: logging.Logger) -> None:
+    try:
+        module.load_state_dict(state_dict)
+        return
+    except RuntimeError:
+        pass
+
+    prefixed = all(k.startswith("_orig_mod.") for k in state_dict.keys())
+    if prefixed:
+        stripped_state = {k[len("_orig_mod.") :]: v for k, v in state_dict.items()}
+        module.load_state_dict(stripped_state)
+        logger.info(f"Loaded {module_name} weights after stripping '_orig_mod.' prefix")
+        return
+
+    compiled_state = {f"_orig_mod.{k}": v for k, v in state_dict.items()}
+    module.load_state_dict(compiled_state)
+    logger.info(f"Loaded {module_name} weights by applying '_orig_mod.' prefix")
+
+
 def _load_secrets_from_file() -> None:
     """Populate environment variables from secrets.json when available."""
     secrets_path = Path("secrets.json")
@@ -99,7 +124,10 @@ def _gradient_penalty(
     interpolates = alpha * real_samples + (1.0 - alpha) * fake_samples
     interpolates.requires_grad_(True)
 
-    interp_logits = critic(interpolates)
+    # WGAN-GP needs higher-order gradients via create_graph=True.
+    # For compiled critics this path can hit Triton runtime issues; use eager module.
+    critic_for_gp = getattr(critic, "_orig_mod", critic)
+    interp_logits = critic_for_gp(interpolates)
     grad_outputs = torch.ones_like(interp_logits)
 
     gradients = torch.autograd.grad(
@@ -133,9 +161,9 @@ def _save_checkpoint(
     torch.save(
         {
             "epoch": epoch,
-            "encoder": encoder.state_dict(),
-            "decoder": decoder.state_dict(),
-            "critic": critic.state_dict(),
+            "encoder": _state_dict_for_save(encoder),
+            "decoder": _state_dict_for_save(decoder),
+            "critic": _state_dict_for_save(critic),
             "gen_optimizer": gen_optimizer.state_dict(),
             "critic_optimizer": critic_optimizer.state_dict(),
             "gen_scheduler": gen_scheduler.state_dict(),
@@ -163,9 +191,9 @@ def _resume_from_checkpoint(
     logger.info(f"Resuming from checkpoint: {resume_path}")
     ckpt = torch.load(resume_path, map_location=device, weights_only=False)
 
-    encoder.load_state_dict(ckpt["encoder"])
-    decoder.load_state_dict(ckpt["decoder"])
-    critic.load_state_dict(ckpt["critic"])
+    _load_state_dict_compatible(encoder, ckpt["encoder"], "encoder", logger)
+    _load_state_dict_compatible(decoder, ckpt["decoder"], "decoder", logger)
+    _load_state_dict_compatible(critic, ckpt["critic"], "critic", logger)
 
     if "gen_optimizer" in ckpt:
         gen_optimizer.load_state_dict(ckpt["gen_optimizer"])

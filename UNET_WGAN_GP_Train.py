@@ -87,6 +87,12 @@ def main(cfg: dict) -> None:
     device = _select_device()
     use_amp = device.type == "cuda"
     logger.info(f"Device: {device} | AMP: {use_amp} | CUDA devices: {torch.cuda.device_count()}")
+    if device.type == "cuda":
+        props = torch.cuda.get_device_properties(device)
+        total_vram_gb = props.total_memory / (1024 ** 3)
+        logger.info(
+            f"GPU: {props.name} | VRAM: {total_vram_gb:.1f} GB | CPU cores: {os.cpu_count()}"
+        )
 
     if device.type == "cuda" and cfg.get("allow_tf32", True):
         try:
@@ -154,6 +160,23 @@ def main(cfg: dict) -> None:
         encoder = cast(Any, encoder).to(memory_format=torch.channels_last_3d)
         decoder = cast(Any, decoder).to(memory_format=torch.channels_last_3d)
         critic = cast(Any, critic).to(memory_format=torch.channels_last_3d)
+
+    compiled_gen = False
+    compiled_critic = False
+    if cfg.get("torch_compile", False):
+        compile_generator = bool(cfg.get("compile_generator", True))
+        compile_critic = bool(cfg.get("compile_critic", False))
+
+        if compile_generator:
+            encoder, decoder, compiled_gen = tu.maybe_compile_models(encoder, decoder, cfg, device)
+        if compile_critic:
+            critic, compiled_critic = tu.maybe_compile_module(critic, "critic", cfg)
+        else:
+            logger.info("Skipping critic torch.compile for WGAN-GP stability")
+
+        logger.info(
+            f"torch.compile status | generator: {compiled_gen} | critic: {compiled_critic}"
+        )
 
     lambda_ssim = cfg["lambda_ssim"]
     lambda_seg = cfg.get("lambda_seg", 0.1)

@@ -210,20 +210,7 @@ def maybe_compile_models(encoder: nn.Module, decoder: nn.Module, cfg: dict, devi
     compile_enabled = False
     if cfg.get("torch_compile", False):
         try:
-            # Use SLURM temp dir for TorchInductor cache if available
-            slurm_tmp = os.environ.get("SLURM_TMPDIR")
-            if slurm_tmp:
-                cache_dir = os.path.join(slurm_tmp, "torchinductor")
-                os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", cache_dir)
-                logger.info(f"Using TorchInductor cache: {cache_dir}")
-            
-            # Let compile errors surface so you can debug them
-            try:
-                from torch._dynamo import config as dynamo_config  # type: ignore
-                dynamo_config.suppress_errors = False
-            except Exception:
-                pass
-
+            _prepare_torch_compile_runtime(logger)
             mode = cfg.get("torch_compile_mode", "default")
             backend = cfg.get("torch_compile_backend", "inductor")  # inductor (optimizing) | aot_eager (debug only)
             
@@ -239,6 +226,41 @@ def maybe_compile_models(encoder: nn.Module, decoder: nn.Module, cfg: dict, devi
             logger.warning(f"⚠️ torch.compile not enabled: {e}")
             logger.info("   (This is normal on older PyTorch versions or unsupported backends)")
     return encoder, decoder, compile_enabled
+
+
+def _prepare_torch_compile_runtime(logger: logging.Logger) -> None:
+    # Use SLURM temp dir for TorchInductor cache if available.
+    slurm_tmp = os.environ.get("SLURM_TMPDIR")
+    if slurm_tmp:
+        cache_dir = os.path.join(slurm_tmp, "torchinductor")
+        os.environ.setdefault("TORCHINDUCTOR_CACHE_DIR", cache_dir)
+        logger.info(f"Using TorchInductor cache: {cache_dir}")
+
+    # Let compile errors surface so unsupported kernels are obvious in logs.
+    try:
+        from torch._dynamo import config as dynamo_config  # type: ignore
+        dynamo_config.suppress_errors = False
+    except Exception:
+        pass
+
+
+def maybe_compile_module(module: nn.Module, module_name: str, cfg: dict) -> tuple[nn.Module, bool]:
+    logger = logging.getLogger(__name__)
+    if not cfg.get("torch_compile", False):
+        return module, False
+
+    mode = cfg.get("torch_compile_mode", "default")
+    backend = cfg.get("torch_compile_backend", "inductor")
+
+    try:
+        _prepare_torch_compile_runtime(logger)
+        logger.info(f"🔧 Compiling {module_name} (mode={mode}, backend={backend})...")
+        module = cast(nn.Module, torch.compile(module, mode=mode, backend=backend))
+        logger.info(f"✅ {module_name} compiled successfully")
+        return module, True
+    except Exception as e:
+        logger.warning(f"⚠️ {module_name} compile failed: {e}")
+        return module, False
 
 
 def enforce_channels_last(x: torch.Tensor, y: torch.Tensor, m: torch.Tensor, device: torch.device):

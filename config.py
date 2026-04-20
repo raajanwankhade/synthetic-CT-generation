@@ -1,7 +1,7 @@
 cfg = {
-    "run_dir": "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/ablations/Unet3D/HN/preproc_l1_ssim_dice/run1",
+    "run_dir": "/workspace/runs/wgan_gp/run1",
     # Data
-    "root": '/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-hn/versions/3/Task1',
+    "root": '/workspace/awesome-synthetic-CT-generation/bhuvanesh/datasets/bhuvaneshsingla/synthrad2025-hn/versions/3/Task1',
     "modality": "mr",
 
     "patch_size": (32, 128, 128),
@@ -16,10 +16,13 @@ cfg = {
     "use_pruned_data": False,
 
     # Dataloaders
-    "batch_size": 8,
-    "num_workers_train": 4,
+    "batch_size": 32,
+    "num_workers_train": 20,
     "num_workers_val": 4,
-    "prefetch_factor": 4,
+    "prefetch_factor": 6,
+    "drop_last_train": True,
+    "in_order_train": False,
+    "in_order_val": True,
 
     # Perf / determinism (HPC training typically prefers speed)
     "deterministic": False,
@@ -31,10 +34,11 @@ cfg = {
     "channels_last": True,
     
     # torch.compile (PyTorch 2.0+ only)
-    # Disabled: Triton 3.1.0 (required by PyTorch 2.5.1) can't handle CUDA 12.8+ driver
-    "torch_compile": False,
+    "torch_compile": True,
     "torch_compile_mode": "default",  # "default", "reduce-overhead", or "max-autotune"
     "torch_compile_backend": "inductor",  # "inductor" (optimizing) | "aot_eager" (debug only)
+    "compile_generator": True,
+    "compile_critic": False,
 
     # SSIM cost control
     "ssim_downsample": 2,  # 1 = full-res, 2 = avg_pool2d by 2
@@ -45,7 +49,7 @@ cfg = {
 
     # Training
     "start":1,
-    "epochs": 2,
+    "epochs": 6,
     "lr": 1e-3,
 
     "lambda_seg": 100,
@@ -65,6 +69,7 @@ cfg = {
         "gen_scheduler_patience": 10,
         "disc_scheduler_patience": 10,
         "critic_grad_clip": None,
+        "recompute_fake_each_critic_step": False,
         "best_ckpt_filename": "best_wgan_gp.pth",
     },
 
@@ -125,8 +130,8 @@ cfg = {
     # W&B
     "wandb_mode": "online",  # "online", "offline", or "disabled"
     "wandb_project": "MR_CT_Translation_UNET",
-    "wandb_run_group": "TS_alternate",  # e.g. "Ablation_Study_1"
-    "wandb_run_name": "test",  # e.g. "Unet3D_HN_ssim_l1"
+    "wandb_run_group": "WGAN-GP UNET3D",  # e.g. "Ablation_Study_1"
+    "wandb_run_name": "run1",  # e.g. "Unet3D_HN_ssim_l1"
     "id_wandb":None,
     "resume_wandb":None, #allow
 

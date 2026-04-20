@@ -1,5 +1,7 @@
 import json
 import logging
+import inspect
+from functools import partial
 
 import numpy as np
 import torch
@@ -159,11 +161,10 @@ class MRCTDataset(Dataset):
         for p in self.patients:
             # We load the mask to check for non-empty slices
             mask = sitk.GetArrayFromImage(sitk.ReadImage(str(p / "mask.mha")))
-            
-            for i in range(mask.shape[0]):  # iterate over axial slices
-                # Check if the mask slice has any non-zero pixels (i.e., has foreground)
-                if np.any(mask[i]):
-                    self.samples.append((p, i))
+
+            # Vectorized foreground-slice detection to reduce Python-loop overhead.
+            valid_slice_indices = np.flatnonzero(np.any(mask, axis=(1, 2)))
+            self.samples.extend((p, int(i)) for i in valid_slice_indices.tolist())
         
         if not self.samples:
             logger = logging.getLogger(__name__)
@@ -349,28 +350,48 @@ def build_dataloaders(dataset: Dataset, cfg: dict, seed: int, device: torch.devi
     g.manual_seed(seed)
 
     pin = (device.type == "cuda")
+    train_workers = int(cfg["num_workers_train"])
+    val_workers = int(cfg["num_workers_val"])
+    prefetch_factor = int(cfg.get("prefetch_factor", 2))
+    worker_init = partial(_seed_worker, seed=seed)
+
+    train_loader_kwargs = {
+        "batch_size": cfg["batch_size"],
+        "shuffle": True,
+        "num_workers": train_workers,
+        "pin_memory": pin,
+        "persistent_workers": (train_workers > 0),
+        "worker_init_fn": worker_init,
+        "generator": g,
+        "drop_last": bool(cfg.get("drop_last_train", False)),
+    }
+    if train_workers > 0:
+        train_loader_kwargs["prefetch_factor"] = prefetch_factor
+    if "in_order" in inspect.signature(DataLoader).parameters:
+        train_loader_kwargs["in_order"] = bool(cfg.get("in_order_train", False))
+
     train_loader = DataLoader(
         train_ds,
-        batch_size=cfg["batch_size"],
-        shuffle=True,
-        num_workers=cfg["num_workers_train"],
-        pin_memory=pin,
-        persistent_workers=(cfg["num_workers_train"] > 0),
-        worker_init_fn=lambda wid: _seed_worker(wid, seed),
-        generator=g,
-        prefetch_factor=cfg["prefetch_factor"],
+        **train_loader_kwargs,
     )
+
+    val_loader_kwargs = {
+        "batch_size": cfg["batch_size"],
+        "shuffle": False,
+        "num_workers": val_workers,
+        "pin_memory": pin,
+        "persistent_workers": (val_workers > 0),
+        "worker_init_fn": worker_init,
+        "generator": g,
+    }
+    if val_workers > 0:
+        val_loader_kwargs["prefetch_factor"] = prefetch_factor
+    if "in_order" in inspect.signature(DataLoader).parameters:
+        val_loader_kwargs["in_order"] = bool(cfg.get("in_order_val", True))
 
     val_loader = DataLoader(
         val_ds,
-        batch_size=cfg["batch_size"],
-        shuffle=False,
-        num_workers=cfg["num_workers_val"],
-        pin_memory=pin,
-        persistent_workers=(cfg["num_workers_val"] > 0),
-        worker_init_fn=lambda wid: _seed_worker(wid, seed),
-        generator=g,
-        prefetch_factor=cfg["prefetch_factor"],
+        **val_loader_kwargs,
     )
 
     return train_loader, val_loader, train_ds, val_ds, train_patients, val_patients

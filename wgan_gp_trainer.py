@@ -48,6 +48,7 @@ def train_wgan_gp(
     lambda_adv = float(wcfg.get("lambda_adv", cfg.get("lambda_adv", 0.01)))
     lambda_gp = float(wcfg.get("lambda_gp", 10.0))
     n_critic = max(1, int(wcfg.get("n_critic", 5)))
+    recompute_fake_each_critic_step = bool(wcfg.get("recompute_fake_each_critic_step", False))
 
     gen_lr = float(wcfg.get("gen_lr", cfg.get("lr", 1e-4)))
     disc_lr = float(wcfg.get("disc_lr", gen_lr))
@@ -65,6 +66,7 @@ def train_wgan_gp(
 
     gen_optimizer = tu.build_optimizer(encoder, decoder, device, gen_lr)
     critic_optimizer = _build_critic_optimizer(critic, device, disc_lr, disc_betas)
+    gen_params = list(encoder.parameters()) + list(decoder.parameters())
 
     gen_scheduler = tu.build_scheduler(gen_optimizer, gen_scheduler_patience)
     critic_scheduler = tu.build_scheduler(critic_optimizer, disc_scheduler_patience)
@@ -104,6 +106,7 @@ def train_wgan_gp(
 
     end_epoch = start_epoch + num_epochs - 1
     training_start_time = time.time()
+    train_loader_len = len(train_loader)
 
     for epoch in range(start_epoch, end_epoch + 1):
         epoch_start = time.time()
@@ -122,6 +125,7 @@ def train_wgan_gp(
 
         gen_steps = 0
         critic_steps = 0
+        last_critic_loss_value = float("nan")
 
         for batch_idx, batch in enumerate(train_loader):
             x = batch["input"].to(device, non_blocking=True)
@@ -133,17 +137,26 @@ def train_wgan_gp(
             _set_requires_grad(encoder, False)
             _set_requires_grad(decoder, False)
 
+            with torch.no_grad():
+                with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
+                    shared_fake = _run_generator(encoder, decoder, x)
+            shared_fake = shared_fake.detach().to(dtype=y.dtype)
+
             for _ in range(n_critic):
                 critic_optimizer.zero_grad(set_to_none=True)
 
-                with torch.no_grad():
-                    with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
-                        fake = _run_generator(encoder, decoder, x)
-                fake = fake.detach().to(dtype=y.dtype)
+                if recompute_fake_each_critic_step:
+                    with torch.no_grad():
+                        with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
+                            fake = _run_generator(encoder, decoder, x)
+                    fake = fake.detach().to(dtype=y.dtype)
+                else:
+                    fake = shared_fake
 
-                real_logits = critic(y)
-                fake_logits = critic(fake)
-                wasserstein = fake_logits.mean() - real_logits.mean()
+                with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
+                    real_logits = critic(y)
+                    fake_logits = critic(fake)
+                    wasserstein = fake_logits.mean() - real_logits.mean()
                 gp = _gradient_penalty(critic, y, fake)
                 critic_loss = wasserstein + lambda_gp * gp
 
@@ -160,6 +173,7 @@ def train_wgan_gp(
                 critic_wasserstein_sum += float(wasserstein.item())
                 critic_gp_sum += float(gp.item())
                 critic_steps += 1
+                last_critic_loss_value = float(critic_loss.item())
 
             _set_requires_grad(critic, False)
             _set_requires_grad(encoder, True)
@@ -170,8 +184,7 @@ def train_wgan_gp(
             with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                 preds = _run_generator(encoder, decoder, x)
                 recon_loss, _, _, _ = loss_module(preds, y, m)
-
-            adv_loss = -critic(preds.float()).mean()
+                adv_loss = -critic(preds).mean()
             gen_loss = recon_loss + lambda_adv * adv_loss
 
             if not torch.isfinite(gen_loss):
@@ -183,7 +196,7 @@ def train_wgan_gp(
                 if grad_clip is not None:
                     scaler.unscale_(gen_optimizer)
                     torch.nn.utils.clip_grad_norm_(
-                        list(encoder.parameters()) + list(decoder.parameters()),
+                        gen_params,
                         grad_clip,
                     )
                 scaler.step(gen_optimizer)
@@ -192,7 +205,7 @@ def train_wgan_gp(
                 gen_loss.backward()
                 if grad_clip is not None:
                     torch.nn.utils.clip_grad_norm_(
-                        list(encoder.parameters()) + list(decoder.parameters()),
+                        gen_params,
                         grad_clip,
                     )
                 gen_optimizer.step()
@@ -202,15 +215,15 @@ def train_wgan_gp(
             gen_adv_sum += float(adv_loss.item())
             gen_steps += 1
 
-            if (batch_idx + 1) % max(1, len(train_loader) // 10) == 0:
-                progress = float(batch_idx + 1) / max(1, len(train_loader))
+            if (batch_idx + 1) % max(1, train_loader_len // 10) == 0:
+                progress = float(batch_idx + 1) / max(1, train_loader_len)
                 progress_pct = progress * 100.0
                 epoch_elapsed_s = time.time() - epoch_start
                 est_epoch_total_s = epoch_elapsed_s / max(progress, 1e-8)
                 est_epoch_remaining_s = max(0.0, est_epoch_total_s - epoch_elapsed_s)
                 logger.info(
-                    f"Epoch {epoch}/{end_epoch} - batch {batch_idx + 1}/{len(train_loader)} | "
-                    f"G: {gen_loss.item():.4f} | D: {critic_loss.item():.4f} | "
+                    f"Epoch {epoch}/{end_epoch} - batch {batch_idx + 1}/{train_loader_len} | "
+                    f"G: {gen_loss.item():.4f} | D: {last_critic_loss_value:.4f} | "
                     f"{progress_pct:.0f}% | Epoch Remaining: {_format_time(est_epoch_remaining_s)}"
                 )
 
@@ -244,8 +257,7 @@ def train_wgan_gp(
                 with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
                     preds = _run_generator(encoder, decoder, x)
                     recon_loss, _, _, seg_loss_val = loss_module(preds, y, m)
-
-                adv_loss = -critic(preds.float()).mean()
+                    adv_loss = -critic(preds).mean()
                 val_gen_loss = recon_loss + lambda_adv * adv_loss
 
                 ssim_val, psnr_val = loss_module.compute_val_metrics(preds, y)

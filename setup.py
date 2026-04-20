@@ -9,9 +9,9 @@ os.environ["KAGGLE_USERNAME"] = secrets["KAGGLE_USERNAME"]
 os.environ["KAGGLE_KEY"] = secrets["KAGGLE_KEY"]
 
 import kagglehub
-download_path = "/data/home/sk1022/MajorProject_sCTGen/awesome-synthetic-CT-generation/bhuvanesh"
+download_path = "/workspace/awesome-synthetic-CT-generation/bhuvanesh"
 
 # Set the KAGGLEHUB_CACHE environment variable
 os.environ['KAGGLEHUB_CACHE'] = download_path
 
-kagglehub.dataset_download("bhuvaneshsingla/synthrad2025-ab")
+kagglehub.dataset_download("bhuvaneshsingla/synthrad2025-hn")
