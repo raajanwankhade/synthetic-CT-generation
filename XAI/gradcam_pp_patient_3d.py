@@ -1,4 +1,4 @@
-"""Patch-wise GradCAM++ analysis for a single patient using the project ResUNet3D."""
+"""Sliding-window GradCAM++ analysis for a single patient using the project ResUNet3D."""
 
 import argparse
 import os
@@ -21,16 +21,15 @@ from attribution_3d_heatmaps import GradCAMPlusPlus3D
 from inference.test_dataset_class import extract_patches_sequentially_3d
 from xai_config import xai_cfg
 from xai_utils import (
+    build_sliding_window_inferer,
     build_model_and_load_weights,
     default_patch_size_str,
     default_stride_str,
     load_patient_volume,
     parse_stride,
     parse_tuple3,
-    predict_sct_patch,
     resolve_patient_dirs,
     save_patient_outputs,
-    stitch_patches_3d,
 )
 
 
@@ -46,6 +45,7 @@ def generate_patchwise_gradcam_pp(
     gaussian_sigma_scale: float,
     gaussian_min_weight: float,
     compute_sct: bool,
+    collect_patch_maps: bool,
 ) -> Tuple[
     np.ndarray,
     Optional[np.ndarray],
@@ -53,21 +53,30 @@ def generate_patchwise_gradcam_pp(
     List[Tuple[int, int, int]],
     Tuple[int, int, int],
 ]:
-    """Generate full-volume GradCAM++ (and optional sCT) by patch-wise stitching."""
-    patches, coords, full_shape = extract_patches_sequentially_3d(
-        volume,
+    """Generate full-volume GradCAM++ (and optional sCT) by sliding-window aggregation."""
+    if volume.ndim != 3:
+        raise ValueError(f"Expected 3D volume (D,H,W), got shape: {volume.shape}")
+
+    # Kept for CLI backward compatibility; MONAI inferer has no minimum-weight knob.
+    _ = gaussian_min_weight
+
+    full_shape = tuple(int(v) for v in volume.shape)
+    inferer = build_sliding_window_inferer(
         patch_size=patch_size,
         stride=stride,
+        stitch_blend_mode=stitch_blend_mode,
+        gaussian_sigma_scale=gaussian_sigma_scale,
+        sw_batch_size=1,
+        progress=False,
     )
 
     gradcam = GradCAMPlusPlus3D(model, target_layer=target_layer)
-    cam_patches: List[np.ndarray] = []
-    sct_patches: Optional[List[np.ndarray]] = [] if compute_sct else None
+    volume_tensor = torch.from_numpy(volume[None, None, ...]).float().to(device)
 
-    for patch in tqdm(patches, desc="GradCAM++ patches", leave=False):
-        x = torch.from_numpy(patch[None, None, ...]).float().to(device)
-        # Keep gradients on input tensor while model params stay frozen to lower memory.
-        x.requires_grad_(True)
+    def cam_predictor(window_batch: torch.Tensor) -> torch.Tensor:
+        if window_batch.shape[0] != 1:
+            raise ValueError("GradCAM++ sliding-window currently requires sw_batch_size=1")
+        x = window_batch.requires_grad_(True)
         try:
             cam_patch = gradcam.generate_cam(x, target_class=target_class)
         except torch.cuda.OutOfMemoryError as e:
@@ -80,36 +89,60 @@ def generate_patchwise_gradcam_pp(
                 "(3) larger stride, "
                 "(4) run without --save_sct."
             ) from e
-        cam_patches.append(cam_patch.astype(np.float32))
-        if compute_sct and sct_patches is not None:
-            sct_patches.append(predict_sct_patch(model, x))
+        return torch.from_numpy(cam_patch[None, None, ...]).to(
+            device=x.device,
+            dtype=x.dtype,
+        )
 
-    cam_volume = stitch_patches_3d(
-        cam_patches,
-        coords,
-        full_shape,
-        stitch_blend_mode=stitch_blend_mode,
-        gaussian_sigma_scale=gaussian_sigma_scale,
-        gaussian_min_weight=gaussian_min_weight,
-    )
+    with torch.enable_grad():
+        cam_pred = inferer(volume_tensor, cam_predictor)
+    cam_volume = cam_pred[0, 0].detach().cpu().numpy().astype(np.float32)
 
     sct_volume: Optional[np.ndarray] = None
-    if compute_sct and sct_patches is not None:
-        sct_volume = stitch_patches_3d(
-            sct_patches,
-            coords,
-            full_shape,
-            stitch_blend_mode=stitch_blend_mode,
-            gaussian_sigma_scale=gaussian_sigma_scale,
-            gaussian_min_weight=gaussian_min_weight,
-        ).astype(np.float32)
+    if compute_sct:
+        with torch.no_grad():
+            sct_pred = inferer(volume_tensor, model)
+        if sct_pred.ndim == 5:  # N,C,D,H,W
+            sct_volume = sct_pred[0, 0].detach().cpu().numpy().astype(np.float32)
+        elif sct_pred.ndim == 4:  # N,C,H,W
+            sct_volume = sct_pred[0, 0].detach().cpu().numpy().astype(np.float32)
+        elif sct_pred.ndim == 3:  # N,H,W
+            sct_volume = sct_pred[0].detach().cpu().numpy().astype(np.float32)
+        else:
+            raise ValueError("Model output must be NCDHW, NCHW, or NHW for sCT extraction")
+
+    cam_patches: List[np.ndarray] = []
+    coords: List[Tuple[int, int, int]] = []
+    if collect_patch_maps:
+        patches, coords, _ = extract_patches_sequentially_3d(
+            volume,
+            patch_size=patch_size,
+            stride=stride,
+        )
+        for patch in tqdm(patches, desc="GradCAM++ patch maps", leave=False):
+            x = torch.from_numpy(patch[None, None, ...]).float().to(device)
+            x.requires_grad_(True)
+            try:
+                cam_patch = gradcam.generate_cam(x, target_class=target_class)
+            except torch.cuda.OutOfMemoryError as e:
+                if device.type == "cuda":
+                    torch.cuda.empty_cache()
+                raise RuntimeError(
+                    "CUDA OOM during GradCAM++ patch-map export. Try one or more: "
+                    "(1) deeper target_layer (e.g., encoder.stages.6.1.net.3), "
+                    "(2) smaller patch_size, "
+                    "(3) larger stride."
+                ) from e
+            cam_patches.append(cam_patch.astype(np.float32))
 
     cam_volume = (cam_volume - cam_volume.min()) / (cam_volume.max() - cam_volume.min() + 1e-8)
     return cam_volume.astype(np.float32), sct_volume, cam_patches, coords, full_shape
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Patch-wise GradCAM++ for one patient (ResUNet3D)")
+    parser = argparse.ArgumentParser(
+        description="Sliding-window GradCAM++ for one patient (ResUNet3D)"
+    )
     parser.add_argument(
         "--patient_dir",
         type=Path,
@@ -242,7 +275,7 @@ def main() -> None:
         device = torch.device(requested_device)
 
     print("=" * 72)
-    print("Patch-wise GradCAM++ (3D ResUNet) - Single/Multi Patient")
+    print("Sliding-window GradCAM++ (3D ResUNet) - Single/Multi Patient")
     print("=" * 72)
     print(f"Input path       : {args.patient_dir}")
     print(f"Patients found   : {len(patient_dirs)}")
@@ -258,6 +291,8 @@ def main() -> None:
     print(f"Stitch mode      : {args.stitch_blend_mode}")
     print(f"Gaussian sigma   : {args.gaussian_sigma_scale}")
     print(f"Gaussian min wt  : {args.gaussian_min_weight}")
+    if args.stitch_blend_mode == "gaussian":
+        print("[INFO] gaussian_min_weight is ignored in MONAI sliding-window mode.")
     print(f"Save gradcam mha : {args.save_gradcam}")
     print(f"Save overlay png : {args.save_overlay}")
     print(f"Save sCT         : {args.save_sct}")
@@ -277,7 +312,7 @@ def main() -> None:
         )
         print(f"      Volume shape: {volume.shape}")
 
-        print("[3/4] Running patch-wise GradCAM++...")
+        print("[3/4] Running sliding-window GradCAM++...")
         cam_volume, sct_volume, cam_patches, patch_coords, _ = generate_patchwise_gradcam_pp(
             model=model,
             volume=volume,
@@ -290,6 +325,7 @@ def main() -> None:
             gaussian_sigma_scale=args.gaussian_sigma_scale,
             gaussian_min_weight=args.gaussian_min_weight,
             compute_sct=args.save_sct,
+            collect_patch_maps=args.save_patch_maps,
         )
 
         print("[4/4] Saving outputs...")

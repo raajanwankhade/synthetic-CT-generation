@@ -116,10 +116,9 @@ class GradCAM3D:
         
         # Apply ReLU
         cam = F.relu(cam)
-        
-        # Normalize
+
+        # Keep raw non-negative CAM values so cross-window magnitudes are preserved.
         cam = cam.squeeze().cpu().numpy()
-        cam = (cam - cam.min()) / (cam.max() - cam.min() + 1e-8)
         
         # Resize to input size if needed
         if cam.shape != input_tensor.shape[2:]:
@@ -183,9 +182,9 @@ class GradCAMPlusPlus3D(GradCAM3D):
         
         cam = (weights * activations).sum(dim=1, keepdim=True)
         cam = F.relu(cam)
-        
+
+        # Keep raw non-negative CAM values so cross-window magnitudes are preserved.
         cam = cam.squeeze().cpu().numpy()
-        cam = (cam - cam.min()) / (cam.max() - cam.min() + 1e-8)
         
         if cam.shape != input_tensor.shape[2:]:
             cam = self._resize_3d(cam, input_tensor.shape[2:])

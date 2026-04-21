@@ -5,6 +5,8 @@ import argparse
 import numpy as np
 from tqdm.auto import tqdm
 
+import pandas as pd
+
 # Detect interactive environment (Jupyter/IPython)
 try:
     get_ipython()  # type: ignore
@@ -102,6 +104,7 @@ def main() -> None:
         print(f"{k:10s}: {v:.4f}")
     print("[calc_metrics.py] Metrics calculation completed.\n")
 
-
+    df = pd.DataFrame(per_patient)
+    df.to_csv("per_patient_metrics.csv", index=False)
 if __name__ == "__main__":
     main()

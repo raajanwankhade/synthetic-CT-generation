@@ -9,6 +9,7 @@ import numpy as np
 import SimpleITK as sitk
 import torch
 import torch.nn as nn
+from monai.inferers import SlidingWindowInferer
 
 from UNET_model import build_resunet3d
 from config import cfg
@@ -41,6 +42,73 @@ def parse_stride(value: str) -> Optional[Tuple[int, int, int]]:
     if value.lower() == "none":
         return None
     return parse_tuple3(value, "stride")
+
+
+def stride_to_overlap_3d(
+    patch_size: Tuple[int, int, int],
+    stride: Optional[Tuple[int, int, int]],
+) -> Tuple[float, float, float]:
+    """Convert explicit 3D stride to MONAI overlap values.
+
+    overlap = 1 - stride / patch_size per dimension.
+    """
+    if stride is None:
+        return (0.0, 0.0, 0.0)
+
+    if len(stride) != 3:
+        raise ValueError(f"stride must be a 3-tuple, got: {stride}")
+
+    overlap: List[float] = []
+    for dim, step in zip(patch_size, stride):
+        if step <= 0:
+            raise ValueError(f"stride values must be positive, got: {stride}")
+        if step > dim:
+            raise ValueError(
+                f"stride must be <= patch_size per dim, got stride={stride}, patch_size={patch_size}"
+            )
+        overlap.append(1.0 - (float(step) / float(dim)))
+    return (float(overlap[0]), float(overlap[1]), float(overlap[2]))
+
+
+def build_sliding_window_inferer(
+    patch_size: Tuple[int, int, int],
+    stride: Optional[Tuple[int, int, int]],
+    stitch_blend_mode: str,
+    gaussian_sigma_scale: float,
+    sw_batch_size: int = 1,
+    progress: bool = False,
+) -> SlidingWindowInferer:
+    """Build a MONAI sliding-window inferer matching XAI config semantics."""
+    if sw_batch_size <= 0:
+        raise ValueError(f"sw_batch_size must be positive, got: {sw_batch_size}")
+
+    overlap_tuple = stride_to_overlap_3d(patch_size, stride)
+    overlap_arg: float | Tuple[float, float, float]
+    if overlap_tuple[0] == overlap_tuple[1] == overlap_tuple[2]:
+        overlap_arg = overlap_tuple[0]
+    else:
+        overlap_arg = overlap_tuple
+
+    mode = "gaussian" if stitch_blend_mode == "gaussian" else "constant"
+
+    kwargs = {
+        "roi_size": patch_size,
+        "sw_batch_size": sw_batch_size,
+        "overlap": overlap_arg,
+        "mode": mode,
+        "progress": progress,
+    }
+    if mode == "gaussian":
+        kwargs["sigma_scale"] = float(gaussian_sigma_scale)
+
+    try:
+        return SlidingWindowInferer(**kwargs)
+    except TypeError:
+        if isinstance(overlap_arg, tuple):
+            # Older MONAI versions may only accept scalar overlap.
+            kwargs["overlap"] = float(max(overlap_arg))
+            return SlidingWindowInferer(**kwargs)
+        raise
 
 
 def get_modality_filename(modality: str, use_preproc_files: bool) -> str:

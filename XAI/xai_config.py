@@ -1,4 +1,4 @@
-"""Centralized configuration for patch-wise GradCAM patient analysis."""
+"""Centralized configuration for sliding-window GradCAM patient analysis."""
 
 from pathlib import Path
 
@@ -25,7 +25,7 @@ xai_cfg = {
     # 50% overlap reduces visible patch seams in stitched CAM volumes.
     "stride": (16, 96, 96),
     # Deeper layer is more memory friendly; switch to encoder.stages.4.1.net.3 if GPU allows.
-    "target_layer": "encoder.stages.4.1.net.3",
+    "target_layer": "encoder.stages.6.1.net.3",
     "target_class": 0,
     "freeze_model_params_for_gradcam": True,
     "stitch_blend_mode": "gaussian",  # 'gaussian' or 'average'

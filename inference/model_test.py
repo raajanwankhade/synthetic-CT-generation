@@ -1,19 +1,16 @@
 import argparse
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 import SimpleITK as sitk
 import torch
+from monai.inferers import SlidingWindowInferer
 from tqdm.auto import tqdm
 import config
 from test_dataset_class import (
-    extract_patches_sequentially,
-    extract_patches_sequentially_3d,
     is_patient_dir,
     make_adjacent_stack,
-    stitch_patches_array,
-    stitch_patches_array_3d,
 )
 
 # Detect interactive environment (Jupyter/IPython)
@@ -30,54 +27,59 @@ else:
     tqdm_iter = lambda x, **kwargs: x  # type: ignore
 
 
-def _predict_patch(
+def _stride_to_overlap(
+    patch_size: Tuple[int, ...],
+    stride: Optional[Tuple[int, ...]],
+) -> Tuple[float, ...]:
+    """
+    Convert a stride tuple to MONAI overlap values.
+
+    overlap = 1 - stride / patch_size for each dimension.
+    """
+    if stride is None:
+        return tuple(0.0 for _ in patch_size)
+
+    if len(stride) != len(patch_size):
+        raise ValueError("stride must have the same number of dims as patch_size")
+
+    overlap = []
+    for dim, step in zip(patch_size, stride):
+        if step <= 0:
+            raise ValueError("stride values must be positive")
+        if step > dim:
+            raise ValueError("stride values must be <= corresponding patch_size values")
+        overlap.append(1.0 - (float(step) / float(dim)))
+    return tuple(overlap)
+
+
+def _run_sliding_window(
     model: torch.jit.ScriptModule,
-    patch: np.ndarray,
-    device: str,
-    is_3d: bool = False,
-    channels_last: bool = False,
+    x: torch.Tensor,
+    inferer: SlidingWindowInferer,
+    is_3d: bool,
+    channels_last: bool,
 ) -> np.ndarray:
     """
-    Run inference on a single patch.
+    Run MONAI sliding window inference and return spatial prediction.
 
     Args:
         model: TorchScript model
-        patch: 2D (H,W), 2.5D (C,H,W), or 3D (D,H,W) / (C,D,H,W) patch
-        device: 'cpu' or 'cuda'
+        x: batched tensor, NCHW (2D/2.5D) or NCDHW (3D)
+        inferer: MONAI SlidingWindowInferer
         is_3d: True for volumetric 3D inference
         channels_last: Use channels_last memory format (should match training)
 
     Returns:
         Predicted patch (H,W) for 2D/2.5D or (D,H,W) for 3D
     """
-    if is_3d:
-        # 3D: expect (D,H,W) or (C,D,H,W)
-        if patch.ndim == 3:
-            x = torch.from_numpy(patch[None, None, ...]).float()  # -> (1,1,D,H,W)
-        elif patch.ndim == 4:
-            x = torch.from_numpy(patch[None, ...]).float()  # -> (1,C,D,H,W)
-        else:
-            raise ValueError("3D patch must be (D,H,W) or (C,D,H,W)")
-    else:
-        # 2D/2.5D: expect (H,W) or (C,H,W)
-        if patch.ndim == 2:
-            x = torch.from_numpy(patch[None, None, ...]).float()  # -> (1,1,H,W)
-        elif patch.ndim == 3:
-            x = torch.from_numpy(patch[None, ...]).float()  # -> (1,C,H,W)
-        else:
-            raise ValueError("2D/2.5D patch must be (H,W) or (C,H,W)")
-
-    x = x.to(device)
-
-    # Apply channels_last memory format for GPU inference (matches training)
-    if channels_last and device != "cpu":
+    if channels_last and x.device.type != "cpu":
         if is_3d and hasattr(torch, "channels_last_3d"):
             x = x.contiguous(memory_format=torch.channels_last_3d)
         elif not is_3d:
             x = x.contiguous(memory_format=torch.channels_last)
 
     with torch.no_grad():
-        y = model(x)
+        y = inferer(x, model)
 
     y_np = y.detach().cpu().numpy()
 
@@ -97,7 +99,7 @@ def run_patient(
     patient_dir: Path,
     modality: str,
     patch_size: Tuple[int, ...],
-    stride: Tuple[int, ...],
+    stride: Optional[Tuple[int, ...]],
     output_dir: Path,
     device: str,
     num_adjacent_slices,  # int or "3d"
@@ -125,35 +127,43 @@ def run_patient(
     out_vol = np.zeros((depth, h, w), dtype=np.float32)
 
     is_3d = str(num_adjacent_slices).lower() == "3d"
+    overlap = _stride_to_overlap(patch_size, stride)
+    sw_batch_size = int(getattr(config, "SW_BATCH_SIZE", 1))
+    if sw_batch_size <= 0:
+        raise ValueError("SW_BATCH_SIZE must be a positive integer")
+
+    inferer = SlidingWindowInferer(
+        roi_size=patch_size,
+        sw_batch_size=sw_batch_size,
+        overlap=overlap,
+        progress=IS_INTERACTIVE,
+    )
 
     if is_3d:
-        # Volumetric 3D patch-based inference
+        # Volumetric 3D sliding-window inference.
         if len(patch_size) != 3:
             raise ValueError("3D inference requires patch_size=(D,H,W)")
-
-        patches, coords, _ = extract_patches_sequentially_3d(
-            mod_arr, patch_size=patch_size, stride=stride
+        x = torch.from_numpy(mod_arr[None, None, ...]).float().to(device)
+        out_vol = _run_sliding_window(
+            model=model,
+            x=x,
+            inferer=inferer,
+            is_3d=True,
+            channels_last=channels_last,
         )
-        pred_patches: List[np.ndarray] = []
-        for p in patches:
-            pred = _predict_patch(model, p, device, is_3d=True, channels_last=channels_last)
-            pred_patches.append(pred)
-        out_vol = stitch_patches_array_3d(pred_patches, coords, (depth, h, w))
     else:
-        # Slice-by-slice 2D or 2.5D inference
+        # Slice-by-slice 2D/2.5D sliding-window inference.
         num_adj = int(num_adjacent_slices)
         for z in range(depth):
             stack = make_adjacent_stack(mod_arr, z, num_adj)
-
-            patches, coords, _ = extract_patches_sequentially(
-                stack, patch_size=patch_size, stride=stride
+            x = torch.from_numpy(stack[None, ...]).float().to(device)
+            out_vol[z] = _run_sliding_window(
+                model=model,
+                x=x,
+                inferer=inferer,
+                is_3d=False,
+                channels_last=channels_last,
             )
-            pred_patches: List[np.ndarray] = []
-            for p in patches:
-                pred = _predict_patch(model, p, device, is_3d=False, channels_last=channels_last)
-                pred_patches.append(pred)
-            out_slice = stitch_patches_array(pred_patches, coords, (h, w))
-            out_vol[z] = out_slice
 
     out_img = sitk.GetImageFromArray(out_vol)
     out_img.CopyInformation(mod_img)
