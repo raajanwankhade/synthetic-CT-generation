@@ -13,13 +13,13 @@ def extract_axial_slices(case, indices):
         "ct": [],
         "sct": [],
         "mri": [],
-        "gradcam": []
+        # "gradcam": []
     }
 
     for i in indices:
         slices["ct"].append(case["ct"][i])
         slices["sct"].append(case["sct"][i])
         slices["mri"].append(case["mri"][i])
-        slices["gradcam"].append(case["gradcam"][i])
+        # slices["gradcam"].append(case["gradcam"][i])
 
     return slices
