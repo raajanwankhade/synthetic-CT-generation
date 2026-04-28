@@ -2,19 +2,12 @@ import re
 
 
 def extract_metric_block(text, metric_name):
-    """
-    Extracts the full block for a metric (MAE / PSNR / MS-SSIM)
-    """
     pattern = rf"####\s*{metric_name}.*?(?=####|### SUMMARY|$)"
     match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
-
     return match.group(0) if match else ""
 
 
 def extract_maps_to(block):
-    """
-    Extract 'Maps to:' from a block
-    """
     match = re.search(r"Maps to:\s*(.*)", block, re.IGNORECASE)
     if match:
         return match.group(1).strip()
@@ -26,7 +19,8 @@ def parse_stage2_output(text):
         "mae": "",
         "psnr": "",
         "ms_ssim": "",
-        "summary": ""
+        "summary": "",
+        "full_metrics_text": ""
     }
 
     # --- Extract metric blocks ---
@@ -34,12 +28,16 @@ def parse_stage2_output(text):
     psnr_block = extract_metric_block(text, "PSNR")
     ssim_block = extract_metric_block(text, "MS-SSIM")
 
-    # --- Extract "Maps to" ---
+    # --- Structured extraction ---
     result["mae"] = extract_maps_to(mae_block)
     result["psnr"] = extract_maps_to(psnr_block)
     result["ms_ssim"] = extract_maps_to(ssim_block)
 
-    # --- Extract summary ---
+    # --- Raw formatted block (for UI) ---
+    full_blocks = [mae_block, psnr_block, ssim_block]
+    result["full_metrics_text"] = "\n\n".join([b for b in full_blocks if b.strip()])
+
+    # --- Summary ---
     summary_match = re.search(r"### SUMMARY:\s*(.*)", text, re.DOTALL | re.IGNORECASE)
     if summary_match:
         result["summary"] = summary_match.group(1).strip()

@@ -17,6 +17,44 @@ STAGE2_DIR = Path("outputs/stage2")
 PANEL_DIR = Path("outputs/panels")
 
 
+# ---------- HELPERS ----------
+def parse_stage1_sections(text: str) -> dict:
+    """
+    Splits stage1 assistant response into named sections based on ### headers.
+    Returns a dict keyed by section title (lowercased, stripped).
+    Any leading text before the first ### is stored under 'preamble'.
+    """
+    import re
+    sections = {}
+    parts = re.split(r"(###\s+[^\n]+)", text)
+
+    # parts alternates: [preamble, header, body, header, body, ...]
+    preamble = parts[0].strip()
+    if preamble:
+        sections["preamble"] = preamble
+
+    for i in range(1, len(parts) - 1, 2):
+        header = parts[i].strip().lstrip("#").strip()   # e.g. "STRUCTURES IN CT:"
+        body = parts[i + 1].strip() if i + 1 < len(parts) else ""
+        sections[header.lower().rstrip(":")] = body
+
+    return sections
+
+
+def extract_assistant_response(text: str) -> str:
+    """
+    The .txt files store the full conversation history:
+        system / user prompt / assistant response
+    This extracts only the final assistant turn.
+    """
+    # Split on the literal role marker and take everything after the last one
+    parts = text.split("\nassistant\n")
+    if len(parts) > 1:
+        return parts[-1].strip()
+    # Fallback: return as-is if format is unexpected
+    return text.strip()
+
+
 # ---------- MODEL CACHE ----------
 @st.cache_resource
 def load_models():
@@ -86,12 +124,6 @@ else:
             st.error(f"File copy failed: {e}")
             st.stop()
 
-        # with st.spinner("Running pipeline... (this may take ~30-60s)"):
-        #     try:
-        #         run_pipeline_for_case(case_id, case_dir, stage1_model, stage2_model)
-        #     except Exception as e:
-        #         st.error(f"Pipeline failed: {e}")
-        #         st.stop()
         import traceback
 
         with st.spinner("Running pipeline... (this may take ~30-60s)"):
@@ -99,20 +131,15 @@ else:
                 run_pipeline_for_case(case_id, case_dir, stage1_model, stage2_model)
             except Exception as e:
                 st.error(f"Pipeline failed: {e}")
-
-                # FULL traceback in terminal
                 traceback.print_exc()
-
-                # also show in UI (optional but useful)
                 st.text(traceback.format_exc())
-
                 st.stop()
 
         st.success("Pipeline completed!")
         st.rerun()
 
 
-# ---------- LOAD DATA (ONLY IF CASE EXISTS) ----------
+# ---------- LOAD DATA ----------
 if case_id:
 
     # ---------- LOAD METRICS ----------
@@ -137,21 +164,24 @@ if case_id:
         st.warning(f"Panel not found for case: {case_id}")
 
 
-    # ---------- LOAD STAGE 2 ----------
+    # ---------- LOAD TEXT OUTPUTS ----------
+    stage1_text = None
+    stage2_text = None
     parsed = None
-    stage2_path = STAGE2_DIR / f"{case_id}.txt"
+
+    stage1_path = Path(f"outputs/stage1/{case_id}.txt")
+    stage2_path = Path(f"outputs/stage2/{case_id}.txt")
+
+    if stage1_path.exists():
+        raw_stage1 = stage1_path.read_text()
+        stage1_text = extract_assistant_response(raw_stage1)
 
     if stage2_path.exists():
-        try:
-            stage2_text = stage2_path.read_text()
-            parsed = parse_stage2_output(stage2_text)
-        except Exception as e:
-            st.error(f"Error parsing Stage 2 output: {e}")
-    else:
-        st.warning(f"Stage 2 output not found for case: {case_id}")
+        stage2_text = stage2_path.read_text()
+        parsed = parse_stage2_output(stage2_text)
 
 
-    # ---------- IMAGE (FULL WIDTH) ----------
+    # ---------- IMAGE ----------
     st.subheader("CT | sCT | MRI | DIFF")
 
     if image is not None:
@@ -162,37 +192,97 @@ if case_id:
         st.info("No image available for this case.")
 
 
-    # ---------- METRICS ----------
-    st.subheader("Metrics")
-    if metrics:
-        st.write(f"**MAE:** {metrics['mae']}")
-        st.write(f"**PSNR:** {metrics['psnr']}")
-        st.write(f"**MS-SSIM:** {metrics['ms_ssim']}")
-
     st.divider()
 
 
-    # ---------- TEXT SECTION ----------
-    col1, col2 = st.columns(2)
+    # =========================
+    # METRICS STRIP (full width)
+    # =========================
 
+    st.subheader("Metrics")
 
-    # ----- LEFT: METRIC INTERPRETATION -----
-    with col1:
-        st.subheader("Metric Interpretation")
+    if metrics:
+        m1, m2, m3 = st.columns(3)
 
-        if parsed:
-            st.markdown(f"**MAE:** {parsed['mae']}")
-            st.markdown(f"**PSNR:** {parsed['psnr']}")
-            st.markdown(f"**MS-SSIM:** {parsed['ms_ssim']}")
-        else:
-            st.info("Interpretation not available.")
+        with m1:
+            st.metric("MAE", f"{metrics['mae']:.4f}")
+            if parsed and parsed.get("mae"):
+                st.caption(parsed["mae"])
 
+        with m2:
+            st.metric("PSNR", f"{metrics['psnr']:.4f}")
+            if parsed and parsed.get("psnr"):
+                st.caption(parsed["psnr"])
 
-    # ----- RIGHT: SUMMARY -----
-    with col2:
-        st.subheader("Summary")
+        with m3:
+            st.metric("MS-SSIM", f"{metrics['ms_ssim']:.4f}")
+            if parsed and parsed.get("ms_ssim"):
+                st.caption(parsed["ms_ssim"])
+    else:
+        st.info("Metrics not available")
 
-        if parsed:
-            st.write(parsed["summary"])
-        else:
-            st.info("Summary not available.")
+    st.divider()
+
+    # =========================
+    # STAGE 1 ANALYSIS — split sections
+    # =========================
+
+    st.subheader("Detailed Image Analysis (Stage 1)")
+
+    if stage1_text:
+        s1 = parse_stage1_sections(stage1_text)
+
+        # Any preamble line (e.g. "Based on the provided panels...")
+        if s1.get("preamble"):
+            st.caption(s1["preamble"])
+
+        # Find the keys that match our expected sections (order matters)
+        def get_section(d, keyword):
+            """Case-insensitive partial key match."""
+            for k, v in d.items():
+                if keyword in k:
+                    return k, v
+            return None, ""
+
+        ct_key,   ct_body   = get_section(s1, "structures in ct")
+        diff_key, diff_body = get_section(s1, "sct vs ct")
+        mri_key,  mri_body  = get_section(s1, "mri visibility")
+
+        # Row: CT Structures | sCT vs CT Differences
+        col_a, col_b = st.columns(2)
+        with col_a:
+            if ct_key:
+                st.markdown(f"### {ct_key.upper()}:")
+                st.markdown(ct_body)
+        with col_b:
+            if diff_key:
+                st.markdown(f"### {diff_key.upper()}:")
+                st.markdown(diff_body)
+
+        # Full-width: MRI Visibility
+        if mri_key:
+            st.markdown(f"### {mri_key.upper()}:")
+            st.markdown(mri_body)
+
+        # Remaining sections (if model adds extras)
+        known = {ct_key, diff_key, mri_key, "preamble"}
+        for k, v in s1.items():
+            if k not in known and v:
+                st.markdown(f"### {k.upper()}:")
+                st.markdown(v)
+
+    else:
+        st.info("Stage 1 not available")
+
+    st.divider()
+
+    # =========================
+    # SUMMARY — full width
+    # =========================
+
+    st.subheader("Summary")
+
+    if parsed and parsed.get("summary"):
+        st.markdown(parsed["summary"])
+    else:
+        st.info("Summary not available")
